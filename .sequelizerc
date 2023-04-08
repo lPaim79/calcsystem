@@ -1,0 +1,15 @@
+const path = require("path")
+module.exports = {
+    config: path.resolve(__dirname, 'config', 'database.js'),
+    'migrations-path': path.resolve(__dirname, 'database', 'migrations')
+}
+
+//INSTALAÇÃO
+//dotenv sequelize mysql2
+//npx sequelize-cli init -->>> Cria o arquivo config\database.js do projeto
+//npx sequelize db:create -> cria o banco de dados
+//npx sequelize migration:create --name=create-client -> cria a migration create-client
+//npx sequelize db:migrate -> cria a tabela
+
+//npx sequelize db:migrate:undo ->desfaz a criação da última tabela
+

@@ -1,0 +1,22 @@
+<h1>Editar data pedido {{order.id}}</h1>
+<a href="/orders">Voltar</a>
+<form action="/updatedate/{{order.id}}" method="post" class="form">
+    <input type="hidden" name="id" value="{{order.id}}">
+    <input type="hidden" name="client_id" value="{{order.client.id}}">
+    <input type="hidden" name="description" value="{{order.description}}">
+    <input type="hidden" name="price" value="{{order.price}}">
+    <input type="hidden" name="payment" value="{{order.payment}}">
+    <input type="hidden" name="prevision" value="{{order.prevision}}">
+    <input type="hidden" name="product_id" value="{{order.product.id}}">
+    <input type="hidden" name="stage_id" value="{{order.stage.id}}">
+    <div class="form-control">
+        <label for="atualdate">Data atual:</label>
+        <p>{{formatDate order.date}}</p> 
+
+    </div>
+    <div class="form-control">
+        <label for="date">Nova data:</label>
+        <input type="date" name="date">
+    </div>
+    <input type="submit" value="Editar">
+</form>

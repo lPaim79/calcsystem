@@ -1,0 +1,53 @@
+<h1>Editar Impressora {{printer.name}}</h1>
+<a href="/printers">Voltar</a>
+<form action="/printers/updateprinter" method="POST" class="form">
+<input type="hidden" name="id" value="{{printer.id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome" value="{{printer.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="float" name="description" placeholder="Descrição da máquina" value="{{printer.description}}">
+    </div>
+    <div class="form-control">
+        <label for="preparation_time">Tempo de preparação:</label>
+        <input type="text" name="preparation_time" placeholder="Digite o Tempo de preparação" value="{{printer.preparation_time}}">
+    </div>
+    <div class="form-control">
+        <label for="width">Largura Mídia:</label>
+        <input type="float" name="width" placeholder="Digite a largura máxima" value="{{printer.width}}">
+    </div>
+    <div class="form-control">
+        <label for="height">Altura da Mídia:</label>
+        <input type="float" name="height" placeholder="Digite o comprimento máximo" value="{{printer.height}}">
+    </div>
+    {{#if printer.color}}
+    <div>
+        <input type="radio" id='false' name="color" value=false>
+        <label for="false">Monocromática</label>
+        <input type="radio" id='true' name="color" value=true checked>
+        <label for="true">Colorida</label>
+    </div>
+    {{else}}
+    <div>
+        <input type="radio" id='false' name="color" value=false checked>
+        <label for="false">Monocromática</label>
+        <input type="radio" id='true' name="color" value=true>
+        <label for="true">Colorida</label>
+    </div>
+    {{/if}}
+    <div class="form-control">
+        <label for="min_grammage">Gramatura mínima:</label>
+        <input type="text" name="min_grammage" placeholder="Informe a gramatura mínima" value="{{printer.min_grammage}}">
+    </div>  
+    <div class="form-control">
+        <label for="max_grammage">Gramatura máxima:</label>
+        <input type="text" name="max_grammage" placeholder="Informe a gramatura máxima" value="{{printer.max_grammage}}">
+    </div>  
+    <div class="form-control">
+        <label for="hour_price">Valor Hora Máquina:</label>
+        <input type="text" name="hour_price" placeholder="Informe o valor Hora R$" value="{{printer.hour_price}}">
+    </div>    
+    <input type="submit" value="Cadastrar">
+</form>

@@ -1,0 +1,48 @@
+<h1>Clientes</h1>
+<div class="clients-container">
+    <div class="actions">
+        <a title="Página Inicial" href="/"><span class="material-symbols-outlined">
+home
+</span></a>
+        <a title="Novo Cliente" href="/createclient"><span class="material-symbols-outlined">
+add_circle
+</span></a>
+    </div>
+    {{#if clients}}
+    <table class="clients-table">
+        <tr>
+            <th>Nome</th>
+            <th>Nome Fantasia</th>
+            <th>CPF/CNPJ</th>
+            <th>Telefone</th>
+            <th>Whatsapp</th>
+            <th>Cidade</th>
+            <th>Ação</th>
+        </tr>
+        {{#each clients}}
+        <tr>
+            <td>{{this.name}}</a></td>
+            {{#if this.typeclient}}
+            <td>{{this.fantasy}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            <td>{{this.cpf}}</td>
+            <td>{{this.phone}}</td>
+            <td>{{this.whatsapp}}</td>
+            <td>{{this.addresses.city}}</td>
+            <td>
+                <div class="actions">
+                    <a title="Editar Cliente" href="/clientedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                    <a title="Remover Cliente" href="/clients/remove/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a title="Mostrar Cliente" href="/client/{{this.id}}"><span class="material-symbols-outlined">person</span></a>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há clientes cadastrados!</h3>
+    {{/if}}
+</div>
+

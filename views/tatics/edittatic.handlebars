@@ -1,0 +1,33 @@
+<h1>Editar Processo</h1>
+<form action="/updatetatic" method="POST" class="form">
+    <input type="hidden" name="id" value="{{tatic.id}}">
+    <div class="form-control">
+        <label for="name">Processo:</label>
+        <input type="text" name="name" placeholder="Digite o nome" value="{{tatic.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Digite a descrição" value="{{tatic.description}}">
+    </div>
+    <div class="form-control">
+        <label for="minimun_value">Valor Mínimo:</label>
+        <input type="text" name="minimun_value" placeholder="Valor mínimo" value="{{tatic.minimun_value}}">
+    </div>
+    <div class="form-control">
+        <label for="preparation_time">Tempo preparação:</label>
+        <input type="text" name="preparation_time" placeholder="Tempo de preparação" value="{{tatic.preparation_time}}">
+    </div>
+    <div class="form-control">
+        <label for="loss">Perda:</label>
+        <input type="text" name="loss" placeholder="Digite a perda" value="{{tatic.loss}}">
+    </div>
+    <div class="form-control">
+        <label for="capacity">Capacidade:</label>
+        <input type="text" name="capacity" placeholder="Digite a capacidade / h" value="{{tatic.capacity}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite a perda" value="{{tatic.price}}">
+    </div>
+    <input type="submit" value="Editar">
+</form>

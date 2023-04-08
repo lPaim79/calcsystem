@@ -1,0 +1,264 @@
+* {
+    font-family: Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(242, 242, 238);
+    color: rgb(0, 0, 0);
+  }
+
+  .logo{
+    max-width: 300px;
+    margin-top: 0.5em;
+    margin-left: 2em;
+  }
+
+  .home{
+    max-width: 800px;
+    margin-top: 5em;
+    margin-left: 17%;
+  }
+
+  .menu {
+    justify-content: space-around ;
+    display: block;
+    list-style: none;
+    width: 240px;
+    height: 20px;
+    line-height: 100%;
+    padding: 10px 5px;
+    margin: 5px 20px 10px 20px;
+    background-color: rgb(255,102,51);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'ARIAL BLACK';
+    cursor: pointer;
+    transition: .5s;
+  }
+
+.menu:hover {
+  background-color: rgb(205, 85, 45);
+  color: rgb(0,0,0);
+}
+
+.menu-cadastro:hover {
+  background-color: rgb(205, 85, 45);
+  color: rgb(0,0,0);
+}
+
+.menu-cadastro {  
+  display: block;
+  list-style: none;
+  width: 110px;
+  height: 18px;
+  line-height: 20px;
+  padding: 10px 0px;
+  margin: 6px;
+  background-color: rgb(255,102,51);
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+  font-family: Arial;
+  font-size: 12pt;
+  cursor: pointer;
+  transition: .5s;
+}
+  
+  /* NAVBAR */
+  #navbar {
+    padding: 1.2em 2.4em;
+    margin-bottom: 0.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+  }
+  
+  #navbar ul {
+    display: flex;
+    list-style: none;
+    margin-bottom: 0.0em;
+  }
+
+  
+  #navbar ul li {
+    margin-left: 1em;
+  }
+  
+  .container {
+    padding: 1em 2em;
+    font-size: 14px;
+  }
+  
+  .container h1 {
+    margin-bottom: 2px;
+  }
+
+  .process-container {
+    padding: 1em 2em;
+    font-size: 14px;
+  }
+
+  .small-coloun{
+   width: 1em;
+  }
+
+  table th{
+    background-color: rgb(255,102,51);
+    color: rgb(255,255,255);
+    max-width: 350px;
+    min-width: 50px;
+    border: 1px solid #000;
+    padding: 0.5em;
+  }
+
+  table td {
+    max-width: 350px;
+    min-width: 50px;
+    border: 1px solid #000;
+    padding: 0.5em;
+  }
+
+  table td input {
+    background-color: rgb(255,102,51);
+    color: rgb(255,255,255);
+    padding: 00px;
+    width: 70px;
+    height: 20px;
+    margin-bottom: -1.5em;
+    margin-right: 0em;
+    margin-left: 0em;
+    margin-top: -1.5em;
+    display: inline;
+    border: 0.5px solid #000;
+  }
+  table {
+    min-width: 90%;
+  }
+    
+  form {
+    padding: 0.5em;
+    margin-bottom: 1em;
+    max-width: 600px;  
+  }
+  
+  .form-control {
+    margin-top: 00.5em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-radio{
+    display: flex;
+    margin-left: 0px;
+  }
+
+  .form-radio input{
+    padding: 0.5em;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    margin-left: 1em;
+    display: inline;
+  }
+  
+  .form-control label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+  
+  .form-control input,
+  .form-control textarea {  
+    border: 1px solid #000;
+    padding: 10px;
+    margin-bottom: 1em;
+  }
+  
+  .btn {
+    background-color: #000;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    margin-top: 1em;
+    cursor: pointer;
+  }
+  
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product {
+    width: 25%;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+  
+  .product img {
+    max-width: 100%;
+    margin-bottom: 0.5em;
+  }
+  
+  .product h3 {
+    margin-bottom: 1em;
+  }
+  
+  .product-page img {
+    max-width: 250px;
+    margin-bottom: 1em;
+  }
+  
+  .product-page p {
+    margin-bottom: 1em;
+  }
+
+  .actions input {
+    background-color: rgb(255,102,51);
+    color: rgb(255,255,255);
+    padding: 0px;
+    width: 80px;
+    height: 25px;
+
+  }
+
+  .actions form {
+    float: left;
+  }
+
+  .create-button {
+    float: inline-start;
+    display: flex;
+  }
+
+  .create-button input {
+    background-color: rgb(255,102,51);
+    color: rgb(255,255,255);
+    padding: 0px;
+    width: 110px;
+    height: 30px;
+    margin-bottom: -5px;
+  }
+ 
+  .action_buttons a{
+    display: inline-block;
+    padding: 0px;
+    padding-bottom: 0px;
+  }
+
+  .action_buttons{
+    display: block;
+    padding: 0px;
+    padding-bottom: 0px;
+  }
+
+  .material-symbols-outlined {
+    display: flexbox;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+  }

@@ -1,0 +1,43 @@
+<h1>Processos</h1>
+<div class="process-container">
+    <div class="actions">
+        <i><a href="/"><span class="material-symbols-outlined">home</span></a></i>
+        <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
+        <i><a href="/createtatic"><span class="material-symbols-outlined">add_circle</span></a></i>
+    </div>
+    {{#if tatics}}
+    <table class="process-class">
+    <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th class="small-coloun">Valor Mínimo</th>
+        <th class="small-coloun">Tempo de preparação</th>
+        <th class="small-coloun">Perda</th>
+        <th>Capacidade</th>
+        <th>Valor</th>
+        <th>Ações</th>
+    </tr>
+
+    {{#each tatics}}
+    <tr>
+        <td><span class="bold"><a href="/tatic/{{this.id}}">{{this.name}}</a></span></td>
+        <td>{{this.description}}</td>
+        <td class="small-coloun">{{this.minimun_value}}</td>
+        <td>{{this.preparation_time}} </td>
+        <td>{{this.loss}}</td>
+        <td>{{this.capacity}}</td>
+        <td>R$ {{formatPrice this.price}}</td>
+        <td>
+            <div class="actions">
+                <a href="/tatic/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
+                <a href="/taticedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                <a href="/tatics/remove/{{this.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+            </div>
+        </td>
+    </tr>        
+    {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há processos cadastrados!</h3>
+    {{/if}}
+</div>

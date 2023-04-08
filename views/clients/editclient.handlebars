@@ -1,0 +1,79 @@
+<h1>Editar Cliente</h1>
+<a href="/clients"><span class="material-symbols-outlined">
+undo
+</span></a>
+<form action="/clients/updateclient" method="POST" class="form">
+    <input type="hidden" name="id" value="{{client.id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o Nome" value="{{client.name}}">
+    </div>
+        {{#if client.typeclient}}
+    <div>
+        <input type="radio" id='false' name="typeclient" value=false>
+        <label for="0">Pessoa Física</label>
+        <input type="radio" id='true' name="typeclient" value=true checked>
+        <label for="1">Pessoa Jurídica</label>
+    </div>
+    <div class="form-control">
+        <label for="fantasy">Nome Fantasia:</label>
+        <input type="text" name="fantasy" placeholder="Digite o Nome Fantasia" value="{{client.fantasy}}">
+    </div>
+    {{else}}
+    <div>
+        <input type="radio" id='false' name="typeclient" value=false checked>
+        <label for="false">Pessoa Física</label>
+        <input type="radio" id='true' name="typeclient" value=true>
+        <label for="true">Pessoa Jurídica</label>
+    </div>
+        <div class="form-control">
+        <label for="fantasy">Nome Fantasia:</label>
+        <input type="text" name="fantasy" placeholder="Digite o Nome Fantasia" value="NÃO SE APLICA">
+    </div>
+    {{/if}}
+    <div class="form-control">
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="Digite o email" value="{{client.email}}">
+    </div>
+    <div class="form-control">
+        <label for="cpf">CPF/CNPJ:</label>
+        <input type="text" name="cpf" placeholder="Digite o CPF/CNPJ" value="{{client.cpf}}">
+    </div>
+    <div class="form-control">
+        <label for="phone">Telefone:</label>
+        <input type="text" name="phone" placeholder="Digite o Telefone" value="{{client.phone}}">
+    </div>
+    <div class="form-control">
+        <label for="whatsapp">Whatsapp:</label>
+        <input type="text" name="whatsapp" placeholder="Digite o Whatsapp" value="{{client.whatsapp}}">
+    </div>
+    <div class="form-control">
+        <label for="street">Endereço:</label>
+        <input type="text" name="street" placeholder="Digite a rua" value="{{client.addresses.street}}">
+    </div>
+    <div class="form-control">
+        <label for="number">Número:</label>
+        <input type="text" name="number" placeholder="Digite o numero" value="{{client.addresses.number}}">
+    </div>
+    <div class="form-control">
+        <label for="complement">Complemento:</label>
+        <input type="text" name="complement" placeholder="Digite o complemento" value="{{client.addresses.complement}}">
+    </div>
+    <div class="form-control">
+        <label for="district">Bairro:</label>
+        <input type="text" name="district" placeholder="Digite o bairro" value="{{client.addresses.district}}">
+    </div>
+    <div class="form-control">
+        <label for="city">Cidade:</label>
+        <input type="text" name="city" placeholder="Digite a cidade" value="{{client.addresses.city}}">
+    </div>
+    <div class="form-control">
+        <label for="code">Cidade:</label>
+        <input type="text" name="code" placeholder="Digite o cep" value="{{client.addresses.code}}">
+    </div>
+    <div class="form-control">
+        <label for="obs">Observações:</label>
+        <textarea name="obs" id="obs" cols="30" rows="10">{{client.obs}}</textarea>
+    </div>
+    <input type="submit" value="Editar">
+</form>

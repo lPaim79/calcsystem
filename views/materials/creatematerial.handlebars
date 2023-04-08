@@ -1,0 +1,42 @@
+<H1>Cadastro de Material</H1>
+<a href="/materials">Voltar</a>
+<form action="/insertmaterial" method="POST" class="form">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o Nome">
+    </div>
+    <div class="form-control">
+        <label for="description">Descriçao:</label>
+        <input type="text" name="description" placeholder="Digite a Descrição">
+    </div>
+    <div class="form-control">
+        <label for="width">Largura:</label>
+        <input type="text" name="width" placeholder="Digite a largura">
+    </div>
+    <div class="form-control">
+        <label for="height">Altura:</label>
+        <input type="text" name="height" placeholder="Digite a altura">
+    </div>
+    <div class="form-control">
+        <label for="color">Cor:</label>
+        <input type="text" name="color" placeholder="Digite a cor">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite o valor">
+    </div>
+    <div class="form-control">
+        <label for="efficiency">Rendimento:</label>
+        <input type="text" name="efficiency" placeholder="Digite o rendimento">
+    </div>
+    <div class="form-control">
+        <label for="provider_id">Fornecedor</label>
+        <select name="provider_id">
+            <option value="">Selecione o Fornecedor</option>
+            {{#each providers}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <input type="submit" value="Cadastrar">
+</form>

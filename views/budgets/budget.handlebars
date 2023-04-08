@@ -1,0 +1,175 @@
+<div id="process-page">
+    <div class="container">
+        <div class="actions">
+            <a title="Voltar" href="/budgets"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a title="Editar Orçamento" href="/budgetedit/{{budget.id}}"><i><span
+                        class="material-symbols-outlined">edit</span></i></a>
+            <a title="Aprovar Orçamento" href="/budgets/approved/{{budget.id}}"><span
+                    class="material-symbols-outlined">check</span></a>
+            <a title="Excluir Orçamento" href="/budgets/remove/{{budget.id}}"><span
+                    class="material-symbols-outlined">delete</span></a>
+        </div>
+        <table>
+            <h1>{{budget.id}} - {{budget.client.name}}</h1>
+            <tr>
+                <th>Data</th>
+                <th>Quantidade</th>
+                <th>Produto</th>
+                <th>Markup</th>
+                <th>Previsão</th>
+                <th>Tipo</th>
+                <th>Processo</th>
+                <th>Material</th>
+                <th>Impressão</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <td>{{formatDate budget.date}}</td>
+                <td>{{budget.quantity}}</td>
+                <td>{{budget.name}}</td>
+                <td>{{budget.markup}}</td>
+                {{#if budget.prevision}}
+                <td>{{budget.prevision}} dia(s)</td>
+                {{else}}
+                <td>Não há previsão</td>
+                {{/if}}
+                <td>{{budget.type}}</td>
+                <td>R$ {{formatPrice budget.tatics_value}}</td>
+                <td>R$ {{formatPrice budget.materials_value}}</td>
+                <td>R$ {{formatPrice budget.prints_value}}</td>
+                <td>R$ {{formatPrice budget.price}}</td>
+            </tr>
+        </table>
+        <p>{{budget.obs}}</p>
+    </div>
+    
+    <div class="container">
+        {{#if budget.prints}}
+        <table>
+            <input type="hidden" name="budget_id" value="{{budget.id}}">
+            <h3>Impressões</h3>
+            <tr>
+                <th>Descrição</th>
+                <th>Papel</th>
+                <th>Quantidade</th>
+                <th>Lados</th>
+                <th>Largura</th>
+                <th>Altura</th>
+                <th>Formato</th>
+                <th>Cobertura</th>
+                <th>Custo</th>
+                <th>Ações</th>
+            </tr>
+            {{#each budget.prints}}
+            <tr>
+                <td>{{this.description}}</td>
+                <td>{{this.paper.name}}</td>
+                <td>{{this.quantity}}</td>
+                <td>{{this.sides}}</td>
+                <td>{{this.width}}</td>
+                <td>{{this.height}}</td>
+                <td>{{this.format}}</td>
+                <td>{{this.coverage}}</td>
+                <td>R$ {{formatPrice this.amount}}</td>
+                <td><a title="Excluir Impressão" href="/deleteprint/{{this.id}}"><span
+                            class="material-symbols-outlined">delete</span></a></td>
+            </tr>
+            {{/each}}
+        </table>
+        <p><a title="Adicionar Impressão" href="/createprint/{{budget.id}}"><span
+                    class="material-symbols-outlined">add</span></a></p>
+        {{else}}
+        <table>
+            <h4>Não há Impressões</h4>
+            <a title="Adicionar Impressão" href="/createprint/{{budget.id}}"><span
+                    class="material-symbols-outlined">add</span></a>
+        </table>
+        {{/if}}
+    </div>
+    
+    <div class="container">
+        {{#if budget.budgettatics}}
+        <table>
+            <h3>Processos</h3>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Valor Mínimo</th>
+                <th>Tempo preparo</th>
+                <th>Perda</th>
+                <th>Capacidade</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+            {{#each budget.budgettatics}}
+            <tr>
+                <td>{{this.tatic.name}}</td>
+                <td>{{this.tatic.description}}</td>
+                <td>{{formatPrice this.tatic.minimun_value}}</td>
+                <td>{{this.tatic.preparation_time}}</td>
+                <td>{{this.tatic.loss}}</td>
+                <td>{{this.tatic.capacity}}</td>
+                <td>R$ {{formatPrice this.amount}}</td>
+                <td>
+                    <a title="Excluir Processo" href="/deletetatic/{{this.id}}"><span
+                            class="material-symbols-outlined">delete</span></a>
+                    <a title="Editar Processo" href="/taticedit/{{this.id}}"><i><span
+                                class="material-symbols-outlined">edit</span></i></a>
+                </td>
+            </tr>
+            {{/each}}
+        </table>
+        <p><a title="Adicionar Processo" href="/createbudgettatics/{{budget.id}}"><span
+                    class="material-symbols-outlined">add</span></a></p>
+        {{else}}
+        <div>
+            <h4>Não há Processos</h4>
+            <a title="Adicionar Processo" href="/createbudgettatics/{{budget.id}}"><span
+                    class="material-symbols-outlined">add</span></a>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="container">
+        {{#if budget.budgetmaterials}}
+        <table>
+            <h3>Materiais</h3>
+            <tr>
+                <th>Nome</th>
+                <th>largura</th>
+                <th>Altura</th>
+                <th>Quantidade</th>
+                <th>Valor Unit</th>
+                <th>Total</th>
+                <th>Ações</th>
+            </tr>
+            {{#each budget.budgetmaterials}}
+            <tr>
+                <td>{{this.material.name}}</td>
+                <td>{{this.material.width}}</td>
+                <td>{{this.material.height}}</td>
+                <td>{{this.quantity}}</td>
+                <td>R$ {{formatPrice this.material.unitprice}}</td>
+                <td>R$ {{formatPrice this.amount}}</td>
+                <td><a title="Remorer Material" href="/deletematerial/{{this.id}}"><span
+                            class="material-symbols-outlined">delete</span></a></td>
+            </tr>
+            {{/each}}
+        </table>
+        <a title="Adidionar Material" href="/creatematerial/{{budget.id}}"><span
+                class="material-symbols-outlined">add</span></a>
+        {{else}}
+        <table>
+            <h4>Não há Materiais</h4>
+            <a title="Adidionar Material" href="/creatematerial/{{budget.id}}"><span
+                    class="material-symbols-outlined">add</span></a>
+        </table>
+        {{/if}}
+    </div>
+
+    <div class="actions">
+        <form action="/calculate/{{budget.id}}" method="GET">
+            <input type="submit" value="Calcular">
+        </form>
+    </div>
+</div>

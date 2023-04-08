@@ -1,0 +1,31 @@
+<div id="material-page">
+    <div class="container">
+        <div class="actions">
+            <a href="/materials"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a href="/materialedit/{{material.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a href="/materials/remove/{{material.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+        </div>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Largura</th>
+                <th>Altura</th>
+                <th>Cor</th>
+                <th>Valor</th>
+                <th>Quantidade</th>
+                <th>Valor unit</th>
+                <th>Fornececor</th>
+            </tr>
+            <tr>
+                <td>{{material.name}}</td>
+                <td>{{material.width}}</td>
+                <td>{{material.height}}</td>
+                <td>{{material.color}}</td>
+                <td>R$ {{formatPrice material.price}}</td>
+                <td>{{material.efficiency}}</td>
+                <td>R$ {{formatSmallPrice material.unitprice}}</td>
+                <td>{{material.provider.name}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<h1>Cadastro de Máquina</h1>
+<div class="actions">
+    <a title="Voltar" href="/machines"><span class="material-symbols-outlined">arrow_back</span></a>
+</div> 
+<form action="/insertmachine" method="POST" class="form">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome">
+    </div>
+    <div class="form-control">
+        <label for="hour_price">Valor Hora Máquina:</label>
+        <input type="text" name="hour_price" placeholder="Informe o valor Hora R$">
+    </div>
+    <div class="form-control">
+        <label for="preparation_time">Tempo de preparação:</label>
+        <input type="text" name="preparation_time" placeholder="Digite o Tempo de preparação">
+    </div>
+    <div class="form-control">
+        <label for="width">Largura Mídia:</label>
+        <input type="float" name="width" placeholder="Digite a largura máxima">
+    </div>
+    <div class="form-control">
+        <label for="height">Altura da Mídia:</label>
+        <input type="float" name="height" placeholder="Digite o comprimento máximo">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="float" name="description" placeholder="Descrição da máquina">
+    </div>
+    <input type="submit" value="Cadastrar">
+</form>

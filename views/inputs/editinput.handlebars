@@ -1,0 +1,72 @@
+<h1>Editar Insumo</h1>
+    <a href="/inputs">Voltar</a>
+<form action="/inputs/updateinput" method="POST" class="form">
+    <input type="hidden" name="id" value="{{input.id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome" value="{{input.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do insumo" value="{{input.description}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite o valor" value="{{input.price}}">
+    </div>
+    <div class="form-control">
+        <label for="efficiency">Rendimento:</label>
+        <input type="text" name="efficiency" placeholder="Quantidade" value="{{input.efficiency}}">
+    </div>
+    <div class="form-control">
+        <label for="provider_id">Fornecedor:</label>
+        <select name="provider_id">
+            {{#if input.provider.name}}
+            <option value="{{input.provider.id}}">{{input.provider.name}}</option>
+            {{#each provider}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            {{#each provider}}
+            <option value="">Escolha o fornecedor</option>
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="machine_id">Máquina:</label>
+        <select name="machine_id">
+            {{#if input.machine.name}}
+            <option value="{{input.machine.id}}">{{input.machine.name}}</option>
+            <option value="">Escolha a Máquina</option>
+            {{#each machine}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            {{#each machine}}
+            <option value="">Escolha a máquina</option>
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="printer_id">Impressora:</label>
+        <select name="printer_id">
+            {{#if input.printer.name}}
+            <option value="{{input.printer.id}}">{{input.printer.name}}</option>
+            <option value="">Escolha a impressora</option>
+            {{#each printer}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            {{#each printer}}
+            <option value="">Escolha a impressora</option>
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <input type="submit" value="Editar">
+</form>

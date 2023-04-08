@@ -1,0 +1,87 @@
+<div id="client-page">
+    <div class="container">
+        <div class="actions">
+            <a title="Voltar" href="/clients"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a title="Editar Cliente" href="/clientedit/{{client.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a title="Remover Cliente" href="/clients/remove/{{client.id}}"><span class="material-symbols-outlined">delete</span></a>
+        </div>
+        <h1>{{client.name}}</h1>
+        {{#if client.fantasy}}
+        <h3>{{client.fantasy}}</h3>
+        {{/if}}
+        <table>
+            <tr>                
+                <th>CPF/CNPJ</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Whatsapp</th>
+                <th>Endereço</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>CEP</th>
+            </tr>
+            <tr>
+                <td>{{client.cpf}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.phone}}</td>
+                <td>{{client.whatsapp}}</td>
+                <td>{{client.addresses.street}}, {{client.addresses.number}}
+                {{#if client.addresses.complement}}
+                - {{client.addresses.complement}}</td>
+                {{else}}
+                </td>
+                {{/if}}
+                <td>{{client.addresses.district}}</td>
+                <td>{{client.addresses.city}}</td>
+                <td>{{ client.addresses.code }}</td>
+            </tr>
+        </table>
+        {{#if client.obs}}
+        <div class="form-control">
+        <label for="obs">Observações:</label>
+        <td name="obs" id="obs" cols="30" rows="10">{{client.obs}}</td>
+        </div>
+        {{/if}}
+    </div>
+    
+</div>
+<div class="container">
+
+    <h2><a title="Pedidos" href="/orders">Pedidos</a></h2>
+    <br><br>
+    {{#if orders}}
+    <table class="os-table">
+        <tr>
+            <th>Código</th>
+            <th>Data</th>
+            <th>Produto</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Previsão</th>
+            <th>Estágio</th>
+            <th>Pagamento</th>
+            <th>Ações</th>
+        </tr>
+
+        {{#each orders}}
+        <tr>
+            <td><a href="/order/{{this.id}}">{{this.id}}</a></td>
+            <td>{{formatDate this.date}}</td>
+            <td>{{this.product.name}}</td>
+            <td>{{this.description}}</td>
+            <td>R$ {{formatPrice this.price}}</td>
+            <td>{{formatDate this.prevision}}</td>
+            <td>{{this.stage.name}}</td>
+            {{#if this.payment}}
+            <td>R$ {{formatPrice this.payment}}</td>
+            {{else}}
+            <td>A receber</td>
+            {{/if}}
+            <td><a title="Mostrar Pedido" href="/order/{{this.id}}"><span class="material-symbols-outlined">order_play</span></a></td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há pedidos cadastrados</h3>
+    {{/if}}
+</div>

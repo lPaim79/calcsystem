@@ -1,0 +1,83 @@
+<h1>Editar Pedido {{order.id}}</h1>
+<a href="/orders"><span class="material-symbols-outlined">
+undo
+</span></a>
+<form action="/orders/updateorder" method="POST" class="form">
+    <input type="hidden" name="id" value="{{order.id}}">
+    <div class="form-control">
+        <label for="date">Data do pedido:</label>
+        <p><a href="/alterdate/{{order.id}}">{{formatDate order.date }}</a>
+        </p>
+    </div>
+    <div class="form-control">
+        <label for="client_id">Cliente:</label>
+        <select name="client_id">
+            {{#if order.client.name}}
+            <option value="{{order.client.id}}">{{order.client.name}}</opti5on>
+                {{#each clients}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            <option value="">Escolha o Cliente</option>
+            {{#each clients}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="product_id">Produto:</label>
+        <select name="product_id">
+            {{#if order.product.name}}
+            <option value="{{order.product.id}}">{{order.product.name}}</opti5on>
+                {{#each products}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            <option value="">Escolha o Produto</option>
+            {{#each products}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do order" value="{{order.description}}">
+    </div>
+
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="float" name="price" placeholder="Valor" value="{{order.price}}">
+    </div>
+    <div class="form-control">
+        <label for="payment">Pagamento:</label>
+        <input type="text" name="payment" placeholder="Pagamento" value="{{order.payment}}">
+    </div>
+    <div class="form-control">
+        <label for="stage_id">Estágio:</label>
+        <select name="stage_id">
+            {{#if order.stage.name}}
+            <option value="{{order.stage.id}}">{{order.stage.name}}</opti5on>
+                {{#each stages}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            {{#each stages}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="prevision">Previsão de Entrega:</label>
+        <p>{{formatDate order.prevision}}</p>
+    </div>
+    <div class="actions">
+        <input type="submit" value="Editar">
+    </div>
+
+</form>
+
+
+</form>

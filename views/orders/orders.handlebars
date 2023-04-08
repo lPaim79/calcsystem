@@ -1,0 +1,52 @@
+<h1>Ordens de Serviço</h1>
+<div class="os-container">
+    <div class="actions">
+        <a href="/"><span class="material-symbols-outlined">home</span></a>
+        <a href="/createorder"><span class="material-symbols-outlined">add_circle</span></a>
+    </div>
+    {{#if orders}}
+    <table class="os-table">
+        <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Produto</th>
+            <th>Valor</th>
+            <th>Previsão</th>
+            <th>Estágio</th>
+            <th>Pagamento</th>
+            <th>Ações</th>
+        </tr>
+
+        {{#each orders}}
+        <tr>
+            <td>{{formatDate this.date}}</td>
+            {{#if this.client.fantasy}}
+            <td>{{this.client.fantasy}}</td>
+            {{else}}
+            <td>{{this.client.name}}</td>
+            {{/if}}
+            <td>{{this.product.name}}</td>
+            <td>R$ {{formatPrice this.price}}</td>
+            <td>{{formatDate this.prevision}}</td>
+            <td>{{this.stage.name}}</td>
+            {{#if this.payment}}
+            <td>R$ {{formatPrice this.payment}}</td>
+            {{else}}
+            <td>A receber</td>
+            {{/if}}
+            <td>
+                <div class="actions">
+                    <a title="Mostrar Pedido" href="/order/{{this.id}}"><span class="material-symbols-outlined">order_play</span></a>
+                    <a title="Editar Pedido" href="/orderedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                    <a title="Excluir Pedido" href="/orders/remove/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a title="Mostrar Cliente" href="/client/{{this.client.id}}"><span class="material-symbols-outlined">person</span></a>
+                </div>
+                
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há pedidos cadastrados</h3>
+    {{/if}}
+</div>

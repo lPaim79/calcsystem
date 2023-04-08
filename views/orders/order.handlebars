@@ -1,0 +1,33 @@
+<div id="material-page">
+    <div class="container">
+        <a title="Voltar" href="/orders"><span class="material-symbols-outlined">arrow_back</span></a>
+        <table>
+            <tr>
+                <th>Código</th>
+                <th>Data</th>
+                <th>Cliente</th>                
+                <th>Produto</th>
+                <th>Estágio</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Pagamento</th>
+                <th>Previsão</th>
+            </tr>
+            <tr>
+                <td>{{order.id}}</td>
+                <td>{{formatDate order.date}}</td>
+                <td>{{order.client.name}}</td>
+                <td>{{order.product.name}}</td>
+                <td>{{order.stage.name}}</td>
+                <td>{{order.description}}</td>
+                <td>R$ {{formatPrice order.price}}</td>
+                <td>R$ {{formatPrice order.payment}}</td>
+                <td> {{formatDate order.prevision}} </td>
+            </tr>
+        </table>
+        <div class="actions">
+            <a title="Editar" href="/orderedit/{{order.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a title="Excluir" href="/orders/remove/{{order.id}}"><span class="material-symbols-outlined">delete</span></a>
+        </div>
+    </div>
+</div>

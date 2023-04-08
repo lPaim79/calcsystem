@@ -1,0 +1,46 @@
+<h1>Editar processo do orçamento:</h1>
+<h2>{{budgettatic.budget.name}}</h2>
+<a href="/budget/{{budgettatic.budget.id}}">Voltar</a>
+
+<form action="/updatetatict/{{budget.id}}" method="POST" class="form">
+<input type="hidden" name="id" value="{{budgettatic.tatic.id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome" value="{{budgettatic.tatic.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Digite a descrição" value="{{budgettatic.tatic.description}}">
+    </div>
+    <div class="form-control">
+        <label for="minimun_value">Valor Mínimo:</label>
+        <input type="text" name="minimun_value" placeholder="Digite o valor mínimo" value="{{budgettatic.tatic.minimun_value}}">
+    </div>
+    <div class="form-control">
+        <label for="preparation_time">Tempo de preparação:</label>
+        <input type="text" name="preparation_time" placeholder="Digite o tempo em minutos" value="{{budgettatic.tatic.preparation_time}}">
+    </div>
+    <div class="form-control">
+        <label for="loss">Perda Mínima:</label>
+        <input type="text" name="loss" placeholder="Digite a quantidade" value="{{budgettatic.tatic.loss}}">
+    </div>
+    <div class="form-control">
+        <label for="capacity">Capacidade:</label>
+        <input type="text" name="capacity" placeholder="Digite a capacidade por hora" value="{{budgettatic.tatic.capacity}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite o valor hora" value="{{budgettatic.tatic.price}}">
+    </div>
+    <div>
+        <input type="radio" id='total' name="quantforunit" value="total">
+        <label for="total">Total</label>
+        <input type="radio" id='unit' name="quantforunit" value="unit">
+        <label for="unit">Por unidade do orçamento</label>
+        <input type="radio" id='print' name="quantforunit" value="print" checked>
+        <label for="print">Por impressões</label>
+    </div>
+    <div class="form-control">
+    <input type="submit" value="Atualizar">
+    </div>
+</form>

@@ -1,0 +1,60 @@
+<h1>Inserir impressão ao orçamento:</h1>
+<h2>{{budget.name}}</h2>
+<a href="/budget/{{budget.id}}">Voltar</a>
+<form action="/savebudgetprint/{{budget.id}}" method="POST" class="form">
+    <div class="form-control">
+        <label for="printer_id">Impressora:</label>
+        <select name="printer_id">
+            <option value=''>Selecione a Impressora</option>
+            {{#each printers}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="paper_id">Papel:</label>
+        <select name="paper_id">
+            <option value=''>Selecione o Papel</option>
+            {{#each papers}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Digite a descrição">
+    </div>
+    <div class="form-control">
+        <label for="quantity">Quantidade:</label>
+        <input type="text" name="quantity" placeholder="Quantidade por unidade">
+    </div>
+    <div class="form-control">
+        <label for="sides">Lados:</label>
+        <select name="sides">
+            <option value='1'>Frente</option>
+            <option value='2'>Frente e Verso</option>
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="width">Largura:</label>
+        <input type="text" name="width" placeholder="Digite a largura">
+    </div>
+    <div class="form-control">
+        <label for="height">Altura:</label>
+        <input type="text" name="height" placeholder="Digite a altura">
+    </div>
+    <div class="">
+        <label for="color">Cor:</label>
+        <input type="radio" id='0' name="color" value=0>
+        <label for="false">Monocromático</label>
+        <input type="radio" id='1' name="color" value=1 checked>
+        <label for="true">Colorido</label>
+    </div>
+    <div class="form-control">
+        <label for="coverage">Cobertura:</label>
+        <input type="text" name="coverage" placeholder="Cobertura %">
+    </div>
+    <div class="form-control">
+    <input type="submit" value="Cadastrar">
+    </div>
+</form>

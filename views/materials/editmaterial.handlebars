@@ -1,0 +1,52 @@
+<h1>Editar Material</h1>
+<div class="actions">
+    <a href="/material/{{material.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+<form action="/materials/updatematerial" method="POST" class="form">
+    <input type="hidden" name="id" value="{{material.id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome" value="{{material.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do material" value="{{material.description}}">
+    </div>
+    <div class="form-control">
+        <label for="width">Largura:</label>
+        <input type="float" name="width" placeholder="Digite a largura" value="{{material.width}}">
+    </div>
+    <div class="form-control">
+        <label for="height">Altura:</label>
+        <input type="float" name="height" placeholder="Valor altura" value="{{material.height}}">
+    </div>
+    <div class="form-control">
+        <label for="color">Cor:</label>
+        <input type="text" name="color" placeholder="Digite a cor" value="{{material.color}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite o valor" value="{{material.price}}">
+    </div>
+    <div class="form-control">
+        <label for="efficiency">Quantidade:</label>
+        <input type="text" name="efficiency" placeholder="Quantidade" value="{{material.efficiency}}">
+    </div>
+    <div class="form-control">
+        <label for="provider_id">Fornecedor:</label>
+        <select name="provider_id">
+            {{#if material.provider.name}}
+            <option value="{{material.provider.id}}">{{material.provider.name}}</opti5on>
+            {{#each provider}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{else}}
+            {{#each provider}}
+            <option value="">Escolha o fornecedor</option>
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+            {{/if}}
+        </select>
+    </div>
+    <input type="submit" value="Editar">
+</form>

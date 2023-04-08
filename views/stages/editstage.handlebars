@@ -1,0 +1,16 @@
+<h1>Editar Estágio</h1>
+<div class="actions">
+    <a href="/stage/{{stage.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+<form action="/stages/updatestage" method="POST" class="form">
+    <input type="hidden" name="id" value="{{stage.id}}">
+    <div class="form-control">
+        <label for="name">Estágio:</label>
+        <input type="text" name="name" placeholder="Estágio" value="{{stage.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do estágio" value="{{stage.description}}">
+    </div>
+    <input type="submit" value="Editar">
+</form>

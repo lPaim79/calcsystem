@@ -1,0 +1,62 @@
+<div id="page">
+    <div class="container">
+        <div class="actions">
+            <a href="/printers"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a href="/printeredit/{{printer.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a href="/printers/remove/{{printer.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+        </div>
+        <table>
+            <h1>{{printer.name}}</h1>
+            <tr>
+                <th>Descrição</th>
+                <th>Preparação Mínima</th>
+                <th>Largura Mídia</th>
+                <th>Altura Mídia</th>
+                <th>Cor</th>
+                <th>Gramatura</th>
+                <th>Hora-Máquina</th>
+            </tr>
+            <tr>
+                <td>{{printer.description}}</td>
+                <td>{{printer.preparation_time}} min</td>
+                <td>{{printer.width}} mm</td>
+                <td>{{printer.height}} mm</td>
+                {{#if printer.color}}
+                <td>Colorida</td>
+                {{else}}
+                <td>Monocromátic</td>
+                {{/if}}
+                <td>{{printer.min_grammage}}g/m² até {{printer.max_grammage}}g/m²</td>
+                <td>R$ {{formatPrice printer.hour_price}}</td>
+            </tr>
+        </table>
+        <br>
+        {{#if printer.inputs}}
+
+        <table>
+            <p><a href="/inputs/">Insumos</a> - Total R$ {{formatSmallPrice totalprice}} (20%)</p>
+            <tr>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>Rendimento</th>
+                <th>Valor Unitário</th>
+            </tr>
+            {{#each printer.inputs}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>R$ {{formatPrice this.price}}</td>
+                <td>{{this.efficiency}}</td>
+                <td>R$ {{formatSmallPrice this.unitprice}}</td>
+            </tr>
+            {{/each}}
+
+        </table>
+        <a href="/createprinterinput/{{printer.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+        {{else}}
+        <h4>Não há insumos</h4>
+        <a href="/createprinterinput/{{printer.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+        {{/if}}
+
+    </div>
+
+</div>

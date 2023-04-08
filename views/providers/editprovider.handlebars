@@ -1,0 +1,56 @@
+<h1>Editar fornecedor</h1>
+<div class="actions">
+    <a href="/provider/{{provider.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+<form action="/providers/updateprovider" method="POST" class="form">
+    <input type="hidden" name="id" value="{{provider.id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o Nome" value="{{provider.name}}">
+    </div>
+    <div class="form-control">
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="Digite o Email" value="{{provider.email}}">
+    </div>
+    <div class="form-control">
+        <label for="phone">Telefone:</label>
+        <input type="text" name="phone" placeholder="Digite o Telefone" value="{{provider.phone}}">
+    </div>
+    <div class="form-control">
+        <label for="whatsapp">Whatsapp:</label>
+        <input type="text" name="whatsapp" placeholder="Digite o Whatsapp" value="{{provider.whatsapp}}">
+    </div>
+    <div class="form-control">
+        <label for="street">Endereço:</label>
+        <input type="text" name="street" placeholder="Digite a rua" value="{{provider.addresses.street}}">
+    </div>
+    <div class="form-control">
+        <label for="number">Número:</label>
+        <input type="text" name="number" placeholder="Digite o numero" value="{{provider.addresses.number}}">
+    </div>
+    <div class="form-control">
+        <label for="complement">Complemento:</label>
+        <input type="text" name="complement" placeholder="Digite o complemento" value="{{provider.addresses.complement}}">
+    </div>
+    <div class="form-control">
+        <label for="district">Bairro:</label>
+        <input type="text" name="district" placeholder="Digite o bairro" value="{{provider.addresses.district}}">
+    </div>
+    <div class="form-control">
+        <label for="city">Cidade:</label>
+        <input type="text" name="city" placeholder="Digite a cidade" value="{{provider.addresses.city}}">
+    </div>
+    <div class="form-control">
+        <label for="code">CEP:</label>
+        <input type="text" name="code" placeholder="Digite o CEP" value="{{provider.addresses.code}}">
+    </div>
+    <div class="form-control">
+        <label for="site">Site:</label>
+        <input type="text" name="site" placeholder="Digite o Site" value="{{provider.site}}">
+    </div>
+    <div class="form-control">
+        <label for="obs">Observações:</label>
+        <textarea name="obs" id="obs" cols="30" rows="10">{{provider.obs}}</textarea>
+    </div>
+    <input type="submit" value="Editar">
+</form>

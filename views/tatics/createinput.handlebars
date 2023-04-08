@@ -1,0 +1,33 @@
+<h1>Inserir insumo ao processo {{tatic.name}}</h1>
+<div class="actions">
+    <a href="/tatic/{{tatic.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+<form action="/savetatictinput" method="POST" class="form">
+<input type="hidden" name="id" value="{{tatic.id}}">
+<div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o Nome">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do insumo">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="float" name="price" placeholder="Digite o valor" >
+    </div>
+    <div class="form-control">
+        <label for="efficiency">Rendimento:</label>
+        <input type="text" name="efficiency" placeholder="Digite o rendimento">
+    </div>
+    <div class="form-control">
+        <label for="provider_id">Fornecedor</label>
+        <select name="provider_id">
+            <option value=''>Selecione o Fornecedor</option>
+            {{#each providers}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <input type="submit" value="Cadastrar">
+</form>

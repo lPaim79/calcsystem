@@ -1,0 +1,88 @@
+<div id="process-page">
+    <div class="container">
+        <div class="actions">
+            <a href="/tatics"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a href="/taticedit/{{tatic.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a href="/tatics/remove/{{tatic.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+        </div>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Valor Mínimo</th>
+                <th>Tempo de preparação</th>
+                <th>Perda</th>
+                <th>Capacidade</th>
+                <th>Valor</th>
+                {{#if tatic.machine}}
+                <th>Máquina</th>
+                {{/if}}
+            </tr>
+            <tr>
+                <td>{{tatic.name}}</td>
+                <td>{{tatic.description}}</td>
+                <td>{{tatic.minimun_value}}</td>
+                <td>{{tatic.preparation_time}}</td>
+                <td>{{tatic.loss}}</td>
+                <td>{{tatic.capacity}}</td>
+                <td>{{formatPrice tatic.price}}</td>
+                {{#if tatic.machine}}
+                <td>{{tatic.machine.name}}</td>
+                {{/if}}
+            </tr>
+        </table>
+        {{#if tatic.machines}}
+            <table>
+                <br>
+                <h3><a href="/machines/">Máquinas</a></h3>
+                <tr>
+                    <th>Nome</th>
+                    <th>Valor hora</th>
+                    <th>Tempo preparo</th>
+                    <th>Largura</th>
+                    <th>Altura</th>
+                </tr>
+                {{#each tatic.machines}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.hour_price}}</td>
+                    <td>{{this.preparation_time}}</td>
+                    <td>{{this.width}}</td>
+                    <td>{{this.height}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        {{else}}
+        <br>
+        <h4>Não há máquinas</h4>
+        {{/if}}
+        <div class="actions">
+            <a href="/createtaticmachine/{{tatic.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+        </div>
+        <br>
+        {{#if tatic.inputs}}
+            <br>
+            <table>
+                <h3><a href="/inputs/">Insumos</a></h3>
+                <tr>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                    <th>Rendimento</th>
+                    <th>Valor Unitário</th>
+                </tr>
+                {{#each tatic.inputs}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.efficiency}}</td>
+                    <td>{{this.unitprice}}</td>
+                </tr>
+                {{/each}}
+            </table>
+            <a href="/insertinput/{{tatic.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+        {{else}}
+        <h4>Não há insumos</h4>
+        <a href="/insertinput/{{tatic.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+        {{/if}}   
+    </div>
+</div>

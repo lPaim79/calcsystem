@@ -1,0 +1,43 @@
+<div id="provider-page">
+    <div class="container">
+        <div class="actions">
+            <a href="/providers"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a href="/provideredit/{{provider.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a href="/providers/remove/{{provider.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+        </div>
+        <h1>{{provider.name}}</h1>
+        <table>
+            <tr>
+                <th>Telefone:</th>
+                <th>Whatsapp:</th>
+                <th>Endereço:</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>CEP</th>
+                <th>Email:</th>
+                <th>Site:</th>
+            </tr>
+            <tr>
+                <td>{{provider.phone}}</td>
+                <td>{{provider.whatsapp}}</td>
+                <td>{{provider.addresses.street}}, {{provider.addresses.number}}
+                {{#if provider.addresses.complement}}
+                - {{provider.addresses.complement}}
+                {{/if}}
+                <td>{{provider.addresses.district}}</td>
+                <td>{{provider.addresses.city}}</td>
+                <td>{{provider.addresses.code}}</td>
+                <td>{{provider.email}}</td>
+                <td><a href='https://{{provider.site}}'>{{provider.site}}</a></td>
+            </tr>
+        </table> 
+        {{#if provider.obs}}
+        <br>
+            <div class="form-control">
+                <label for="obs">Observações:</label>
+                <td name="obs" id="obs" cols="30" rows="10">{{provider.obs}}</td>
+            </div>
+        {{/if}}
+    </div>
+</div>
+

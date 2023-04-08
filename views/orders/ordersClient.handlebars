@@ -1,0 +1,39 @@
+<h1>Pedidos</h1>
+<div class="os-container">
+    <a href="/orders">Voltar</a>
+    <br><br>
+    {{#if orders}}
+    <h2>{{client.name}}</h2>
+    <table class="os-table">
+        <tr>
+            <th>Código</th>
+            <th>Data</th>
+            <th>Produto</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Previsão</th>
+            <th>Estágio</th>
+            <th>Pagamento</th>
+        </tr>
+
+        {{#each orders}}
+        <tr>
+            <td><a href="/order/{{this.id}}">{{this.id}}</a></td>
+            <td>{{formatDate this.date}}</td>
+            <td>{{this.product.name}}</td>
+            <td>{{this.description}}</td>
+            <td>R$ {{this.price}}</td>
+            <td>{{formatDate this.prevision}}</td>
+            <td>{{this.stage.name}}</td>
+            {{#if this.payment}}
+            <td>{{this.payment}}</td>
+            {{else}}
+            <td>A receber</td>
+            {{/if}}
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há pedidos cadastrados</h3>
+    {{/if}}
+</div>

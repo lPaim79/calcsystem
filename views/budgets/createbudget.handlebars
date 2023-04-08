@@ -1,0 +1,67 @@
+<h1>Criar Orçamento</h1>
+<a href="/budgets">Voltar</a>
+<form action="/insertbudget" method="POST" class="form">
+    <div class="form-control">
+        <label for="client_id">Cliente:</label>
+        <select name="client_id">
+            <option value="">Selecione um cliente</option>
+            {{#each clients}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="name">Título:</label>
+        <input type="text" name="name" placeholder="Título do orçamento">
+    </div>
+    <div class="form-control">
+        <label for="quantity">Quantidade</label>
+        <input type="text" name="quantity" placeholder="Quantidade do orçamento">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição da unidade do oçamento">
+    </div>
+    <div class="form-control">
+        <label for="markup">Markup:</label>
+    </div>
+    <div>
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+    </div>
+    <div class="form-control">
+        <label for="obs">Observações e características:</label>
+        <textarea type="text" name="obs" placeholder="Descreva o máximo possível das características do orçamento solicitado"></textarea>
+    </div>
+    <div class="form-control">
+        <label for="prevision">Previsão:</label>
+        <input type="text" name="prevision" placeholder="previsão produção">
+    </div>
+    <div class="form-control">
+        <label for="type">Tipo:</label>
+        <select name="type">
+            <option value=''>Selecione um tipo</option>
+            <option value='Risografia'>Risografia</option>
+            <option value='Impressão Laser'>Impressão Laser</option>
+            <option value='Encadernação'>Encadernação</option>
+            <option value='Sublimação'>Sublimação</option>
+            <option value='Girolaser'>Girolaser</option>
+            <option value='Outros'>Outros</option>
+        </select>
+    </div>
+    <div class="form-control">
+    <input type="submit" value="Cadastrar">
+    </div>
+</form>

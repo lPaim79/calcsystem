@@ -1,0 +1,75 @@
+<h1>Inserir processo ao orçamento:</h1>
+<h2>{{budget.name}}</h2>
+<a href="/budget/{{budget.id}}">Voltar</a>
+<br><br>
+<h3>Processo Existente</h3>
+<form action="/selectbudgettatict/{{budget.id}}" method="POST" class="form">
+    <div class="form-control">
+        <label for="tatic_id">Processo</label>
+        <select name="tatic_id">
+            <option value=''>Selecione o Processo</option>
+            {{#each tatics}}
+            <option value="{{this.id}}">{{this.name}} - Capacidade {{this.capacity}} por hora</option>
+            {{/each}}
+        </select>
+    </div><br>
+    <div class="form-control">
+        <input type="submit" value="Selecionar">
+    </div>
+    
+</form>
+<h3>Novo Processo</h3>
+<form action="/savebudgettatict/{{budget.id}}" method="POST" class="form">
+<div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Digite a descrição">
+    </div>
+    <div class="form-control">
+        <label for="minimun_value">Valor Mínimo:</label>
+        <input type="text" name="minimun_value" placeholder="Digite o valor mínimo">
+    </div>
+    <div class="form-control">
+        <label for="preparation_time">Tempo de preparação:</label>
+        <input type="text" name="preparation_time" placeholder="Digite o tempo em minutos">
+    </div>
+    <div class="form-control">
+        <label for="loss">Perda Mínima:</label>
+        <input type="text" name="loss" placeholder="Digite a quantidade" value=0>
+    </div>
+    <div class="form-control">
+        <label for="capacity">Capacidade:</label>
+        <input type="text" name="capacity" placeholder="Digite a capacidade por hora">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite o valor hora">
+    </div>
+    <div class="form-control">
+        <label for="">Aplicação:</label>
+    </div>
+    <div>
+        <input type="radio" id='total' name="typequantity" value="total">
+        <label for="total">Total</label>
+        <input type="radio" id='unit' name="typequantity" value="unit">
+        <label for="unit">Por unidade do orçamento</label>
+        <input type="radio" id='print' name="typequantity" value="print" checked>
+        <label for="print">Por impressões</label>
+    </div>
+    <br>
+    <div class="form-control">
+        <label for="">Tipo de processo:</label>
+    </div>
+    <div>
+        <input type="radio" id='0' name="singleprocess" value="0">
+        <label for="0">Único</label>
+        <input type="radio" id='1' name="singleprocess" value="1">
+        <label for="1">Reutilizável</label>
+    </div>
+    <div class="form-control">
+    <input type="submit" value="Cadastrar Novo Processo">
+    </div>
+</form>

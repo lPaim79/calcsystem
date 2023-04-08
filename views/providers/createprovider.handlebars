@@ -1,0 +1,54 @@
+<h1>Cadastrar Fornecedor</h1>
+<div class="actions">
+    <a href="/providers"><span class="material-symbols-outlined">arrow_back</span></a>
+</div> 
+<form action="/insertprovider" method="POST" class="form">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o Nome">
+    </div>
+    <div class="form-control">
+        <label for="email">E-mail::</label>
+        <input type="email" name="email" placeholder="Digite o e-mail">
+    </div>
+    <div class="form-control">
+        <label for="phone">Telefone:</label>
+        <input type="text" name="phone" placeholder="Digite o Telefone">
+    </div>
+    <div class="form-control">
+        <label for="whatsapp">Whatsapp:</label>
+        <input type="text" name="whatsapp" placeholder="Digite o Whatsapp">
+    </div>
+    <div class="form-control">
+        <label for="street">Rua:</label>
+        <input type="text" name="street" placeholder="Digite a rua">
+    </div>
+    <div class="form-control">
+        <label for="number">Número:</label>
+        <input type="text" name="number" placeholder="Digite o Número">
+    </div>
+    <div class="form-control">
+        <label for="complement">Complemento:</label>
+        <input type="text" name="complement" placeholder="Digite o complemento">
+    </div>
+    <div class="form-control">
+        <label for="district">Bairro:</label>
+        <input type="text" name="district" placeholder="Digite o bairro">
+    </div>
+    <div class="form-control">
+        <label for="city">Cidade:</label>
+        <input type="text" name="city" placeholder="Digite a Cidade">
+    </div>
+    <div class="form-control">
+        <label for="code">CEP:</label>
+        <input type="text" name="code" placeholder="Digite o CEP">
+    </div>
+    <div class="form-control">
+        <label for="site">Site:</label>
+        <input type="text" name="site" placeholder="Digite o site">
+    </div>
+    <div class="form-control">
+        <label for="obs">Observações</label>
+        <textarea name="obs" id="obs" cols="30" rows="10"></textarea>
+    </div>
+    <input type="submit" value="Cadastrar">

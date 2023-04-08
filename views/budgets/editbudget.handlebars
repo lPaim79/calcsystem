@@ -1,0 +1,169 @@
+<h1>Editar Orçamento {{ budget.id }}</h1>
+<a href="/budgets"><span class="material-symbols-outlined">
+undo
+</span></a>
+<form action="/updatebudget" method="POST" class="form">
+    <input type="hidden" name="id" value="{{budget.id}}">
+    <div class="form-control">
+        <label for="date">Data do orçamento:</label>
+        <p><a href="/alterdate/{{budget.id}}">{{formatDate budget.date }}</a>
+        </p>
+    </div>
+    <div class="form-control">
+        <label for="client_id">Cliente:</label>
+        <select name="client_id">
+            <option value="{{budget.client_id}}">{{budget.client.name}}</option>
+            {{#each clients}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="name">Título:</label>
+        <input type="text" name="name" placeholder="Título do orçamento" value="{{budget.name}}">
+    </div>
+    <div class="form-control">
+        <label for="quantity">Quantidade</label>
+        <input type="text" name="quantity" placeholder="Quantidade do orçamento" value="{{budget.quantity}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição da unidade do oçamento"
+            value="{{budget.description}}">
+    </div>
+    <div class="form-control">
+        <label for="markup">Markup:</label>
+    </div>
+    <div>
+        {{#switch budget.markup}}
+        {{#case '1.4'}}
+        <input type="radio" id='1.4' name="markup" value=1.4 checked>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{#case '1.5'}}
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5 checked>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{#case '1.6'}}
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6 checked>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{#case '1.7'}}
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7 checked>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{#case '1.8'}}
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8 checked>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{#case '1.9'}}
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9 checked>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{#case '2.0'}}
+        <input type="radio" id='1.4' name="markup" value=1.4>
+        <label for="1.4">1.4</label>
+        <input type="radio" id='1.5' name="markup" value=1.5>
+        <label for="1.5">1.5</label>
+        <input type="radio" id='1.6' name="markup" value=1.6>
+        <label for="1.6">1.6</label>
+        <input type="radio" id='1.7' name="markup" value=1.7>
+        <label for="1.7">1.7</label>
+        <input type="radio" id='1.8' name="markup" value=1.8>
+        <label for="1.8">1.8</label>
+        <input type="radio" id='1.9' name="markup" value=1.9>
+        <label for="1.9">1.9</label>
+        <input type="radio" id='2.0' name="markup" value=2.0 checked>
+        <label for="2.0">2.0</label>
+        {{/case}}
+        {{/switch}}
+    </div>
+    <div class="form-control">
+        <label for="obs">Observações e características:</label>
+        <textarea type="text" name="obs"
+            placeholder="Descreva o máximo possível das características do orçamento solicitado">{{budget.obs}}</textarea>
+    </div>
+    <div class="form-control">
+        <label for="prevision">Previsão:</label>
+        <input type="text" name="prevision" placeholder="Previsão em dias" value="{{budget.prevision}}">
+    </div>
+    <div class="form-control">
+        <label for="type">Previsão:</label>
+        <input type="text" name="type" placeholder="tipo" value="{{budget.type}}">
+    </div>
+    <div class="form-control">
+        <input type="submit" value="Editar">
+    </div>
+</form>

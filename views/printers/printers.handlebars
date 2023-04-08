@@ -1,0 +1,44 @@
+<h1>Impressoras</h1>
+<div class="machines-container">
+    <div class="actions">
+        <i><a href="/"><span class="material-symbols-outlined">home</span></a></i>
+        <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
+        <i><a href="/createprinter"><span class="material-symbols-outlined">add_circle</span></a></i>
+    </div>
+    {{#if printers}}
+        <table class="clients-table">
+        <tr>
+            <th>Nome</th>
+            <th>Tempo preparo</th>
+            <th>Largura</th>
+            <th>Altura</th>
+            <th>Cor</th>
+            <th>Hora-Máquina</th>
+            <th>Ações</th>
+        </tr>
+        {{#each printers}}
+        <tr>
+            <td><a href="/printer/{{this.id}}">{{this.name}}</a></td>           
+            <td>{{this.preparation_time}} min</td>
+            <td>{{this.width}} mm</td>
+            <td>{{this.height}} mm</td>
+            {{#if this.color}}
+            <td>Colorida</td>
+            {{else}}
+            <td>Monocromática</td>
+            {{/if}}
+            <td>R$ {{formatPrice this.hour_price}}</td>
+            <td>
+            <div class="actions">
+                <a href="/printer/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
+                <a href="/printeredit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                <a href="/printers/remove/{{this.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+            </div>
+        </td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não existem impressoras cadastradas</h3>
+    {{/if}}
+</div>

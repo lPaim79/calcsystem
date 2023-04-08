@@ -1,0 +1,48 @@
+<h1>Editar Produto</h1>
+<a href="/products"><span class="material-symbols-outlined">
+undo
+</span></a>
+<form action="/products/updateproduct" method="POST" class="form">
+    <input type="hidden" name="id" value="{{product.id}}">
+    <div class="form-control">
+        <label for="name">Título:</label>
+        <input type="text" name="name" placeholder="Nome do produto" value="{{product.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do produto" value="{{product.description}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="float" name="price" placeholder="Valor do produto" value="{{product.price}}">
+    </div>
+    <div class="form-control">
+        <label for="weight">Peso:</label>
+        <input type="float" name="weight" placeholder="Peso do produto" value="{{product.weight}}">
+    </div>
+    <div class="form-control">
+        <label for="type">Tipo:</label>
+        {{#if product.type}}
+        <select name="type">
+            <option value="{{product.type}}">{{product.type}}</option>
+            <option value="Risografia">Risografia</option>
+            <option value="Impressão Laser">Impressão Laser</option>
+            <option value="Encadernação">Encadernação</option>
+            <option value="Sublimação">Sublimação</option>
+            <option value="Girolaser">Girolaser</option>
+            <option value="Outros">Outros</option>
+        </select>
+        {{else}}
+        <select name="type">
+            <option value="">Selecione um tipo</option>
+            <option value="Risografia">Risografia</option>
+            <option value="Impressão Laser">Impressão Laser</option>
+            <option value="Encadernação">Encadernação</option>
+            <option value="Sublimação">Sublimação</option>
+            <option value="Girolaser">Girolaser</option>
+            <option value="Outros">Outros</option>
+        </select>
+        {{/if}}
+    </div>
+    <input type="submit" value="Editar">
+</form>

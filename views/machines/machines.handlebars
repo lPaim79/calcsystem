@@ -1,0 +1,38 @@
+<h1>Máquinas</h1>
+<div class="machines-container">
+    <div class="actions">
+        <i><a title="Página Inicial" href="/"><span class="material-symbols-outlined">home</span></a></i>
+        <i><a title="Voltar" href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
+        <i><a title="Nova Máquina" href="/createmachine"><span class="material-symbols-outlined">add_circle</span></a></i>
+    </div>
+    {{#if machines}}
+        <table class="clients-table">
+        <tr>
+            <th>Nome</th>
+            <th>Hora Máquina</th>
+            <th>Tempo preparo</th>
+            <th>Largura</th>
+            <th>Altura</th>
+            <th>Ações</th>
+        </tr>
+        {{#each machines}}
+        <tr>
+            <td>{{this.name}}</a></td>
+            <td>R$ {{formatPrice this.hour_price}}</td>
+            <td>{{this.preparation_time}}min</td>
+            <td>{{this.width}}mm</td>
+            <td>{{this.height}}mm</td>
+            <td>
+            <div class="actions">
+                <a title="Visualizar Máquina" href="/machine/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
+                <a title="Editar Máquina" href="/machineedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                <a title="Remover Máquina" href="/machines/remove/{{this.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+            </div>
+        </td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não existem máquinas cadastradas</h3>
+    {{/if}}
+</div>

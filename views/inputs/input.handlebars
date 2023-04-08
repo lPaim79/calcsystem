@@ -1,0 +1,30 @@
+<div id="input-page">
+    <a href="/inputs">Voltar</a>
+    <div class="container">
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Rendimento</th>
+                <th>Valor unit</th>
+                <th>Fornececor</th>
+            </tr>
+            <tr>
+                <td>{{input.name}}</td>
+                <td>{{input.description}}</td>
+                <td>{{input.price}}</td>
+                <td>{{input.efficiency}}</td>
+                <td>{{input.unitprice}}</td>
+                <td>{{input.provider.name}}</td>
+            </tr>
+        </table>
+        
+        <div class="actions">
+            <a href="/inputedit/{{input.id}}">Editar</a>
+            <form action="/inputs/remove/{{input.id}}" method="POST">
+            <input type="submit" value="Remover">
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div id="machine-page">
+    <div class="container">
+        <div class="actions">
+            <a title="Voltar" href="/machines"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a title="Editar Máquina" href="/machineedit/{{machine.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a title="Remover Máquina" href="/machines/remove/{{machine.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+        </div>
+        <table>
+            <h1>{{machine.name}}</h1>
+            <tr>
+                <th>Hora-Máquina</th>
+                <th>Preparação Mínima</th>
+                <th>Largura Mídia</th>
+                <th>Altura Mídia</th>
+                <th>Descrição</th>
+            </tr>
+            <tr>
+                <td>R$ {{formatPrice machine.hour_price}}</td>
+                <td>{{machine.preparation_time}}</td>
+                <td>{{machine.width}}mm</td>
+                <td>{{machine.height}}mm</td>
+                <td>{{machine.description}}</td>
+            </tr>
+        </table>
+        <br>
+        {{#if machine.inputs}}    
+        <table>
+            <h3><a href="/inputs/">Insumos</a></h3>
+            <tr>
+                <th>Nome</th>
+                <th>Valor</th>
+                <th>Rendimento</th>
+                <th>Valor Unitário</th>
+            </tr>
+            {{#each machine.inputs}}
+            <tr>
+                <td>{{this.name}}</td>
+                <td>R$ {{formatPrice this.price}}</td>
+                <td>{{this.efficiency}}</td>
+                <td>R$ {{formatPrice this.unitprice}}</td>
+            </tr>
+            {{/each}}
+    </table>
+    <a title="Cadastrar Insumo" href="/createmachineinput/{{machine.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+    {{else}}
+    <h4>Não há insumos</h4>
+    <a title="Cadastrar Insumo" href="/createmachineinput/{{machine.id}}"><span class="material-symbols-outlined">add_circle</span></a>
+    {{/if}}
+    
+    </div>
+    
+</div>

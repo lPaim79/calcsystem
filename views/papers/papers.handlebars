@@ -1,0 +1,49 @@
+<h1>Papéis</h1>
+<div class="papers-container">
+    <div class="actions">
+        <i><a href="/"><span class="material-symbols-outlined">home</span></a></i>
+        <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
+        <i><a href="/createpaper"><span class="material-symbols-outlined">add_circle</span></a></i>
+    </div> 
+    {{#if papers}}
+    <table class="papers-class">
+    <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Largura</th>
+        <th>Altura</th>
+        <th>Cor</th>
+        <th>Gramatura</th>
+        <th>Valor</th>
+        <th>Quantidade</th>
+        <th>Valor unit.</th>
+        <th>Fornecedor</th>
+        <th>Ações</th>
+    </tr>
+
+    {{#each papers}}
+    <tr>
+        <td><span class="bold"><a href="/paper/{{this.id}}">{{this.name}}</a></span></td>
+        <td>{{this.description}}</td>
+        <td>{{this.width}}</td>
+        <td>{{this.height}}</td>
+        <td>{{this.color}}</td>
+        <td>{{this.grammage}}</td>
+        <td>R$ {{formatPrice this.price}}</td>
+        <td>{{this.efficiency}}</td>
+        <td>R$ {{formatPrice this.unitprice}}</td>
+        <td>{{this.provider.name}}</td>
+        <td>
+            <div class="actions">
+                <a href="/paper/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
+                <a href="/paperedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                <a href="/papers/remove/{{this.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+            </div>
+        </td>
+    </tr>        
+    {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há papéis cadastrados!</h3>
+    {{/if}}
+</div>

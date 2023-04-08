@@ -1,0 +1,41 @@
+<h1>Produtos</h1>
+<div class="products-container">
+    <a href="/"><span class="material-symbols-outlined">
+home
+</span></a>
+    <a href="/createproduct"><span class="material-symbols-outlined">
+add_circle
+</span></a>
+    {{#if products}}
+    <table class="products-class">
+    <tr>
+        <th>Cod</th>
+        <th>Produto</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Peso</th>
+        <th>Tipo</th>
+        <th>Ações</th>
+    </tr>
+
+    {{#each products}}
+    <tr>
+        <td>{{this.id}}</td>
+        <td><span class="bold"><a href="/product/{{this.id}}">{{this.name}}</a></span></td>
+        <td>{{this.description}}</td>
+        <td>R$ {{formatPrice this.price}}</td>
+        <td>{{this.weight}}</td>
+        <td>{{this.type}}</td>
+        <td>
+            <div class="actions">
+                <a href="/productedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                <a href="/products/remove/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
+            </div>
+        </td>
+    </tr>        
+    {{/each}}
+    </table>
+    {{else}}
+    <h3>Nenhum produto cadastrado</h3>
+    {{/if}}
+</div>

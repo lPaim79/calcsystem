@@ -1,0 +1,48 @@
+<h1>Orçamentos</h1>
+<div class="clients-container">
+    <div class="actions">
+        <a title="Página Inicial" href="/"><span class="material-symbols-outlined">home</span></a>
+        <a title="Novo Orçamento" href="/createbudget"><span class="material-symbols-outlined">add_circle</span></a>
+    </div>      
+    {{#if budgets}}
+    <table class="budgets-table">
+        <tr>
+            <th>Data</th>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Produto</th>
+            <th>Markup</th>
+            <th>Valor</th>
+            <th>Ações</th>
+        </tr>
+
+        {{#each budgets}}
+        
+        <tr>
+            <td>{{formatDate this.date}}</td>
+            <td>{{this.id}}</td>
+            {{#if this.client.fantasy}}
+            <td>{{this.client.fantasy}}</td>
+            {{else}}
+            <td>{{this.client.name}}</td>
+            {{/if}}
+            <td>{{this.name}}, {{this.quantity}} un</td>
+            <td>{{this.markup}}</td>
+            <td>R$ {{formatPrice this.price}}</td>
+            <td>
+                <div class="actions">
+                    <a title="Mostrar Pedido" href="/budget/{{this.id}}"><span class="material-symbols-outlined">order_play</span></a>
+                    <a title="Aprovar Pedido" href="/budgets/approved/{{this.id}}"><span class="material-symbols-outlined">done_outline</span></a>
+                    <a title="Editar Pedido" href="/budgetedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                    <a title="Remover Pedido" href="/budgets/remove/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a title="Mostar Cliente" href="/client/{{this.client.id}}"><span class="material-symbols-outlined">person</span></a>
+                    <a title="Duplicar Pedido" href="/budgets/clone/{{this.id}}"><span class="material-symbols-outlined">file_copy</span></a>
+                </div>                
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há orçamentos cadastrados!</h3>
+    {{/if}}
+</div>

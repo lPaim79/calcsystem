@@ -1,0 +1,44 @@
+<h1>Materiais</h1>
+<div class="materials-container">
+    <div class="actions">
+        <i><a href="/"><span class="material-symbols-outlined">home</span></a></i>
+        <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
+        <i><a href="/creatematerial"><span class="material-symbols-outlined">add_circle</span></a></i>
+    </div> 
+    {{#if materials}}
+    <table class="table">
+        <tr>
+            <th>Nome</th>
+            <th>Largura</th>
+            <th>Altura</th>
+            <th>Cor</th>
+            <th>Valor</th>
+            <th>Rendimento</th>
+            <th>Valor Unit.</th>
+            <th>Fornecedor</th>
+            <th>Ações</th>
+        </tr>
+        {{#each materials}}
+        <tr>
+            <td><a href="/material/{{this.id}}">{{this.name}}</a></td>
+            <td>{{this.width}}mm</td>
+            <td>{{this.height}}mm</td>
+            <td>{{this.color}}</td>
+            <td>R$ {{formatPrice this.price}}</td>
+            <td>{{this.efficiency}}</td>
+            <td>R$ {{formatSmallPrice this.unitprice}}</td>
+            <td>{{this.provider.name}}</td>
+            <td>
+                <div class="actions">
+                <a href="/material/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
+                <a href="/materialedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+                <a href="/materials/remove/{{this.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+            </div>
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+    {{else}}
+    <h3>Não há materiais cadastrados</h3>
+    {{/if}}
+</div>

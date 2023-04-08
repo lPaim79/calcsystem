@@ -1,0 +1,37 @@
+<h1>Cadastro de Produtos</h1>
+<a href="/products"><span class="material-symbols-outlined">
+undo
+</span></a>
+<form action="/insertproduct" method="POST" class="form">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Nome do produto">
+    </div>
+    <div class="form-control">
+        <label for="description">Descrição:</label>
+        <input type="text" name="description" placeholder="Descrição do produto">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="float" name="price" placeholder="Valor do produto">
+    </div>
+    <div class="form-control">
+        <label for="weight">Peso:</label>
+        <input type="float" name="weight" placeholder="Peso do produto">
+    </div>
+    <div class="form-control">
+        <label for="type">Tipo:</label>
+        <select name="type">
+            <option value=''>Selecione um tipo</option>
+            <option value='Risografia'>Risografia</option>
+            <option value='Impressão Laser'>Impressão Laser</option>
+            <option value='Encadernação'>Encadernação</option>
+            <option value='Sublimação'>Sublimação</option>
+            <option value='Girolaser'>Girolaser</option>
+            <option value='Outros'>Outros</option>
+        </select>
+    </div>
+    <div class="form-control">
+    <input type="submit" value="Cadastrar">
+    </div>
+</form>

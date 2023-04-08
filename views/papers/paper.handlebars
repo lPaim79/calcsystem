@@ -1,0 +1,33 @@
+<div id="paper-page">
+    <div class="container">
+        <div class="actions">
+            <a href="/papers"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a href="/paperedit/{{paper.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
+            <a href="/papers/remove/{{paper.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
+        </div>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Largura</th>
+                <th>Altura</th>
+                <th>Cor</th>
+                <th>Gramatura</th>
+                <th>Valor</th>
+                <th>Quantidade</th>
+                <th>Valor unit</th>
+                <th>Fornececor</th>
+            </tr>
+            <tr>
+                <td>{{paper.name}}</td>
+                <td>{{paper.width}}</td>
+                <td>{{paper.height}}</td>
+                <td>{{paper.color}}</td>
+                <td>{{paper.grammage}}</td>
+                <td>R$ {{formatPrice paper.price}}</td>
+                <td>{{paper.efficiency}}</td>
+                <td>R$ {{formatPrice paper.unitprice}}</td>
+                <td>{{paper.provider.name}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
