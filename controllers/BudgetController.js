@@ -372,15 +372,21 @@ module.exports = {
 
     async savebudgettatic(req, res) {
         const id = req.params.id
-        var budget = await Budget.findOne({
+        var totalprints = 0;
+        const budget = await Budget.findOne({
+            where: { id } ,
             include: [
                 {
-                    associationType: 'prints',
-                    values: 'width , height',
-                },
-            ], where: { id }
+                    association: 'prints',
+                    attributes: ['width' , 'height', 'quantity', 'sides'],
+                    required: true, include: {
+                        association: 'printer',
+                    }
+                },               
+                        
+            ]
         })
-        //>>const printer = await Printer.find
+       
         const { name, description, minimun_value, preparation_time, loss, capacity, price, typequantity } = req.body
 
         if (!budget) {
@@ -391,39 +397,46 @@ module.exports = {
         );
 
         const tatic_id = tatic.id
-
+        var time = 0
         switch (typequantity) {
             case 'total':
                 var amount = price
-                var time = 60 / tatic.capacity
+                if (amount < minimun_value) {
+                    amount = minimun_value
+                }
+                time = 60 / tatic.capacity
                 break
             case 'unit':
-                var time = ((parseInt(budget.quantity) + parseInt(tatic.loss)) / tatic.capacity) + (tatic.preparation_time / 60)
-                var amount = price * time
+                time = ((parseInt(budget.quantity) + parseInt(tatic.loss)) / tatic.capacity) + (tatic.preparation_time / 60)
+                var amount = price * (time / 60)
                 if (amount < minimun_value) {
                     amount = minimun_value
                 }
                 break
             case 'print':
-                const prints = await Print.findAll({
-                    where: { id: budget_id }
-                })
-                for (i=0; i<prints.length; i++){
-                    let print =+ prints[i].quantity
+                var prints_quantity = 0
+                var format
+                for (i = 0; i < budget.prints.length; i++) {
+                    const aux = await (budget.prints[i].width / budget.prints[i].printer.width) * (budget.prints[i].height / budget.prints[i].printer.height)
+                    const aux2 = await (budget.prints[i].width / budget.prints[i].printer.height) * (budget.prints[i].height / budget.prints[i].printer.width) 
+                    if (aux > aux2) {
+                        format = aux
+                    }else{
+                        format = aux2
+                    }
+                    prints_quantity += (budget.prints[i].quantity / format) * budget.prints[i].sides
                 }
-                const aux = (budget.print.width / budget.printer.width) * (budget.print.height / budget.printer.height)
-                const aux2 = (budget.print.width / budget.printer.height) * (budget.print.height / budget.printer.width) 
-                if (aux > aux2) {
-                    const format = aux
-                }else{
-                    const format = aux2
+                time = (((parseInt(budget.quantity) + parseInt(tatic.loss)) * prints_quantity) / tatic.capacity) + (tatic.preparation_time / 60)
+                //time = ((((budget.quantity  + tatic.loss) * prints_quantity) * budget.prints.sides) / tatic.capacity) + (tatic.preparation_time / 60)
+                var amount = price * (time / 60)
+                if (amount < minimun_value) {
+                    amount = minimun_value
                 }
-                var time = ((((budget.quantity * print.quantity * print.sides/ aux)) + tatic.loss) / tatic.capacity) + (tatic.preparation_time / 60)
-                var amount = price * time
                 break
         }
         const hourprice = price
         const budget_id = id
+        console.log(amount)
         const budgettatic = await Budgettatic.create({ time, hourprice, amount, budget_id, tatic_id })
 
         res.redirect(`/budget/${id}`)
