@@ -21,17 +21,7 @@ module.exports = {
             const { name, quantity, description, markup, obs, prevision, type, client_id } = req.body
             const createbudget = await Budget.create({ date, name, quantity, description, markup, obs, prevision, type, client_id })
             const id = createbudget.id
-            const budget = await Budget.findOne({
-                where: { id },
-                include: [
-                    {
-                        association: 'client',
-                        attributes: ['name'],
-                        required: false
-                    }]
-            })
-            // res.redirect('/budgets')
-            res.render('budgets/budget', { budget })
+             res.redirect('/budget/' +id)
         }
         catch (error) {
             res.status(400).json({ error })
@@ -268,7 +258,7 @@ module.exports = {
                 },
             ],
         })
-
+         
         try {
             let date = new Date()
             const prev = await budget.prevision
@@ -300,11 +290,11 @@ module.exports = {
 
     async clonebudget(req, res) {
         const { id } = req.params
-        const budget = await Budget.findOne({
+        var budget = await Budget.findOne({
             include: [
                 {
                     association: 'client',
-                    attributes: ['name'],
+                    attributes: ['id'],
                     required: false
                 },
                 {
@@ -330,8 +320,68 @@ module.exports = {
             ],
             where: { id }
         })
-        console.log(budget)
-        //res.render('budgets/budget', { budget })
+        var date = new Date()
+        var name = budget.name
+        var quantity = budget.quantity
+        var description = budget.description
+        var markup = budget.markup
+        var obs = budget.obs
+        var prevision = budget.prevision
+        var type = budget.type
+        var client_id = budget.client.id
+        var createbudget = await Budget.create({ date, name, quantity, description, markup, obs, prevision, type, client_id })
+        
+        var budget_id = createbudget.id
+        if (budget.prints){
+            const createprint = (async function () {
+                for (i=0; i<budget.prints.length; i++) {
+                    description = budget.prints[i].description
+                    quantity = budget.prints[i].quantity
+                    var sides = budget.prints[i].sides
+                    var width = budget.prints[i].width
+                    var height = budget.prints[i].height
+                    var paperwidth = budget.prints[i].paperwidth
+                    var paperheight = budget.prints[i].paperheight
+                    var format = budget.prints[i].format
+                    var printformat = budget.prints[i].printformat
+                    var color = budget.prints[i].color
+                    var coverage = budget.prints[i].coverage
+                    var amount = budget.prints[i].amount
+                    var paper_id = budget.prints[i].paper_id
+                    var printer_id = budget.prints[i].printer_id
+                }
+                const print = await Print.findOrCreate({
+                    where: { description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id }
+                })
+            })();
+        }
+       
+        if (budget.budgettatics){
+            const createbudgettatic = (async function () {
+                for (i=0; i<budget.budgettatics.length; i++) {
+                    var time = budget.budgettatics[i].time
+                    var hourprice = budget.budgettatics[i].hourprice
+                    var amount = budget.budgettatics[i].amount
+                    var budget_id = createbudget.id
+                    var tatic_id = budget.budgettatics[i].tatic_id
+                }
+                const budgettatic = await Budgettatic.create({ time, hourprice, amount, budget_id, tatic_id })
+            })();
+        }        
+
+        if (budget.budgetmaterials){
+            const createbudgetmaterial = (async function () {
+                for (i=0; i<budget.budgetmaterials.length; i++) {
+                    var material_id = await budget.budgetmaterials[i].material_id
+                    quantity = await budget.budgetmaterials[i].quantity
+                    var quantforunit = await budget.budgetmaterials[i].quantforunit
+                    var amount = await budget.budgetmaterials[i].amount
+                }
+                const budgetmaterial = await Budgetmaterial.create({ budget_id, material_id, quantity, quantforunit, amount })
+            })();
+        }   
+        
+        res.redirect('/budget/' +createbudget.id)
     },
 
     //TATIC//
@@ -374,26 +424,25 @@ module.exports = {
         const id = req.params.id
         var totalprints = 0;
         const budget = await Budget.findOne({
-            where: { id } ,
+            where: { id },
             include: [
                 {
                     association: 'prints',
-                    attributes: ['width' , 'height', 'quantity', 'sides'],
+                    attributes: ['width', 'height', 'quantity', 'sides', 'paperwidth', 'paperheight', 'printformat'],
                     required: true, include: {
                         association: 'printer',
                     }
-                },               
-                        
+                },
             ]
         })
-       
-        const { name, description, minimun_value, preparation_time, loss, capacity, price, typequantity } = req.body
+
+        const { name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess } = req.body
 
         if (!budget) {
             return res.status(400).json({ error: 'Orçamento não localizado!' })
         }
 
-        const tatic = await Tatic.create({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity }
+        const tatic = await Tatic.create({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }
         );
 
         const tatic_id = tatic.id
@@ -415,28 +464,26 @@ module.exports = {
                 break
             case 'print':
                 var prints_quantity = 0
-                var format
+
+                //soma a quantidade de impressões
                 for (i = 0; i < budget.prints.length; i++) {
-                    const aux = await (budget.prints[i].width / budget.prints[i].printer.width) * (budget.prints[i].height / budget.prints[i].printer.height)
-                    const aux2 = await (budget.prints[i].width / budget.prints[i].printer.height) * (budget.prints[i].height / budget.prints[i].printer.width) 
-                    if (aux > aux2) {
-                        format = aux
-                    }else{
-                        format = aux2
-                    }
-                    prints_quantity += (budget.prints[i].quantity / format) * budget.prints[i].sides
+                    prints_quantity += await (budget.prints[i].quantity / budget.prints[i].printformat) * (budget.prints[i].sides * budget.quantity)
                 }
-                time = (((parseInt(budget.quantity) + parseInt(tatic.loss)) * prints_quantity) / tatic.capacity) + (tatic.preparation_time / 60)
-                //time = ((((budget.quantity  + tatic.loss) * prints_quantity) * budget.prints.sides) / tatic.capacity) + (tatic.preparation_time / 60)
-                var amount = price * (time / 60)
+
+                //calcula o tempo do processo
+                time = ((prints_quantity + tatic.loss) / tatic.capacity) + (tatic.preparation_time / 60)
+
+                //calcula o valor do processo -> Revisar o cálculo
+                var amount = price * time
                 if (amount < minimun_value) {
                     amount = minimun_value
                 }
                 break
         }
+        console.log(prints_quantity, tatic.loss, tatic.capacity, tatic.preparation_time, time )
+
         const hourprice = price
         const budget_id = id
-        console.log(amount)
         const budgettatic = await Budgettatic.create({ time, hourprice, amount, budget_id, tatic_id })
 
         res.redirect(`/budget/${id}`)
@@ -444,14 +491,26 @@ module.exports = {
 
     async removetatic(req, res) {
         var id = req.params.id
-        const budgettatic = await Budgettatic.findOne({ where: { id } })
-        const budget_id = budgettatic.budget_id
+        const budgettatic = await Budgettatic.findOne({ where: { id } ,
+            include: [
+                {
+                    association: 'tatic',
+                    attributes: ['id','singleprocess']
+                },                
+            ]
+        })
+        var budget_id = budgettatic.budget_id
+        if (!budgettatic.tatic.singleprocess){
+            const id = budgettatic.tatic.id
+            const tatic = await Tatic.destroy({ where: { id } })
+        }
+
         await budgettatic.destroy({ where: { id } })
-        id = budget_id
+        id = budgettatic.budget_id
         res.redirect('/budget/' + id)
     },
 
-    async taticedit(req, res) {
+    async budgettaticedit(req, res) {
         var id = req.params.id
         const budgettatic = await Budgettatic.findOne({
             where: { id },
@@ -465,16 +524,82 @@ module.exports = {
             ],
         })
         const tatics = await Tatic.findAll()
+        console.log(budgettatic.tatic)
         res.render('budgets/budgettaticedit', { budgettatic, tatics })
     },
 
     async updatetatic(req, res) {
         try {
-            const { id, name, description, minimun_value, preparation_time, loss, capacity, price, quantforunit } = req.body
-            const tatic = await Tatic.update({ name, description, minimun_value, preparation_time, loss, capacity, price }, { where: { id } })
+            const { id, name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess} = req.body
+            const tatic = await Tatic.update({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }, { where: { id } })
+
+            try {
+                const id = req.body.budget_id
+                var totalprints = 0;
+                var budget = await Budget.findOne({
+                where: { id },
+                    include: [
+                        {
+                            association: 'prints',
+                            attributes: ['width', 'height', 'quantity', 'sides', 'paperwidth', 'paperheight', 'printformat'],
+                            required: true, include: {
+                                association: 'printer',
+                            }
+                        },
+
+                    ]
+                })
+            } catch (error) {
+                console.log(error)
+            }           
+
+            const tatic_id = tatic.id
+        var time = 0
+        switch (typequantity) {
+            case 'total':
+                var amount = price
+                if (amount < minimun_value) {
+                    amount = minimun_value
+                }
+                time = 60 / tatic.capacity
+                break
+            case 'unit':
+                time = ((parseInt(budget.quantity) + parseInt(tatic.loss)) / tatic.capacity) + (tatic.preparation_time / 60)
+                var amount = price * (time / 60)
+                if (amount < minimun_value) {
+                    amount = minimun_value
+                }
+                break
+            case 'print':
+                var prints_quantity = 0
+
+                //soma a quantidade de impressões
+                for (i = 0; i < budget.prints.length; i++) {
+                    prints_quantity += await (budget.prints[i].quantity / budget.prints[i].printformat) * (budget.prints[i].sides * budget.quantity)
+                }
+
+                //calcula o tempo do processo
+                time = ((prints_quantity + tatic.loss) / tatic.capacity) + (tatic.preparation_time / 60)
+
+                //calcula o valor do processo -> Revisar o cálculo
+                var amount = price * time
+                if (amount < minimun_value) {
+                    amount = minimun_value
+                }
+                break
+        }
+        console.log(prints_quantity, tatic.loss, tatic.capacity, tatic.preparation_time, time )
+
+        const hourprice = price
+
+        const budgettatic = await Budgettatic.update({ time, hourprice, amount, budget_id, tatic_id }, { where: { tatic_id } })
+        
+
         } catch (error) {
             console.log(error)
-        }
+        }    
+        const id = req.body.budget_id
+        res.redirect('/budget/' +id)    
     },
 
     //PRINT//
@@ -504,60 +629,59 @@ module.exports = {
         if (!quantity) {
             return res.status(400).json({ error: 'É obrigatório informar a quantidade!' })
         }
-        if (!width) {
-            return res.status(400).json({ error: 'É obrigatório informar a largura!' })
-        }
-        if (!height) {
-            return res.status(400).json({ error: 'É obrigatório informar a altura!' })
+        if (!width || !height) {
+            return res.status(400).json({ error: 'É obrigatório informar o tamanho final!' })
         }
         if (!coverage) {
             return res.status(400).json({ error: 'É obrigatório informar a área de cobertura!' })
         }
-
+        
         const printer = await Printer.findOne({
             include: 'inputs',
             where: { id: printer_id }
         })
-
         const paper = await Paper.findByPk(paper_id)
-        const format1 = await (parseInt(paper.height / height)) * (parseInt(paper.width / width))
-        const format2 = await (parseInt(paper.height / width)) * (parseInt(paper.width / height))
-        if (format1 > format2) {
-            var format = await format1
+
+        //verifica se o tamanho do papel é compatível com a impressora ou necessita de corte
+        if (paper.width <= printer.width || paper.height <= printer.height) {
+            var paperwidth = await paper.width
+            var paperheight = await paper.height
         } else {
-            var format = await format2
+            var { paperwidth, paperheight } = req.body
+            console.log(paperwidth, paperheight)
         }
 
-        if (paper.height > printer.height && paper.width > printer.width) {
-            const aux1 = await (parseInt(printer.height / height)) * (parseInt(printer.width / width))
-            const aux2 = await (parseInt(printer.height / width)) * (parseInt(printer.width / height))
-            if (aux1 > aux2) {
-                var printformat = aux1
-                const largura = await parseInt(printer.height / height)
-                const altura = await parseInt(printer.width / width)
-                var paperheight = await height * largura
-                var paperwidth = await width * altura
-                const aux3 = await (parseInt(paper.height / paperheight))
-                const aux4 = await (parseInt(paper.width / paperwidth))
-                var paperformat = aux3 * aux4
-                var aprov = await largura * altura
-            } else {
-                var printformat = aux2
-                const largura = await parseInt(printer.width / height)
-                const altura = await parseInt(printer.height / width)
-                var paperheight = await height * largura
-                var paperwidth = await width * altura
-                const aux3 = await (parseInt(paper.width / paperheight))
-                const aux4 = await (parseInt(paper.height / paperwidth))
-                var paperformat = await aux3 * aux4
-                var aprov = await largura * altura
-            }
+        if (!paperwidth || !paperheight) {
+            return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
+        }
+        
+        /* if ((paperheight < height || paperwidth < width) && (paperwidth < height || paperheight < width)) {
+            console.log(paperwidth , paperheight)
+            console.log(height , width)
+            return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
+        }
+        return */
+       
+        //texta os dois sentidos do papel em relação ao original para descobrir o melhor aproveitamento determinando o formato
+        var aux1 = await (parseInt(paper.height / height)) * (parseInt(paper.width / width))
+        var aux2 = await (parseInt(paper.height / width)) * (parseInt(paper.width / height))
+        if (aux1 > aux2) {
+            var format = await aux1
         } else {
-            var printformat = format
+            var format = await aux2
+        }
+
+        //caLcula a quantidade de originais por impressão
+        aux1 = await (parseInt(paperheight / height)) * (parseInt(paperwidth / width))
+        aux2 = await (parseInt(paperheight / width)) * (parseInt(paperwidth / height))
+        if (aux1 > aux2) {
+            var printformat = aux1
+        } else {
+            var printformat = aux2
+        }
+        if (paper.height < printer.height && paper.width < printer.width) {
             var paperformat = 1
-            var aprov = format
-            var paperheight = paper.height
-            var paperwidth = paper.width
+            var aprov = printformat
         }
 
         var papercoust = (paper.unitprice / format) * quantity
@@ -566,48 +690,22 @@ module.exports = {
                 input += await printer.inputs[index].unitprice;
             }
         }
+        
         if (paperheight > 320 || paperwidth > 320) {
-            var printcoust = await (quantity / aprov) * (((input * 5 / 100) * coverage) * 2 * sides)
+            var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * 2 * sides)
             var amount = await papercoust + printcoust
+            console.log('papel maior', amount)
         } else {
-            var printcoust = await (quantity / aprov) * (((input * 5 / 100) * coverage) * sides)
+            var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * sides)
             var amount = await papercoust + printcoust
+            console.log('papel menor ', amount)
         }
-
+        
         const print = await Print.findOrCreate({
-            where: { description, quantity, sides, width, height, format, color, coverage, amount, paper_id, printer_id, budget_id }
+            where: { description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id }
         })
 
-        const budget = await Budget.findOne({
-            where: { id },
-            include: [
-                {
-                    association: 'client',
-                    attributes: ['name'],
-                    required: false
-                },
-                {
-                    association: 'budgettatics',
-                    required: false, include: {
-                        association: 'tatic'
-                    }
-                },
-                {
-                    association: 'prints',
-                    required: false, include: {
-                        association: 'paper'
-                    }
-                },
-                {
-                    association: 'budgetmaterials',
-                    required: false,
-                    include: {
-                        association: 'material'
-                    }
-                },
-            ],
-        });
-        res.render('budgets/budget', { budget })
+        res.redirect('/budget/' + id)
     },
 
     async removeprint(req, res) {
@@ -617,6 +715,27 @@ module.exports = {
         await print.destroy({ where: { id } })
         id = budget_id
         res.redirect('/budget/' + id)
+    },
+
+    async editprint(req, res) {
+        var id = req.params.id
+        const print = await Print.findOne({ where: {id},
+            include:
+            [
+                {
+                    association: 'budget'
+                },
+                {
+                    association: 'printer'
+                },
+                {
+                    association: 'paper'
+                }               
+            ]        
+        })
+        const papers = await Paper.findAll()
+        const printers = await Printer.findAll()
+        res.render(`budgets/printedit`, { print, printers, papers })
     },
 
     //MATERIAL

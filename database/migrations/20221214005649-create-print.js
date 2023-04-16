@@ -30,7 +30,19 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: true,
       },
+      paperwidth: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+      },
+      paperheight: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+      },
       format: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      printformat: {
         type: Sequelize.INTEGER,
         allowNull: true,
       },

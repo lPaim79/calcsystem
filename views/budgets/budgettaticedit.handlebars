@@ -4,6 +4,7 @@
 
 <form action="/updatetatict/{{budget.id}}" method="POST" class="form">
 <input type="hidden" name="id" value="{{budgettatic.tatic.id}}">
+<input type="hidden" name="budget_id" value="{{budgettatic.budget.id}}">
     <div class="form-control">
         <label for="name">Nome:</label>
         <input type="text" name="name" placeholder="Digite o nome" value="{{budgettatic.tatic.name}}">
@@ -33,12 +34,49 @@
         <input type="text" name="price" placeholder="Digite o valor hora" value="{{budgettatic.tatic.price}}">
     </div>
     <div>
-        <input type="radio" id='total' name="quantforunit" value="total">
+        {{#switch budgettatic.tatic.typequantity}}
+        {{#case 'total'}}
+        <input type="radio" id='total' name="typequantity" value="total" checked>
         <label for="total">Total</label>
-        <input type="radio" id='unit' name="quantforunit" value="unit">
+        <input type="radio" id='unit' name="typequantity" value="unit">
         <label for="unit">Por unidade do orçamento</label>
-        <input type="radio" id='print' name="quantforunit" value="print" checked>
+        <input type="radio" id='print' name="typequantity" value="print">
         <label for="print">Por impressões</label>
+        {{/case}}
+        {{#case 'unit'}}
+        <input type="radio" id='total' name="typequantity" value="total">
+        <label for="total">Total</label>
+        <input type="radio" id='unit' name="typequantity" value="unit" checked>
+        <label for="unit">Por unidade do orçamento</label>
+        <input type="radio" id='print' name="typequantity" value="print">
+        <label for="print">Por impressões</label>
+        {{/case}}
+        {{#case 'print'}}
+        <input type="radio" id='total' name="typequantity" value="total">
+        <label for="total">Total</label>
+        <input type="radio" id='unit' name="typequantity" value="unit">
+        <label for="unit">Por unidade do orçamento</label>
+        <input type="radio" id='print' name="typequantity" value="print" checked>
+        <label for="print">Por impressões</label>
+        {{/case}}
+        {{/switch}}
+    </div>
+    <br>
+    <div>
+        {{#switch budgettatic.tatic.singleprocess}}
+        {{#case false}}
+        <input type="radio" id='false' name="singleprocess" value='false' checked>
+        <label for="false">Único</label>
+        <input type="radio" id='true' name="singleprocess" value='true'>
+        <label for="true">Reutilizável</label>
+        {{/case}}
+        {{#case true}}
+        <input type="radio" id='false' name="singleprocess" value='false'>
+        <label for="false">Único</label>
+        <input type="radio" id='true' name="singleprocess" value='true' checked>
+        <label for="true">Reutilizável</label>
+        {{/case}}
+        {{/switch}}
     </div>
     <div class="form-control">
     <input type="submit" value="Atualizar">

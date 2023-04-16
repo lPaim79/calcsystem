@@ -56,6 +56,8 @@
                 <th>Largura</th>
                 <th>Altura</th>
                 <th>Formato</th>
+                <th>Papel</th>
+                <th>Originais</th>
                 <th>Cobertura</th>
                 <th>Custo</th>
                 <th>Ações</th>
@@ -69,10 +71,15 @@
                 <td>{{this.width}}</td>
                 <td>{{this.height}}</td>
                 <td>{{this.format}}</td>
+                <td>{{this.paperwidth}} x {{this.paperheight}}</td>
+                <td>{{this.printformat}}</td>
                 <td>{{this.coverage}}</td>
                 <td>R$ {{formatPrice this.amount}}</td>
                 <td><a title="Excluir Impressão" href="/deleteprint/{{this.id}}"><span
-                            class="material-symbols-outlined">delete</span></a></td>
+                            class="material-symbols-outlined">delete</span></a>
+                    <a title="Editar Impressão" href="/editprint/{{this.id}}"><i><span
+                                class="material-symbols-outlined">edit</span></i></a>
+                                </td>
             </tr>
             {{/each}}
         </table>
@@ -113,7 +120,7 @@
                 <td>
                     <a title="Excluir Processo" href="/deletetatic/{{this.id}}"><span
                             class="material-symbols-outlined">delete</span></a>
-                    <a title="Editar Processo" href="/taticedit/{{this.id}}"><i><span
+                    <a title="Editar Processo" href="/budgettaticedit/{{this.id}}"><i><span
                                 class="material-symbols-outlined">edit</span></i></a>
                 </td>
             </tr>

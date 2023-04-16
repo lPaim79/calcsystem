@@ -29,7 +29,8 @@ router.get('/deletetatic/:id', BudgetController.removetatic)
 router.get('/calculate/:id', BudgetController.calculate)
 router.get('/budgets/approved/:id', BudgetController.appoved)
 router.get('/budgets/clone/:id', BudgetController.clonebudget)
-router.get('/taticedit/:id', BudgetController.taticedit)
+router.get('/budgettaticedit/:id', BudgetController.budgettaticedit)
 router.post('/updatetatict', BudgetController.updatetatic)
+router.get('/editprint/:id', BudgetController.editprint)
 
 module.exports = router

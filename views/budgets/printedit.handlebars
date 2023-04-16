@@ -1,11 +1,11 @@
-<h1>Inserir impressão ao orçamento:</h1>
+<h1>Editar Impressão do orçamento:</h1>
 <h2>{{budget.name}}</h2>
 <a href="/budget/{{budget.id}}">Voltar</a>
-<form action="/savebudgetprint/{{budget.id}}" method="POST" class="form">
+<form action="/updatebudgetprint/{{budget.id}}" method="POST" class="form">
     <div class="form-control">
         <label for="printer_id">Impressora:</label>
         <select name="printer_id">
-            <option value=''>Selecione a Impressora</option>
+            <option value='{{print.printer.id}}'>{{print.printer.name}}</option>
             {{#each printers}}
             <option value="{{this.id}}">{{this.name}}</option>
             {{/each}}
@@ -14,7 +14,7 @@
     <div class="form-control">
         <label for="paper_id">Papel:</label>
         <select name="paper_id">
-            <option value=''>Selecione o Papel</option>
+            <option value='{{print.paper.id}}'>{{print.paper.name}}</option>
             {{#each papers}}
             <option value="{{this.id}}">{{this.name}}</option>
             {{/each}}
@@ -22,45 +22,66 @@
     </div>
     <div class="form-control">
         <label for="description">Descrição:</label>
-        <input type="text" name="description" placeholder="Digite a descrição">
+        <input type="text" name="description" placeholder="Digite a descrição" value="{{print.description}}">
     </div>
     <div class="form-control">
         <label for="quantity">Quantidade:</label>
-        <input type="text" name="quantity" placeholder="Quantidade por unidade">
+        <input type="text" name="quantity" placeholder="Quantidade por unidade" value="{{print.quantity}}">
     </div>
     <div class="form-control">
         <label for="sides">Lados:</label>
         <select name="sides">
+            {{#switch print.sides}}
+            {{#case '1'}}
+            <option value='{{budtet.print.sides}}'>Frente</option>
             <option value='1'>Frente</option>
             <option value='2'>Frente e Verso</option>
+            {{/case}}
+            {{#case '2'}}
+            <option value='{{budtet.print.sides}}'>Frente e Verso</option>
+            <option value='1'>Frente</option>
+            <option value='2'>Frente e Verso</option>
+            {{/case}}
+            {{/switch}}
         </select>
     </div>
     <div class="form-control">
         <label for="width">Largura:</label>
-        <input type="text" name="width" placeholder="Digite a largura">
+        <input type="text" name="width" placeholder="Digite a largura" value="{{print.width}}">
     </div>
     <div class="form-control">
         <label for="height">Altura:</label>
-        <input type="text" name="height" placeholder="Digite a altura">
+        <input type="text" name="height" placeholder="Digite a altura" value="{{print.height}}">
     </div>
     <div class="form-control">
         <label for="paperwidth">Largura do papel:</label>
-        <input type="text" name="paperwidth" placeholder="Digite a largura do papel">
+        <input type="text" name="paperwidth" placeholder="Digite a largura do papel" value="{{print.paperwidth}}">
     </div>
     <div class="form-control">
         <label for="paperheight">Altura do papel:</label>
-        <input type="text" name="paperheight" placeholder="Digite a altura do papel">
+        <input type="text" name="paperheight" placeholder="Digite a altura do papel" value="{{print.paperheight}}">
     </div>
     <div class="">
+        {{#switch print.color}}
+        {{#case '1'}}
         <label for="color">Cor:</label>
         <input type="radio" id='0' name="color" value=0>
         <label for="false">Monocromático</label>
         <input type="radio" id='1' name="color" value=1 checked>
         <label for="true">Colorido</label>
+        {{/case}}
+        {{#case '0'}}
+        <label for="color">Cor:</label>
+        <input type="radio" id='0' name="color" value=0 checked>
+        <label for="false">Monocromático</label>
+        <input type="radio" id='1' name="color" value=1>
+        <label for="true">Colorido</label>
+        {{/case}}
+        {{/switch}}
     </div>
     <div class="form-control">
         <label for="coverage">Cobertura:</label>
-        <input type="text" name="coverage" placeholder="Cobertura %">
+        <input type="text" name="coverage" placeholder="Cobertura %" value="{{print.coverage}}">
     </div>
     <div class="form-control">
     <input type="submit" value="Cadastrar">
