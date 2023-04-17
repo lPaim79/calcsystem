@@ -4,7 +4,8 @@ const Input = require('../models/Input')
 module.exports = {
     async insertPrinter(req, res) {
         try {
-            const { name, description, preparation_time, width, height, color, min_grammage, max_grammage, hour_price} = req.body
+            const { name, description, preparation_time, width, height, color, min_grammage, max_grammage} = req.body
+            const hour_price = req.body.hour_price.replace(",",".")
             const printer = await Printer.findOne({ where: { name } })
             if (printer) {
                 res.status(401).json({ massage: "Máquina já cadastrada!" })
@@ -66,7 +67,8 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { name, description, preparation_time, width, height, color, min_grammage, max_grammage, hour_price } = req.body
+            const { name, description, preparation_time, width, height, color, min_grammage, max_grammage } = req.body
+            const hour_price = req.body.hour_price.replace(",",".")
             let printer = await Printer.findOne({ where: { id } })
             if (!printer) {
                 res.status(401).json({ message: "Máquina não encontrada!" })
@@ -90,7 +92,8 @@ module.exports = {
     async saveprinterinput(req, res) {
         console.log('entrou')
         //const id = req.params.id
-        const { id, name, description, price, efficiency, provider_id } = req.body
+        const { id, name, description, efficiency, provider_id } = req.body
+        const  price = req.body.price.replace(",",".")
         const unitprice = await price / efficiency
 
         const printer = await Printer.findByPk(id)

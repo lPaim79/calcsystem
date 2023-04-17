@@ -50,6 +50,7 @@ module.exports = {
         const { id } = req.params
         const client = await Client.findOne({ where: { id }, include: { association: 'addresses' } })
 
+
         const orders = await Order.findAll(
             {
                 include: [

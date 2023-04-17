@@ -3,7 +3,8 @@ const Provider = require('../models/Provider')
 module.exports = {
     async insertPaper(req, res) {
         try {
-            const { name, description, width, height, color, grammage, price, efficiency, provider_id } = req.body
+            const { name, description, width, height, color, grammage, efficiency, provider_id } = req.body
+            const price = req.body.price.replace(",",".")
             const paper = await Paper.findOne({ where: { name } })
             if (paper) {
                 res.status(401).json({ massage: "Papel já cadastrado!" })
@@ -56,7 +57,8 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { name, description, width, height, color, grammage, price, efficiency, provider_id } = req.body
+            const { name, description, width, height, color, grammage, efficiency, provider_id } = req.body
+            const price = req.body.price.replace(",",".")
             let paper = await Paper.findOne({ where: { id } })
             console.log(price)
             if (!paper) {

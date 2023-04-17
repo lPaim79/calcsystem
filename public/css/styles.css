@@ -110,15 +110,15 @@
   table th{
     background-color: rgb(255,102,51);
     color: rgb(255,255,255);
-    max-width: 350px;
-    min-width: 50px;
+    max-width: 300px;
+    min-width: 30px;
     border: 1px solid #000;
     padding: 0.5em;
   }
 
   table td {
-    max-width: 350px;
-    min-width: 50px;
+    max-width: 300px;
+    min-width: 30px;
     border: 1px solid #000;
     padding: 0.5em;
   }
@@ -137,7 +137,7 @@
     border: 0.5px solid #000;
   }
   table {
-    min-width: 90%;
+    min-width: 95%;
   }
     
   form {

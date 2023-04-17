@@ -26,7 +26,8 @@ const Tatic = require('../models/Tatic')
     module.exports = {
         async insertTaticInput(req, res) {
             const tatic_id = req.body.id
-            const { name, description, price, efficiency, provider_id } = req.body
+            const { name, description, efficiency, provider_id } = req.body
+            const price = req.body.price.replace(",",".")
             const unitprice = price / efficiency
             
             const tatic = await Tatic.findByPk(tatic_id)

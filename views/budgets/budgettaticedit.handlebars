@@ -15,7 +15,7 @@
     </div>
     <div class="form-control">
         <label for="minimun_value">Valor Mínimo:</label>
-        <input type="text" name="minimun_value" placeholder="Digite o valor mínimo" value="{{budgettatic.tatic.minimun_value}}">
+        <input type="text" name="minimun_value" placeholder="Digite o valor mínimo" value="{{budgettatic.tatic.minimun_value}}" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="preparation_time">Tempo de preparação:</label>
@@ -31,7 +31,7 @@
     </div>
     <div class="form-control">
         <label for="price">Valor:</label>
-        <input type="text" name="price" placeholder="Digite o valor hora" value="{{budgettatic.tatic.price}}">
+        <input type="text" name="price" placeholder="Digite o valor hora" value="{{budgettatic.tatic.price}}" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div>
         {{#switch budgettatic.tatic.typequantity}}

@@ -436,8 +436,9 @@ module.exports = {
             ]
         })
 
-        const { name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess } = req.body
-
+        const { name, description, preparation_time, loss, capacity, typequantity, singleprocess } = req.body
+        const minumun_value = req.body.minumun_value.replace(",",".")
+        const price = req.body.price.replace(",",".")
         if (!budget) {
             return res.status(400).json({ error: 'Orçamento não localizado!' })
         }
@@ -530,7 +531,9 @@ module.exports = {
 
     async updatetatic(req, res) {
         try {
-            const { id, name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess} = req.body
+            const { id, name, description, preparation_time, loss, capacity, typequantity, singleprocess} = req.body
+            const minumun_value = req.body.minumun_value.replace(",",".")
+            const price = req.body.price.replace(",",".")
             const tatic = await Tatic.update({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }, { where: { id } })
 
             try {
@@ -738,6 +741,103 @@ module.exports = {
         res.render(`budgets/printedit`, { print, printers, papers })
     },
 
+    async updatebudgetprint(req, res){
+        const id = req.body.id
+        const budget_id = id
+        console.log(id, budget_id)
+
+        var input = 0
+        const { printer_id, paper_id, description, quantity, sides, width, height, color, coverage } = req.body
+
+        if (!printer_id) {
+            return res.status(400).json({ error: 'É obrigatório selecionar uma impressora!' })
+        }
+        if (!paper_id) {
+            return res.status(400).json({ error: 'É obrigatório selecionar um papel!' })
+        }
+        if (!description) {
+            return res.status(400).json({ error: 'É obrigatório informar a descrição!' })
+        }
+        if (!quantity) {
+            return res.status(400).json({ error: 'É obrigatório informar a quantidade!' })
+        }
+        if (!width || !height) {
+            return res.status(400).json({ error: 'É obrigatório informar o tamanho final!' })
+        }
+        if (!coverage) {
+            return res.status(400).json({ error: 'É obrigatório informar a área de cobertura!' })
+        }
+        
+        const printer = await Printer.findOne({
+            include: 'inputs',
+            where: { id: printer_id }
+        })
+        const paper = await Paper.findByPk(paper_id)
+
+        //verifica se o tamanho do papel é compatível com a impressora ou necessita de corte
+        if (paper.width <= printer.width || paper.height <= printer.height) {
+            var paperwidth = await paper.width
+            var paperheight = await paper.height
+        } else {
+            var { paperwidth, paperheight } = req.body
+            console.log(paperwidth, paperheight)
+        }
+
+        if (!paperwidth || !paperheight) {
+            return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
+        }
+        
+        /* if ((paperheight < height || paperwidth < width) && (paperwidth < height || paperheight < width)) {
+            console.log(paperwidth , paperheight)
+            console.log(height , width)
+            return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
+        }
+        return */
+       
+        //texta os dois sentidos do papel em relação ao original para descobrir o melhor aproveitamento determinando o formato
+        var aux1 = await (parseInt(paper.height / height)) * (parseInt(paper.width / width))
+        var aux2 = await (parseInt(paper.height / width)) * (parseInt(paper.width / height))
+        if (aux1 > aux2) {
+            var format = await aux1
+        } else {
+            var format = await aux2
+        }
+
+        //caLcula a quantidade de originais por impressão
+        aux1 = await (parseInt(paperheight / height)) * (parseInt(paperwidth / width))
+        aux2 = await (parseInt(paperheight / width)) * (parseInt(paperwidth / height))
+        if (aux1 > aux2) {
+            var printformat = aux1
+        } else {
+            var printformat = aux2
+        }
+        if (paper.height < printer.height && paper.width < printer.width) {
+            var paperformat = 1
+            var aprov = printformat
+        }
+
+        var papercoust = (paper.unitprice / format) * quantity
+        for (let index = 0; index < printer.inputs.length; index++) {
+            if (printer.inputs[index]) {
+                input += await printer.inputs[index].unitprice;
+            }
+        }
+        
+        if (paperheight > 320 || paperwidth > 320) {
+            var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * 2 * sides)
+            var amount = await papercoust + printcoust
+            console.log('papel maior', amount)
+        } else {
+            var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * sides)
+            var amount = await papercoust + printcoust
+            console.log('papel menor ', amount)
+        }
+        
+        const print = await Print.update({ description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id} , { where: { id } })
+
+        res.redirect('/budget/' + id)
+    },
+
     //MATERIAL
     async creatematerial(req, res) {
         const { id } = req.params
@@ -796,7 +896,8 @@ module.exports = {
 
     async savebudgetmaterial(req, res) {
         const id = req.params.id
-        const { name, description, width, height, color, price, efficiency, provider_id, quantity, quantforunit } = req.body
+        const { name, description, width, height, color, efficiency, provider_id, quantity, quantforunit } = req.body
+        const price = req.body.price.replace(",",".")
         const unitprice = await price / efficiency
         const material = await Material.create({ name, description, width, height, color, price, efficiency, unitprice, provider_id });
 

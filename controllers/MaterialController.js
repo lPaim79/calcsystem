@@ -3,7 +3,8 @@ const Provider = require('../models/Provider')
 module.exports = {
     async insertMaterial(req, res) {
         try {
-            const { name, description, width, height, color, price, efficiency, provider_id } = req.body
+            const { name, description, width, height, color, efficiency, provider_id } = req.body
+            const price = req.body.price.replace(",",".")
             const material = await Material.findOne({ where: { name } })
             if (material) {
                 res.status(401).json({ massage: "Insumo já cadastrado!" })
@@ -67,7 +68,8 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { name, description, width, height, color, price, efficiency, provider_id  } = req.body
+            const { name, description, width, height, color, efficiency, provider_id  } = req.body
+            const price = req.body.price.replace(",",".")
             let material = await Material.findOne({ where: { id } })
 
             if (!material) {

@@ -13,7 +13,7 @@
     </div>
     <div class="form-control">
         <label for="minimun_value">Valor Mínimo:</label>
-        <input type="text" name="minimun_value" placeholder="Digite o valor mínimo">
+        <input type="text" name="minimun_value" placeholder="Digite o valor mínimo" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="preparation_time">Tempo de preparação:</label>
@@ -29,7 +29,7 @@
     </div>
     <div class="form-control">
         <label for="price">Valor:</label>
-        <input type="text" name="price" placeholder="Digite o valor hora">
+        <input type="text" name="price" placeholder="Digite o valor hora" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
     <input type="submit" value="Cadastrar">

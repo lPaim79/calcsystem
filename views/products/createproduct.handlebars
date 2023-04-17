@@ -13,7 +13,7 @@ undo
     </div>
     <div class="form-control">
         <label for="price">Valor:</label>
-        <input type="float" name="price" placeholder="Valor do produto">
+        <input type="float" name="price" placeholder="Valor do produto" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="weight">Peso:</label>

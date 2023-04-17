@@ -14,7 +14,7 @@
     </div>
     <div class="form-control">
         <label for="price">Valor:</label>
-        <input type="float" name="price" placeholder="Digite o valor" >
+        <input type="float" name="price" placeholder="Digite o valor" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="efficiency">Rendimento:</label>

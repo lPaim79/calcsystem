@@ -6,7 +6,9 @@ const Provider = require('../models/Provider')
 module.exports = {
     async insertTatic(req, res) {
         try {
-            const { name, description, minimun_value, preparation_time, loss, capacity, price } = req.body
+            const { name, description, preparation_time, loss, capacity } = req.body
+            const minimun_value = req.body.minimun_value.replace(",",".")
+            const price = req.body.price.replace(",",".")
             const tatic = await Tatic.findOne({ where: { name } })
             if (tatic) {
                 res.status(401).json({ massage: "Processo já cadastrado!" })
@@ -67,7 +69,9 @@ module.exports = {
     async updateTatic(req, res) {
         try {
             const id = req.body.id
-            const { name, description, minimun_value, preparation_time, loss, capacity, price } = req.body
+            const { name, description, preparation_time, loss, capacity } = req.body
+            const minimun_value = req.body.minimun_value.replace(",",".")
+            const price = req.body.price.replace(",",".")
             const tatic = await Tatic.findOne({ where: { id } })
             if (!tatic) {
                 res.status(401).json({ message: "Processo não encontrado!" })
@@ -90,7 +94,8 @@ module.exports = {
 
     async saveTaticInput(req, res) {
         const tatic_id = req.body.id
-        const { name, description, price, efficiency, provider_id } = req.body
+        const { name, description, efficiency, provider_id } = req.body
+        const price = req.body.price.replace(",",".")
         const unitprice = price / efficiency
         const tatic = await Tatic.findByPk(tatic_id)
 
@@ -119,7 +124,8 @@ module.exports = {
 
     async savetaticmachine (req, res) {
         const tatic_id = req.body.id
-        const { name, hour_price, preparation_time, width, height, description } = req.body
+        const { name, preparation_time, width, height, description } = req.body
+        const hour_price = req.body.hour_price.replace(",",".")
 
         const tatic = await Tatic.findByPk(tatic_id)
 

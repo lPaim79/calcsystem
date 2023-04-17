@@ -2,9 +2,7 @@ const Product = require('../models/Product')
 module.exports = {
     async insertProduct(req, res) {
         try {
-            let resultado = req.body.price
-            var price = resultado.toLocaleString('pt-br', {minimumFractionDigits: 2});
-
+            const price = req.body.price.replace(",",".")
             const { name, description, weight, type } = req.body
             const product = await Product.findOne({ where: { name } })
             if (product) {
@@ -55,7 +53,8 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { name, description, price, weight, type } = req.body
+            const { name, description, weight, type } = req.body
+            const price = req.body.price.replace(",",".")
             let product = await Product.findOne({ where: { id } })
 
             if (!product) {

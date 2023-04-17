@@ -4,7 +4,8 @@ const Input = require('../models/Input')
 module.exports = {
     async insertMachine(req, res) {
         try {
-            const { name, hour_price, preparation_time, width, height, description } = req.body
+            const { name, preparation_time, width, height, description } = req.body
+            const hour_price = req.body.hour_price.replace(",",".")
             const machine = await Machine.findOne({ where: { name } })
             if (machine) {
                 res.status(401).json({ massage: "Máquina já cadastrada!" })
@@ -61,7 +62,8 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { name, hour_price, preparation_time, width, height, description } = req.body
+            const { name, preparation_time, width, height, description } = req.body
+            const hour_price = req.body.hour_price.replace(",",".")
             let machine = await Machine.findOne({ where: { id } })
             if (!machine) {
                 res.status(401).json({ message: "Máquina não encontrada!" })
@@ -85,7 +87,8 @@ module.exports = {
     async savemachineinput(req, res) {
         console.log('entrou')
         //const id = req.params.id
-        const { id, name, description, price, efficiency, provider_id } = req.body
+        const { id, name, description, efficiency, provider_id } = req.body
+        const price = req.body.price.replace(",",".")
         const unitprice = await price / efficiency
 
         const machine = await Machine.findByPk(id)

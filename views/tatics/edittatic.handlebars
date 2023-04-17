@@ -11,7 +11,7 @@
     </div>
     <div class="form-control">
         <label for="minimun_value">Valor Mínimo:</label>
-        <input type="text" name="minimun_value" placeholder="Valor mínimo" value="{{tatic.minimun_value}}">
+        <input type="text" name="minimun_value" placeholder="Valor mínimo" value="{{tatic.minimun_value}}" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="preparation_time">Tempo preparação:</label>
@@ -27,7 +27,7 @@
     </div>
     <div class="form-control">
         <label for="price">Valor:</label>
-        <input type="text" name="price" placeholder="Digite a perda" value="{{tatic.price}}">
+        <input type="text" name="price" placeholder="Digite a perda" value="{{tatic.price}}" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <input type="submit" value="Editar">
 </form>

@@ -10,7 +10,7 @@
     </div>
     <div class="form-control">
         <label for="hour_price">Valor Hora Máquina:</label>
-        <input type="text" name="hour_price" placeholder="Informe o valor Hora R$">
+        <input type="text" name="hour_price" placeholder="Informe o valor Hora R$" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="preparation_time">Tempo de preparação:</label>

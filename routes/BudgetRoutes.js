@@ -32,5 +32,6 @@ router.get('/budgets/clone/:id', BudgetController.clonebudget)
 router.get('/budgettaticedit/:id', BudgetController.budgettaticedit)
 router.post('/updatetatict', BudgetController.updatetatic)
 router.get('/editprint/:id', BudgetController.editprint)
+router.post('/updatebudgetprint', BudgetController.updatebudgetprint)
 
 module.exports = router

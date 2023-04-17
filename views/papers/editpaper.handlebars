@@ -30,7 +30,7 @@
     </div>
     <div class="form-control">
         <label for="price">Valor:</label>
-        <input type="text" name="price" placeholder="Digite o valor" value="{{paper.price}}">
+        <input type="text" name="price" placeholder="Digite o valor" value="{{paper.price}}" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});">
     </div>
     <div class="form-control">
         <label for="efficiency">Quantidade:</label>

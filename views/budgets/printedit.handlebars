@@ -1,7 +1,8 @@
 <h1>Editar Impressão do orçamento:</h1>
 <h2>{{budget.name}}</h2>
-<a href="/budget/{{budget.id}}">Voltar</a>
+<a href="/budget/{{print.budget_id}}">Voltar</a>
 <form action="/updatebudgetprint/{{budget.id}}" method="POST" class="form">
+<input type="hidden" name="id" value="{{print.budget.id}}">
     <div class="form-control">
         <label for="printer_id">Impressora:</label>
         <select name="printer_id">
@@ -84,6 +85,6 @@
         <input type="text" name="coverage" placeholder="Cobertura %" value="{{print.coverage}}">
     </div>
     <div class="form-control">
-    <input type="submit" value="Cadastrar">
+    <input type="submit" value="Atualizar">
     </div>
 </form>

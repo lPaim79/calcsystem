@@ -6,7 +6,8 @@ const Stage = require('../models/Stage')
 module.exports = {
     async insertOrder(req, res) {
         try {
-            const { date, description, price, payment, prevision, client_id, product_id, stage_id } = req.body
+            const { date, description, payment, prevision, client_id, product_id, stage_id } = req.body
+            const price = req.bod.price.replace(",",".")
             const order = await Order.create({ date, description, price, payment, prevision, client_id, product_id, stage_id })
             console.log(order)
             res.redirect('/orders')
@@ -113,7 +114,8 @@ module.exports = {
     async updateOrder(req, res) {
         try {
             const id = req.body.id
-            const {date, description, price, payment, prevision, client_id, product_id, stage_id } = req.body
+            const {date, description, payment, prevision, client_id, product_id, stage_id } = req.body
+            const price = req.bod.price.replace(",",".")
             const order = await Order.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: {id} })
            
             res.redirect('/orders')
