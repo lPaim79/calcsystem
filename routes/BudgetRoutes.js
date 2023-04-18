@@ -3,6 +3,7 @@ const bodyparser = require('body-parser')
 const router = express.Router()
 
 const BudgetController = require('../controllers/BudgetController')
+const ClientController = require('../controllers/ClientController')
 
 //budgets
 router.post('/updatebudget', BudgetController.updateBudget)
@@ -33,5 +34,6 @@ router.get('/budgettaticedit/:id', BudgetController.budgettaticedit)
 router.post('/updatetatict', BudgetController.updatetatic)
 router.get('/editprint/:id', BudgetController.editprint)
 router.post('/updatebudgetprint', BudgetController.updatebudgetprint)
+router.get('/createcliente/', ClientController.createClient)
 
 module.exports = router

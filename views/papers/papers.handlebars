@@ -10,14 +10,12 @@
     <tr>
         <th>Nome</th>
         <th>Descrição</th>
-        <th>Largura</th>
-        <th>Altura</th>
+        <th>Medida</th>
         <th>Cor</th>
-        <th>Gramatura</th>
+        <th class="small-coloun">g/M².</th>
         <th>Valor</th>
-        <th>Quantidade</th>
+        <th class="small-coloun">Quant.</th>
         <th>Valor unit.</th>
-        <th>Fornecedor</th>
         <th>Ações</th>
     </tr>
 
@@ -25,14 +23,12 @@
     <tr>
         <td><span class="bold"><a href="/paper/{{this.id}}">{{this.name}}</a></span></td>
         <td>{{this.description}}</td>
-        <td>{{this.width}}</td>
-        <td>{{this.height}}</td>
+        <td>{{this.width}} x {{this.height}}</td>
         <td>{{this.color}}</td>
-        <td>{{this.grammage}}</td>
+        <td class="small-coloun">{{this.grammage}}</td>
         <td>R$ {{formatPrice this.price}}</td>
-        <td>{{this.efficiency}}</td>
+        <td class="small-coloun">{{this.efficiency}}</td>
         <td>R$ {{formatPrice this.unitprice}}</td>
-        <td>{{this.provider.name}}</td>
         <td>
             <div class="actions">
                 <a href="/paper/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>

@@ -4,7 +4,14 @@ const Order = require('../models/Order')
 module.exports = {
     async insertClient(req, res) {
         try {
-            const { name, typeclient, fantasy, email, cpf, phone, whatsapp, street, number, complement, district, city, code, obs } = req.body
+            const { typeclient, email, cpf, phone, whatsapp,  number, code, obs } = req.body
+            const name = req.body.name.toUpperCase()
+            const fantasy = req.body.fantasy.toUpperCase()
+            const street = req.body.street.toUpperCase()
+            const complement = req.body.complement.toUpperCase()
+            const district = req.body.district.toUpperCase()
+            const city = req.body.city.toUpperCase()
+
             if (!name) {
                 res.status(401).json({ massage: "Nome obrigatório!" })
             } else {
@@ -96,7 +103,13 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { name, typeclient, fantasy, email, cpf, phone, whatsapp, street, number, complement, district, city, code, obs } = req.body
+            const { typeclient, email, cpf, phone, whatsapp,  number, code, obs } = req.body
+            const name = req.body.name.toUpperCase()
+            const fantasy = req.body.fantasy.toUpperCase()
+            const street = req.body.street.toUpperCase()
+            const complement = req.body.complement.toUpperCase()
+            const district = req.body.district.toUpperCase()
+            const city = req.body.city.toUpperCase()
             let client = await Client.findOne({ where: { id } })
 
             if (!client) {
