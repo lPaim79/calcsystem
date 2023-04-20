@@ -2,8 +2,8 @@
 <h2>{{budgettatic.budget.name}}</h2>
 <a href="/budget/{{budgettatic.budget.id}}">Voltar</a>
 
-<form action="/updatetatict/{{budget.id}}" method="POST" class="form">
-<input type="hidden" name="id" value="{{budgettatic.tatic.id}}">
+<form action="/updatetatict/{{budgettatic.tatic.id}}" method="POST" class="form">
+<input type="hidden" name="budgettatic_id" value="{{budgettatic.id}}">
 <input type="hidden" name="budget_id" value="{{budgettatic.budget.id}}">
     <div class="form-control">
         <label for="name">Nome:</label>

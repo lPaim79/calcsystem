@@ -13,7 +13,6 @@ const Product = require('../models/Product')
 
 const BudgetController = require('../controllers/BudgetController')
 
-
 module.exports = {
     async insertBudget(req, res) {
         try {
@@ -461,11 +460,11 @@ module.exports = {
                 if (amount < minimun_value) {
                     amount = minimun_value
                 }
-                time = 60 / tatic.capacity
+                time = preparation_time
                 break
             case 'unit':
                 time = ((parseInt(budget.quantity) + parseInt(tatic.loss)) / tatic.capacity) + (tatic.preparation_time / 60)
-                var amount = price * (time / 60)
+                var amount = price * time
                 if (amount < minimun_value) {
                     amount = minimun_value
                 }
@@ -474,7 +473,7 @@ module.exports = {
                 var prints_quantity = 0
 
                 //soma a quantidade de impressões
-                for (i = 0; i < budget.prints.length; i++) {
+                for (let i = 0; i < budget.prints.length; i++) {
                     prints_quantity += await (budget.prints[i].quantity / budget.prints[i].printformat) * (budget.prints[i].sides * budget.quantity)
                 }
 
@@ -531,15 +530,15 @@ module.exports = {
                     association: 'tatic',
                 },
             ],
-        })
-        const tatics = await Tatic.findAll()
-        console.log(budgettatic.tatic)
-        res.render('budgets/budgettaticedit', { budgettatic, tatics })
+        }) 
+        console.log (budgettatic)
+        res.render('budgets/budgettaticedit', { budgettatic})
     },
 
     async updatetatic(req, res) {
         try {
-            const { id, name, description, preparation_time, loss, capacity, typequantity, singleprocess } = req.body
+            var {id} = req.params
+            const { name, description, preparation_time, loss, capacity, typequantity, singleprocess, budgettatic_id } = req.body
             const minumun_value = req.body.minumun_value.replace(",", ".")
             const price = req.body.price.replace(",", ".")
             const tatic = await Tatic.update({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }, { where: { id } })
@@ -600,16 +599,16 @@ module.exports = {
                     break
             }
             console.log(prints_quantity, tatic.loss, tatic.capacity, tatic.preparation_time, time)
-
+            
             const hourprice = price
-
-            const budgettatic = await Budgettatic.update({ time, hourprice, amount, budget_id, tatic_id }, { where: { tatic_id } })
+            id = req.body.budgettatic_id
+            const budgettatic = await Budgettatic.update({ time, hourprice, amount, budget_id, tatic_id }, { where: id })
 
 
         } catch (error) {
             console.log(error)
         }
-        const id = req.body.budget_id
+        id = req.body.budget_id
         res.redirect('/budget/' + id)
     },
 
