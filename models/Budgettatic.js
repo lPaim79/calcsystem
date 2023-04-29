@@ -3,9 +3,9 @@ const { Model, DataTypes } = require('sequelize')
 class Budgettatic extends Model {
     static init(sequelize) {
         super.init({
-            time: DataTypes.FLOAT,
-            hourprice: DataTypes.FLOAT,
-            amount: DataTypes.FLOAT,   
+            time: DataTypes.DOUBLE,
+            hourprice: DataTypes.DOUBLE,
+            amount: DataTypes.DOUBLE,   
         }, {
             sequelize,
             tableName: 'budgettatics',

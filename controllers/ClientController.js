@@ -1,6 +1,7 @@
 const Address = require('../models/Address')
 const Client = require('../models/Client')
 const Order = require('../models/Order')
+const Budget = require('../models/Budget')
 module.exports = {
     async insertClient(req, res) {
         try {
@@ -79,9 +80,18 @@ module.exports = {
                     }
 
                 ]
-            },)
+            },
+        )
+        const budgets = await Budget.findAll(
+            {
+                association: 'client',
+                where: {
+                    client_id: id,
+                }
+            },
+        )
 
-        res.render('clients/client', { client, orders })
+        res.render('clients/client', { client, orders, budgets })
     },
 
     async removeClient(req, res) {
@@ -122,9 +132,9 @@ module.exports = {
                     const address = await Address.create({ street, number, complement, district, city, code, client_id })
 
                 } else {
-                    const address = await Address.update({ street, number, complement, district, city }, { where: { client_id: id } })
+                    const address = await Address.update({ street, number, complement, district, city, code }, { where: { client_id: id } })
                 }
-                res.redirect('/clients')
+                res.redirect(`/client/${id}`)
             }
         } catch (error) {
             res.status(400).json({ error })

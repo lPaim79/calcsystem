@@ -18,10 +18,18 @@
                 <th>Markup</th>
                 <th>Previsão</th>
                 <th>Tipo</th>
+                {{#if budget.tatics_value}}
                 <th>Processo</th>
+                {{/if}}
+                {{#if budget.materials_value}}
                 <th>Material</th>
+                {{/if}}
+                {{#if budget.prints_value}}
                 <th>Impressão</th>
+                {{/if}}
+                {{#if budget.price}}
                 <th>Valor</th>
+                {{/if}}
             </tr>
             <tr>
                 <td>{{formatDate budget.date}}</td>
@@ -34,10 +42,18 @@
                 <td>Não há previsão</td>
                 {{/if}}
                 <td>{{budget.type}}</td>
+                {{#if budget.tatics_value}}
                 <td>R$ {{formatPrice budget.tatics_value}}</td>
+                {{/if}}
+                {{#if budget.materials_value}}
                 <td>R$ {{formatPrice budget.materials_value}}</td>
+                {{/if}}
+                {{#if budget.prints_value}}
                 <td>R$ {{formatPrice budget.prints_value}}</td>
+                {{/if}}
+                {{#if budget.price}}
                 <td>R$ {{formatPrice budget.price}}</td>
+                {{/if}}
             </tr>
         </table>
         <p>{{budget.obs}}</p>
@@ -51,10 +67,9 @@
             <tr>
                 <th>Descrição</th>
                 <th>Papel</th>
-                <th>Quantidade</th>
+                <th>Quant</th>
                 <th>Lados</th>
-                <th>Largura</th>
-                <th>Altura</th>
+                <th>Tamanho</th>
                 <th>Formato</th>
                 <th>Papel</th>
                 <th>Originais</th>
@@ -68,12 +83,11 @@
                 <td>{{this.paper.name}}</td>
                 <td>{{this.quantity}}</td>
                 <td>{{this.sides}}</td>
-                <td>{{this.width}}</td>
-                <td>{{this.height}}</td>
+                <td>{{this.width}} x {{this.height}}</td>
                 <td>{{this.format}}</td>
                 <td>{{this.paperwidth}} x {{this.paperheight}}</td>
                 <td>{{this.printformat}}</td>
-                <td>{{this.coverage}}</td>
+                <td>{{this.coverage}}%</td>
                 <td>R$ {{formatPrice this.amount}}</td>
                 <td><a title="Excluir Impressão" href="/deleteprint/{{this.id}}"><span
                             class="material-symbols-outlined">delete</span></a>
@@ -105,6 +119,9 @@
                 <th>Tempo preparo</th>
                 <th>Perda</th>
                 <th>Capacidade</th>
+                <th>Tempo</th>
+                <th>Hora</th>
+                <th>Valor Unit</th>
                 <th>Valor</th>
                 <th>Ações</th>
             </tr>
@@ -112,10 +129,13 @@
             <tr>
                 <td>{{this.tatic.name}}</td>
                 <td>{{this.tatic.description}}</td>
-                <td>{{formatPrice this.tatic.minimun_value}}</td>
-                <td>{{this.tatic.preparation_time}}</td>
+                <td>R$ {{formatPrice this.tatic.minimun_value}}</td>
+                <td>{{this.tatic.preparation_time}}min</td>
                 <td>{{this.tatic.loss}}</td>
-                <td>{{this.tatic.capacity}}</td>
+                <td>{{this.tatic.capacity}} /h</td>
+                <td>{{formatDecimal this.time}}h</td>
+                <td>R$ {{formatPrice this.tatic.price}} </td>
+                <td>R$ {{formatPrice this.hourprice}}</td>
                 <td>R$ {{formatPrice this.amount}}</td>
                 <td>
                     <a title="Excluir Processo" href="/deletetatic/{{this.id}}"><span
@@ -158,8 +178,10 @@
                 <td>{{this.quantity}}</td>
                 <td>R$ {{formatPrice this.material.unitprice}}</td>
                 <td>R$ {{formatPrice this.amount}}</td>
-                <td><a title="Remorer Material" href="/deletematerial/{{this.id}}"><span 
-                            class="material-symbols-outlined">delete</span></a></td> 
+                <td>
+                    <a title="Remorer Material" href="/deletematerial/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a title="Editar Material" href="/materialedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>        
+                </td> 
             </tr>
             {{/each}}
         </table>

@@ -5,7 +5,7 @@ class Budgetmaterial extends Model {
         super.init({
             quantity: DataTypes.INTEGER,
             quantforunit: DataTypes.BOOLEAN,
-            amount: DataTypes.FLOAT,        
+            amount: DataTypes.DOUBLE,        
         }, {
             sequelize
         })

@@ -3,6 +3,7 @@
 <a href="/budget/{{print.budget_id}}">Voltar</a>
 <form action="/updatebudgetprint/{{budget.id}}" method="POST" class="form">
 <input type="hidden" name="id" value="{{print.budget.id}}">
+<input type="hidden" name="print_id" value="{{print.id}}">
     <div class="form-control">
         <label for="printer_id">Impressora:</label>
         <select name="printer_id">

@@ -31,7 +31,7 @@ module.exports = {
         allowNull: true,
       },
       price: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       prevision: {
@@ -51,15 +51,15 @@ module.exports = {
         allowNull: false,
       },
       tatics_value: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       materials_value: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       prints_value: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       created_at: {

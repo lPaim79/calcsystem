@@ -8,13 +8,13 @@ class Budget extends Model {
             description: DataTypes.STRING,
             quantity: DataTypes.INTEGER,
             markup: DataTypes.FLOAT,
-            price: DataTypes.FLOAT,
+            price: DataTypes.DOUBLE,
             prevision: DataTypes.INTEGER,
             type: DataTypes.STRING,
             obs: DataTypes.STRING,
-            tatics_value: DataTypes.FLOAT,
-            materials_value: DataTypes.FLOAT,
-            prints_value: DataTypes.FLOAT             
+            tatics_value: DataTypes.DOUBLE,
+            materials_value: DataTypes.DOUBLE,
+            prints_value: DataTypes.DOUBLE             
         }, {
             sequelize
         })

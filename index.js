@@ -67,6 +67,9 @@ app.engine('handlebars', exphbs.engine({
             price = 0
             return price.toLocaleString('pt-br', { minimumFractionDigits: 3 })
         },
+        formatDecimal: (value) => {
+            return value.toFixed(2)
+        },
         switch: (value, options) => {
             this.switch_value = value;
             return options.fn(this);

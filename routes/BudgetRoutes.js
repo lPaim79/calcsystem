@@ -35,5 +35,7 @@ router.post('/updatetatict/:id', BudgetController.updatetatic)
 router.get('/editprint/:id', BudgetController.editprint)
 router.post('/updatebudgetprint', BudgetController.updatebudgetprint)
 router.get('/createcliente/', ClientController.createClient)
+router.get('/materialedit/:id', BudgetController.materialedit)
+router.post('/updatbudgetematerial/:id', BudgetController.updatbudgetematerial)
 
 module.exports = router

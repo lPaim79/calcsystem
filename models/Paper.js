@@ -9,9 +9,9 @@ class Paper extends Model {
             height: DataTypes.FLOAT,
             color: DataTypes.STRING,
             grammage: DataTypes.FLOAT,
-            price: DataTypes.FLOAT,
+            price: DataTypes.DOUBLE,
             efficiency: DataTypes.INTEGER,
-            unitprice: DataTypes.FLOAT          
+            unitprice: DataTypes.DOUBLE          
         }, {
             sequelize
         })

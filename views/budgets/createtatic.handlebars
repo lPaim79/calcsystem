@@ -1,5 +1,5 @@
 <h1>Inserir processo ao orçamento:</h1>
-<h2>{{budget.name}}</h2>
+<h2>{{budget.quantity}} {{budget.name}}</h2>
 <a href="/budget/{{budget.id}}">Voltar</a>
 <br><br>
 <h3>Processo Existente</h3>
@@ -20,6 +20,7 @@
 </form>
 <h3>Novo Processo</h3>
 <form action="/savebudgettatict/{{budget.id}}" method="POST" class="form">
+<input type="hidden" name="id" value="{{budget.id}}">
 <div class="form-control">
         <label for="name">Nome:</label>
         <input type="text" name="name" placeholder="Digite o nome">

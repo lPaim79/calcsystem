@@ -14,7 +14,7 @@ class Print extends Model {
             printformat: DataTypes.INTEGER,
             color: DataTypes.BOOLEAN,
             coverage: DataTypes.INTEGER,
-            amount: DataTypes.FLOAT,
+            amount: DataTypes.DOUBLE,
         }, {
             sequelize
         })

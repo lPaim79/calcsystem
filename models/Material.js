@@ -8,9 +8,9 @@ class Material extends Model {
             width: DataTypes.FLOAT,
             height: DataTypes.FLOAT,
             color: DataTypes.STRING,
-            price: DataTypes.FLOAT,
+            price: DataTypes.DOUBLE,
             efficiency: DataTypes.INTEGER,
-            unitprice: DataTypes.FLOAT       
+            unitprice: DataTypes.DOUBLE       
         }, {
             sequelize
         })

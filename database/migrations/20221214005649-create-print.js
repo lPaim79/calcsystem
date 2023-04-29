@@ -55,7 +55,7 @@ module.exports = {
         allowNull: true,
       },
       amount: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       paper_id: {

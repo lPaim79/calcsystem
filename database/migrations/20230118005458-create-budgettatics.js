@@ -11,15 +11,15 @@ module.exports = {
         allowNull: false,
       },
       time: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       hourprice: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       amount: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       budget_id: {

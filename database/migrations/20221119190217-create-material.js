@@ -31,7 +31,7 @@ module.exports = {
         allowNull: true,
       },
       price: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       efficiency: {
@@ -39,7 +39,7 @@ module.exports = {
         allowNull: true,
       },
       unitprice: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.DOUBLE,
         allowNull: true,
       },
       provider_id: {

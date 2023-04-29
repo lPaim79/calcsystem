@@ -1,0 +1,68 @@
+<h1>Editar Material:</h1>
+<h2>{{budgetmaterial.material.name}}</h2>
+<a href="/budget/{{budget.id}}">Voltar</a>
+
+<form action="/updatbudgetematerial/{{budgetmaterial.material_id}}" method="POST" class="form">
+<input type="hidden" name="budgetmaterial_id" value="{{budgetmaterial.id}}">
+<input type="hidden" name="budget_id" value="{{budgetmaterial.budget_id}}">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o Nome" value="{{budgetmaterial.material.name}}">
+    </div>
+    <div class="form-control">
+        <label for="description">Descriçao:</label>
+        <input type="text" name="description" placeholder="Digite a Descrição" value="{{budgetmaterial.material.description}}">
+    </div>
+    <div class="form-control">
+        <label for="width">Largura:</label>
+        <input type="text" name="width" placeholder="Digite a largura" value="{{budgetmaterial.material.width}}">
+    </div>
+    <div class="form-control">
+        <label for="height">Altura:</label>
+        <input type="text" name="height" placeholder="Digite a altura" value="{{budgetmaterial.material.height}}">
+    </div>
+    <div class="form-control">
+        <label for="color">Cor:</label>
+        <input type="text" name="color" placeholder="Digite a cor" value="{{budgetmaterial.material.color}}">
+    </div>
+    <div class="form-control">
+        <label for="price">Valor:</label>
+        <input type="text" name="price" placeholder="Digite o valor" onkeypress="$(this).mask('R$ #.##0,00', {reverse: true});" value="{{budgetmaterial.material.price}}" >
+    </div>
+    <div class="form-control">
+        <label for="efficiency">Rendimento:</label>
+        <input type="text" name="efficiency" placeholder="Digite o rendimento" value="{{budgetmaterial.material.efficiency}}">
+    </div>
+    <div class="form-control">
+        <label for="provider_id">Fornecedor</label>
+        <select name="provider_id">
+            <option value="{{budgetmaterial.material.provider.id}}">{{budgetmaterial.material.provider.name}}</option>
+            {{#each providers}}
+            <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="quantity">Quantidade:</label>
+        <input type="text" name="quantity" placeholder="Digite a quantidade" value="{{budgetmaterial.quantity}}" >
+    </div>
+    <div>
+        {{#switch budgetmaterial.quantforunit}}
+        {{#case 'false'}}
+        <input type="radio" id='false' name="quantforunit" value=false checked>
+        <label for="false">Total</label>
+        <input type="radio" id='true' name="quantforunit" value=true>
+        <label for="true">Por unidade do orçamento</label>
+        {{/case}}
+        {{#case 'true'}}
+        <input type="radio" id='false' name="quantforunit" value=false>
+        <label for="false">Total</label>
+        <input type="radio" id='true' name="quantforunit" value=true checked>
+        <label for="true">Por unidade do orçamento</label>
+        {{/case}}
+        {{/switch}}
+    </div>
+    <div class="form-control">
+    <input type="submit" value="Atualizar">
+    </div>
+</form>
