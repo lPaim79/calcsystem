@@ -2,10 +2,13 @@ const Address = require('../models/Address')
 const Client = require('../models/Client')
 const Order = require('../models/Order')
 const Budget = require('../models/Budget')
+const func = require('../helpers/functions')
+const { Op } = require('sequelize')
+
 module.exports = {
     async insertClient(req, res) {
         try {
-            const { typeclient, email, cpf, phone, whatsapp,  number, code, obs } = req.body
+            const { typeclient, email, cpf, phone, whatsapp, number, code, obs } = req.body
             const name = req.body.name.toUpperCase()
             const fantasy = req.body.fantasy.toUpperCase()
             const street = req.body.street.toUpperCase()
@@ -41,9 +44,60 @@ module.exports = {
     },
 
     async listClients(req, res) {
-        const clients = await Client.findAll({ include: { association: 'addresses' }, limit: 20, order: [['name', 'ASC']] })
-        console.log(clients)
-        res.render('clients/clients', { clients })
+
+        let search = ''
+        let clients = ''
+        if (req.body.search) {
+            search = req.body.search
+
+            let order = 'ASC'
+
+            const clientsData = await Client.findAll({
+                include: { association: 'addresses' },
+                where: {
+                    [Op.or]: {
+                        name: { [Op.like]: `%${search}%` },
+                        fantasy: {[Op.like]: `%${search}%`}
+                    }
+                    
+                },
+                order: [['name', order]]
+            })
+
+            clients = clientsData.map((result) => result.get({ plain: true }))
+            let clientQty = clients.length
+
+            if (clientQty === 0) {
+                clientQty = false
+            }
+            console.log(clients)
+            //res.render('clients/clients', { clients })
+        }
+        else {
+            const { page = 1 } = req.query
+            const limit = 20;
+            var lastPage = 1;
+            const countClients = await Client.count();
+            lastPage = Math.ceil(countClients / limit)
+            clients = await Client.findAll({
+                include: { association: 'addresses' },
+                order: [['name', 'ASC']],
+                offset: Number((page * limit) - limit),
+                limit: limit
+            });
+            if (clients) {
+                var pagination = {
+                    path: '/clients',
+                    page,
+                    prev_page_url: Number(page) - Number(1) >= 1 ? Number(page) - Number(1) : false,
+                    next_page_url: Number(page) + Number(1) <= lastPage ? Number(page) + Number(1) : false,
+                    //next_page_url: Number(page) + Number(1) >= lastPage ? lastPage : Number(page) + Number(1),
+                    lastPage,
+                    total: countClients,
+                }
+            }
+        }
+        res.render('clients/clients', { clients, pagination })
     },
 
     async clientHome(req, res) {
@@ -90,7 +144,7 @@ module.exports = {
                 }
             },
         )
-
+        func.hello()
         res.render('clients/client', { client, orders, budgets })
     },
 
@@ -113,7 +167,7 @@ module.exports = {
         try {
             const id = req.body.id
 
-            const { typeclient, email, cpf, phone, whatsapp,  number, code, obs } = req.body
+            const { typeclient, email, cpf, phone, whatsapp, number, code, obs } = req.body
             const name = req.body.name.toUpperCase()
             const fantasy = req.body.fantasy.toUpperCase()
             const street = req.body.street.toUpperCase()

@@ -5,6 +5,16 @@
         <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
         <a title="Novo Cliente" href="/createclient"><span class="material-symbols-outlined">add_circle</span></a>
     </div>
+    <div>
+        <form action="/clients/" method="POST" class="form">
+        <div class="form-control">
+            
+            <label for="search">Pesquisar:</label>
+            <input type="text" name="search" placeholder="Digite o Nome">
+            <input type="submit" value="Buscar">
+        </div>
+    </form>
+    </div>
     {{#if clients}}
     <table class="table">
         <tr>
@@ -36,10 +46,20 @@
                 </div>
             </td>
         </tr>
-        {{/each}}
+        {{/each}}        
     </table>
+    <footer>
+        {{#if pagination}}
+            <div class="pagination">
+                {{#if pagination.prev_page_url}}
+                <a href="/clients?page={{pagination.prev_page_url}}">{{pagination.prev_page_url}}</a> - 
+                {{/if}}{{pagination.page}} {{#if pagination.next_page_url}} - 
+                <a href="/clients?page={{pagination.next_page_url}}">{{pagination.next_page_url}}</a>
+                {{/if}}
+            </div>
+        {{/if}}
+    </footer>
     {{else}}
     <h3>Não há clientes cadastrados!</h3>
     {{/if}}
 </div>
-

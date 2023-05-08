@@ -7,6 +7,7 @@ const ClientController = require('../controllers/ClientController')
 //clients
 router.post('/clients/updateclient', ClientController.updateClient)
 router.get('/', ClientController.clientHome)
+router.post('/clients', ClientController.listClients)
 router.get('/clients', ClientController.listClients)
 router.get('/client/:id', ClientController.showClient)
 router.get('/createclient', ClientController.createClient)
