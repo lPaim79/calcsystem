@@ -13,9 +13,9 @@
             <tr>
                 <td>{{input.name}}</td>
                 <td>{{input.description}}</td>
-                <td>{{input.price}}</td>
+                <td>{{formatPrice input.price}}</td>
                 <td>{{input.efficiency}}</td>
-                <td>{{input.unitprice}}</td>
+                <td>{{formatSmallPrice input.unitprice}}</td>
                 <td>{{input.provider.name}}</td>
             </tr>
         </table>

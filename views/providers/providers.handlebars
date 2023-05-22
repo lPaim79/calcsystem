@@ -1,30 +1,26 @@
 <h1>Fornecedores</h1>
-<div class="providers-container">
+<div class="container">
     <div class="actions">
         <i><a href="/"><span class="material-symbols-outlined">home</span></a></i>
         <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
         <i><a href="/createprovider"><span class="material-symbols-outlined">add_circle</span></a></i>
     </div> 
     {{#if providers}}
-    <table class="providers-class">
+    <table class="table">
     <tr>
-        <th>Nome</th>
+        <th class="midle-coloun">Nome</th>
         <th>Fone</th>
         <th>Whatsapp</th>
-        <th>Endereço</th>
-        <th>Email</th>
-        <th>Site</th>
-        <th>Ações</th>
+        <th class="midle-coloun">Endereço</th>
+        <th class="midle-coloun">Ações</th>
     </tr>
 
     {{#each providers}}
     <tr>
         <td><span class="bold"><a href="/provider/{{this.id}}">{{this.name}}</a></span></td>
-        <td>{{this.phone}}</td>
-        <td>{{this.whatsapp}}</td>
+        <td>{{formatPhone this.phone}}</td>
+        <td>{{formatPhone this.whatsapp}}</td>
         <td>{{this.addresses.street}}, {{this.addresses.number}} - {{this.addresses.complement}} - {{this.addresses.city}}</td>
-        <td>{{this.email}}</td>
-        <td><a href='https://{{this.site}}'>{{this.site}}</a></td>
         <td>
             <div class="actions">
                 <a href="/provider/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>

@@ -4,25 +4,6 @@ const Printer = require('../models/Printer')
 const Provider = require('../models/Provider')
 const Tatic = require('../models/Tatic')
 
-/* module.exports = {
-    async insertInput(req, res) {
-        try {
-            const { name, description, price, efficiency, provider_id, machine_id, printer_id } = req.body
-            const input = await Input.findOne({ where: { name } })
-            if (input) {
-                res.status(401).json({ massage: "Insumo já cadastrado!" })
-            } else {
-                //const unitprice = parseFloat(price) / efficiency
-                const unitprice = await price / efficiency
-                const input = await Input.create({ name, description, price, efficiency, unitprice, provider_id, machine_id, printer_id })
-
-                res.redirect('/inputs')
-            }
-        } catch (error) {
-            res.status(400).json({ error })
-        }
-    }, */
-
     module.exports = {
         async insertTaticInput(req, res) {
             const tatic_id = req.body.id
@@ -46,22 +27,6 @@ const Tatic = require('../models/Tatic')
             res.redirect('/tatics')
         },
 
-        /* async insertInput(req, res) {
-            
-            const { name, description, price, efficiency, provider_id, machine_id, printer_id } = req.body
-            const input = await Input.findOne({ where: { name } })
-            if (input) {
-                res.status(401).json({ massage: "Insumo já cadastrado!" })
-            } else {
-                //const unitprice = parseFloat(price) / efficiency
-                const unitprice = await price / efficiency
-                const input = await Input.create({ name, description, price, efficiency, unitprice, provider_id, machine_id, printer_id })
-
-                res.redirect('/tatics')
-            }
-       
-        }, */
-
     async listInputs(req, res) {
         const inputs = await Input.findAll(
             {
@@ -84,20 +49,13 @@ const Tatic = require('../models/Tatic')
                 ],
             }
         );
-        console.log(inputs)
+
         if (!inputs) {
             console.log('Não há insumos cadastrados!')
         } else {
             res.render('inputs/inputs', { inputs })
         }
 
-    },
-
-    async createInput(req, res) {
-        const providers = await Provider.findAll()
-        const machines = await Machine.findAll()
-        const printers = await Printer.findAll()
-        res.render('inputs/createinput', { providers, machines, printers })
     },
 
     async showInput(req, res) {
@@ -120,7 +78,6 @@ const Tatic = require('../models/Tatic')
             }
         ],
      })
-        console.log(input)
         res.render('inputs/input', { input })
     },
 
@@ -163,8 +120,9 @@ const Tatic = require('../models/Tatic')
     async updateInput(req, res) {
         try {
             const id = req.body.id
-
-            const { name, description, price, efficiency, provider_id, machine_id, printer_id } = req.body
+            const aux = req.body.price.replace(".","")
+            const price = aux.replace(",", ".")
+            const { name, description, efficiency, provider_id, machine_id, printer_id } = req.body
             let input = await Input.findOne({ where: { id } })
 
             if (!input) {

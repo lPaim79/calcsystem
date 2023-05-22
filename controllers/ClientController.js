@@ -65,13 +65,13 @@ module.exports = {
             })
 
             clients = clientsData.map((result) => result.get({ plain: true }))
-            let clientQty = clients.length
+            let clientsQty = clients.length
 
-            if (clientQty === 0) {
-                clientQty = false
+            if (clientsQty === 0) {
+                clientsQty = false
             }
             console.log(clients)
-            //res.render('clients/clients', { clients })
+            res.render('clients/clients', { clients, clientsQty, search })
         }
         else {
             const { page = 1 } = req.query
@@ -96,8 +96,8 @@ module.exports = {
                     total: countClients,
                 }
             }
-        }
-        res.render('clients/clients', { clients, pagination })
+            res.render('clients/clients', { clients, pagination })
+        }        
     },
 
     async clientHome(req, res) {

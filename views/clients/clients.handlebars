@@ -16,6 +16,9 @@
     </form>
     </div>
     {{#if clients}}
+    {{#if clientsQty}}
+        <h4>Encontrados {{clientsQty}} resultado(s) com a palavra: {{search}}</h4>
+    {{/if}}
     <table class="table">
         <tr>
             <th class="big-coloun">Nome</th>
@@ -60,6 +63,10 @@
         {{/if}}
     </footer>
     {{else}}
+    {{#if search}}
+        <h4>Não foram encontrados resultados com a palavra: {{search}}</h4>
+    {{else}}
     <h3>Não há clientes cadastrados!</h3>
+    {{/if}}
     {{/if}}
 </div>

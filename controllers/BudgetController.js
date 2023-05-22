@@ -405,20 +405,60 @@ module.exports = {
     async selectbudgettatic(req, res) {
         const id = req.params.id
         const { tatic_id } = req.body
-        var budget = await Budget.findByPk(id)
+        var budget = await Budget.findOne({
+            where: { id },
+            include: [
+                {
+                    association: 'prints',
+                }
+            ]
+        })
         const tatic = await Tatic.findByPk(tatic_id)
 
+        var time = 0
+        var amount = 0
 
-        if (tatic.typequantity == 'unit') {
-            var time = ((budget.quantity + tatic.loss) / tatic.capacity) + (tatic.preparation_time / 60)
-        } else {
-            var time = 60 / tatic.capacity / 60
+        switch (tatic.typequantity) {
+
+            case 'total':
+                console.log('Cálculo Total')
+                amount = tatic.price
+                if (amount < tatic.minimun_value) {
+                    amount = tatic.minimun_value
+                }
+                time = tatic.preparation_time
+                break
+
+            case 'unit':
+                console.log('Calculo por unidades do orçamento')
+                time = ((parseInt(budget.quantity) + parseInt(tatic.loss)) / tatic.capacity) + (tatic.preparation_time / 60)
+                amount = tatic.price * time
+                if (amount < tatic.minimun_value) {
+                    amount = tatic.minimun_value
+                }
+                break
+
+            case 'print':
+                console.log('Cálculo por impressões')
+                //soma a quantidade de impressões
+                var prints_quantity = 0
+                for (let i = 0; i < budget.prints.length; i++) {
+                    let aux = await budget.prints[i].quantity * budget.quantity
+                    let aux2 = await aux / budget.prints[i].printformat
+                    prints_quantity += await aux2 * parseInt((budget.prints[i].sides))
+                }
+
+                //calcula o tempo do processo
+                time = ((parseInt(prints_quantity) + (parseInt(tatic.loss))) / (parseInt(tatic.capacity))) + (parseFloat(tatic.preparation_time / 60))
+
+                //calcula o valor do processo -> Revisar o cálculo
+                amount = tatic.price * time
+                if (amount < tatic.minimun_value) {
+                    amount = tatic.minimun_value
+                }
+                break
         }
 
-        var amount = tatic.price * time
-        if (amount < tatic.minimun_value) {
-            amount = tatic.minimun_value
-        }
         const hourprice = tatic.price
         const budget_id = budget.id
         const budgettatic = await Budgettatic.create({ time, hourprice, amount, budget_id, tatic_id })
@@ -430,7 +470,7 @@ module.exports = {
         const id = req.params.id
         var totalprints = 0;
         const budget = await Budget.findOne({
-            where: {id} ,
+            where: { id },
             include: [
                 {
                     association: 'prints',
@@ -449,13 +489,15 @@ module.exports = {
             return res.status(400).json({ error: 'Orçamento não localizado!' })
         }
 
-        const tatic = await Tatic.create({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }
+        var tatic = await Tatic.create({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }
         );
 
         const tatic_id = tatic.id
-        var time = 0
+        var time = parseInt(0)
+
         switch (typequantity) {
             case 'total':
+                console.log('Cálculo Total')
                 var amount = price
                 if (amount < minimun_value) {
                     amount = minimun_value
@@ -463,6 +505,7 @@ module.exports = {
                 time = preparation_time
                 break
             case 'unit':
+                console.log('Calculo por unidades do orçamento')
                 time = ((parseInt(budget.quantity) + parseInt(tatic.loss)) / tatic.capacity) + (tatic.preparation_time / 60)
                 var amount = price * time
                 if (amount < minimun_value) {
@@ -470,15 +513,17 @@ module.exports = {
                 }
                 break
             case 'print':
-                var prints_quantity = 0
-
+                console.log('Cálculo por impressões')
                 //soma a quantidade de impressões
+                var prints_quantity = 0
                 for (let i = 0; i < budget.prints.length; i++) {
-                    prints_quantity += await (budget.prints[i].quantity / budget.prints[i].printformat) * (budget.prints[i].sides * budget.quantity)
+                    let aux = await budget.prints[i].quantity * budget.quantity
+                    let aux2 = await aux / budget.prints[i].printformat
+                    prints_quantity += await aux2 * parseInt((budget.prints[i].sides))
                 }
 
                 //calcula o tempo do processo
-                time = ((prints_quantity + tatic.loss) / tatic.capacity) + (tatic.preparation_time / 60)
+                time = ((parseInt(prints_quantity) + (parseInt(tatic.loss))) / (parseInt(tatic.capacity))) + (parseFloat(tatic.preparation_time / 60))
 
                 //calcula o valor do processo -> Revisar o cálculo
                 var amount = price * time
@@ -487,7 +532,6 @@ module.exports = {
                 }
                 break
         }
-        console.log(prints_quantity, tatic.loss, tatic.capacity, tatic.preparation_time, price, time)
 
         const hourprice = price
         const budget_id = id
@@ -541,7 +585,7 @@ module.exports = {
         const { name, description, preparation_time, loss, capacity, singleprocess, typequantity } = req.body
         const minimun_value = req.body.minimun_value.replace(",", ".")
         const price = req.body.price.replace(",", ".")
-        var tatic = await Tatic.update({ name, description, minimun_value, preparation_time, loss, capacity, price, singleprocess, typequantity }, { where: { id } })
+        var tatic = await Tatic.update({ name, description, minimun_value, preparation_time, loss, capacity, price, typequantity, singleprocess }, { where: { id } })
         tatic = await Tatic.findByPk(id)
         id = req.body.budget_id
         var totalprints = 0;
@@ -555,7 +599,6 @@ module.exports = {
                         association: 'printer',
                     }
                 },
-
             ]
         })
 
@@ -601,9 +644,9 @@ module.exports = {
         id = req.body.budgettatic_id
 
         const budget_id = req.body.budget_id
-        const budgettatic = await Budgettatic.update({ time, hourprice, amount, budget_id, tatic_id }, { where: {tatic_id , budget_id} })
+        const budgettatic = await Budgettatic.update({ time, hourprice, amount, budget_id, tatic_id }, { where: { tatic_id, budget_id } })
 
-       // id = req.body.budget_id
+        // id = req.body.budget_id
         res.redirect(`/budget/${budget_id}`)
     },
 
@@ -620,7 +663,7 @@ module.exports = {
         var id = req.params.id
         const budget_id = id
         var input = 0
-        const { printer_id, paper_id, description, quantity, sides, width, height, color, coverage } = req.body
+        const { printer_id, paper_id, description, quantity, sides, width, height, electroniccut, color, coverage } = req.body
 
         if (!printer_id) {
             return res.status(400).json({ error: 'É obrigatório selecionar uma impressora!' })
@@ -660,11 +703,11 @@ module.exports = {
             return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
         }
 
-        if ((paperheight < height || paperwidth < width) && (paperwidth < height || paperheight < width)) {
+        /* if (((paperheight < height) || (paperwidth < width)) && ((paperwidth < height) || (paperheight < width))) {
             console.log(paperwidth , paperheight)
             console.log(height , width)
             return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
-        }
+        } */
 
         //texta os dois sentidos do papel em relação ao original para descobrir o melhor aproveitamento determinando o formato
         var aux1 = await (parseInt(paper.height / height)) * (parseInt(paper.width / width))
@@ -676,8 +719,21 @@ module.exports = {
         }
 
         //caLcula a quantidade de originais por impressão
-        aux1 = await (parseInt(paperheight / height)) * (parseInt(paperwidth / width))
-        aux2 = await (parseInt(paperheight / width)) * (parseInt(paperwidth / height))
+        console.log(electroniccut)
+        switch (electroniccut) {
+            case 'true':
+                var paper_height = await paperheight - 20
+                var paper_width = await paperwidth - 20
+                break
+
+            case 'false':
+                var paper_height = await paperheight - 10
+                var paper_width = await paperwidth - 10
+                break
+        }
+
+        aux1 = await (parseInt(paper_height / height)) * (parseInt(paper_width / width))
+        aux2 = await (parseInt(paper_height / width)) * (parseInt(paper_width / height))
         if (aux1 > aux2) {
             var printformat = aux1
         } else {
@@ -834,7 +890,7 @@ module.exports = {
             console.log('papel menor ', amount)
         }
 
-        const print = await Print.update({ description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id }, { where: { id : print_id } })
+        const print = await Print.update({ description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id }, { where: { id: print_id } })
 
         res.redirect('/budget/' + id)
     },
@@ -886,7 +942,7 @@ module.exports = {
         res.redirect(`/budget/${id}`)
     },
 
-    async materialedit(req, res){
+    async materialedit(req, res) {
         const id = req.params.id
         const budgetmaterial = await Budgetmaterial.findOne({
             where: { id },
@@ -901,16 +957,16 @@ module.exports = {
                 ]
         })
         const providers = await Provider.findAll()
-        res.render('budgets/budgetmaterialedit', {budgetmaterial, providers})
+        res.render('budgets/budgetmaterialedit', { budgetmaterial, providers })
     },
 
-    async updatbudgetematerial(req, res){
+    async updatbudgetematerial(req, res) {
         const id = req.params.id
         const material_id = id
         const { name, description, width, height, color, efficiency, provider_id, quantity, quantforunit, budgetmaterial_id, budget_id } = req.body
         const price = req.body.price.replace(",", ".")
         const unitprice = await price / efficiency
-        const material = await Material.update({ name, description, width, height, color, price, efficiency, unitprice, provider_id }, { where: {id}});
+        const material = await Material.update({ name, description, width, height, color, price, efficiency, unitprice, provider_id }, { where: { id } });
 
         var amount = 0
         if (quantforunit == 'true') {
@@ -920,8 +976,8 @@ module.exports = {
         } else {
             amount = await quantity * material.unitprice
         }
-        
-        const budgetmaterial = await Budgetmaterial.update({ budget_id, material_id, quantity, quantforunit, amount }, {where: {budget_id, material_id}})
+
+        const budgetmaterial = await Budgetmaterial.update({ budget_id, material_id, quantity, quantforunit, amount }, { where: { budget_id, material_id } })
 
         res.render(`budgets/budget${budget_id}`)
     },

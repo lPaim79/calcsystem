@@ -22,8 +22,11 @@ module.exports = {
     },
 
     async listTatics(req, res) {
-        const tatics = await Tatic.findAll();
-        console.log(tatics)
+        const tatics = await Tatic.findAll({
+            where: {
+                singleprocess: true,
+            }, order: [['name', 'ASC']]
+        });
         res.render('tatics/tatics', { tatics })
     },
 

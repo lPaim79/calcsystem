@@ -6,46 +6,44 @@
     </div>
     {{#if inputs}}
 
-    </div>
-    <table class="inputs-table">
-        <tr>
-            <th>Nome</th>
-            <th>Valor</th>
-            <th>Rendimento</th>
-            <th>Valor Unit.</th>
-            <th>Fornecedor</th>
-            <th>Máquina</th> 
-            <th>Impressora</th>
-            <th>Ações</th>
-        </tr>
-        {{#each inputs}}
-        <tr>
-            <td><a href="/input/{{this.id}}">{{this.name}}</a></td>
-            <td>R$ {{formatPrice this.price}}</td>
-            <td>{{this.efficiency}}</td>
-            <td>R$ {{formatSmallPrice this.unitprice}}</td>
-            <td>{{this.provider.name}}</td>
-            {{#if this.machine.name}}
-            <td>{{this.machine.name}}</td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            {{#if this.printer.name}}
-            <td>{{this.printer.name}}</td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            <td>
+</div>
+<table class="inputs-table">
+    <tr>
+        <th>Nome</th>
+        <th>Valor</th>
+        <th>Rendimento</th>
+        <th>Valor Unit.</th>
+        <th>Fornecedor</th>
+        <th>Utilização</th>
+        <th>Ações</th>
+    </tr>
+    {{#each inputs}}
+    <tr>
+        <td><a href="/input/{{this.id}}">{{this.name}}</a></td>
+        <td>R$ {{formatPrice this.price}}</td>
+        <td>{{this.efficiency}}</td>
+        <td>R$ {{formatSmallPrice this.unitprice}}</td>
+        <td>{{this.provider.name}}</td>
+        {{#if this.machine.name}}
+        <td>{{this.machine.name}}</td>
+        {{else}}
+        {{#if this.printer.name}}
+        <td>{{this.printer.name}}</td>
+        {{else}}
+        <td>Processo</td>
+        {{/if}}
+        {{/if}}
+        <td>
             <div class="actions">
                 <a href="/input/{{this.id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
                 <a href="/inputedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
                 <a href="/inputs/remove/{{this.id}}"><i><span class="material-symbols-outlined">delete</span></i></a>
             </div>
         </td>
-        </tr>
-        {{/each}}
-    </table>
-    {{else}}
-    <h2>Não há insumos cadastrados</h2>
-    {{/if}}
+    </tr>
+    {{/each}}
+</table>
+{{else}}
+<h2>Não há insumos cadastrados</h2>
+{{/if}}
 </div>

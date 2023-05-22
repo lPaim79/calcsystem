@@ -78,7 +78,33 @@ app.engine('handlebars', exphbs.engine({
             if (value == this.switch_value) {
                 return options.fn(this);
             }
-        }
+        },
+        formatPhone: (phone) => {
+            switch (phone.length) {
+                case 8:
+                    var aux1 = phone.slice(0, 4);
+                    var aux2 = phone.slice(4, 8);
+                    return `${aux1}-${aux2}`;
+                    break;
+                case 9:
+                    var aux1 = phone.slice(0, 5);
+                    var aux2 = phone.slice(5, 9);
+                    return `${aux1}-${aux2}`;
+                    break;
+                case 10:
+                    var aux1 = phone.slice(0, 2);
+                    var aux2 = phone.slice(2, 6);
+                    var aux3 = phone.slice(6, 10)
+                    return `(${aux1})${aux2}-${aux3}`;
+                    break;
+                case 11:
+                    var aux1 = phone.slice(0, 2);
+                    var aux2 = phone.slice(2, 7);
+                    var aux3 = phone.slice(7, 11)
+                    return `(${aux1})${aux2}-${aux3}`;
+                    break;
+            }
+        },
     }
 }))
 

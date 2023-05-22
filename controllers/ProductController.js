@@ -19,7 +19,6 @@ module.exports = {
 
     async listProducts(req, res) {
         const products = await Product.findAll({ order: [['name', 'ASC']] })
-        console.log(products)
         res.render('products/products', { products })
     },
 
@@ -30,14 +29,13 @@ module.exports = {
     async showProduct(req, res) {
         const { id } = req.params
         const product = await Product.findOne({ where: { id } })
-        console.log(product)
         res.render('products/product', { product })
     },
 
     async removeProduct(req, res) {
         const { id } = req.params
         const product = await Product.findOne({ where: { id } })
-        Product.destroy({ where: { id } })
+        await Product.destroy({ where: { id } })
 
         res.redirect('/products')
     },
@@ -45,7 +43,6 @@ module.exports = {
     async editProduct(req, res) {
         const { id } = req.params
         const product = await Product.findOne({ where: { id } })
-        console.log(product)
         res.render('products/editproduct', { product })
     },
 
