@@ -10,6 +10,7 @@ const Budgetmaterial = require('../models/Budgetmaterial')
 const Budgettatic = require('../models/Budgettatic')
 const Order = require('../models/Order')
 const Product = require('../models/Product')
+const { Op } = require('sequelize')
 
 const BudgetController = require('../controllers/BudgetController')
 
@@ -28,16 +29,55 @@ module.exports = {
     },
 
     async listBudgets(req, res) {
-        const budgets = await Budget.findAll({
-            include: [
-                {
-                    association: 'client',
-                    attributes: ['id', 'name', 'fantasy'],
-                    required: false
-                }
-            ], limit: 30, order: [['date', 'DESC']]
-        });
-        res.render('budgets/budgets', { budgets })
+        let search = ''
+        let budgets = ''
+        if (req.body.search){
+            search = req.body.search
+            let order = 'ASC'
+            const budgetsData = await Budget.findAll({
+                include: { association: 'client'},
+                where: {
+                    [Op.or]: {
+                        name: { [Op.like]: `%${search}%` },
+                        description: { [Op.like]: `%${search}%` },
+                    }
+                },
+                order: [['name', order]]
+            })
+
+            budgets = budgetsData.map((result) => result.get({ plain: true }))
+            let budgetsQty = budgets.length
+
+            if (budgetsQty === 0){
+                budgetsQty = false
+            }
+            res.render('budgets/budgets', { budgets, budgetsQty, search})
+        }
+        else {
+           const { page = 1 } = req.query
+           const limit = 20;
+           var lastPage = 1;
+           const countBudgets = await Budget.count();
+           lastPage = Math.ceil(countBudgets / limit)
+            budgets = await Budget.findAll({
+                include: { association: 'client' },
+                order: [['name', 'ASC']],
+                offset:Number((page*limit) - limit),
+                limit: limit
+            });
+            if (budgets) {
+                var pagination = {
+                    path: '/budgets',
+                    page,
+                    prev_page_url: Number(page) - Number(1) >= 1 ? Number(page) - Number(1) : false,
+                    next_page_url: Number(page) + Number(1) <= lastPage ? Number(page) + Number(1) : false,
+                    //next_page_url: Number(page) + Number(1) >= lastPage ? lastPage : Number(page) + Number(1),
+                    lastPage,
+                    total: countBudgets,
+                }    
+            }
+            res.render('budgets/budgets', {budgets, pagination})
+        }        
     },
 
     async createbudget(req, res) {

@@ -7,17 +7,16 @@
     </div>
     <div>
         <form action="/clients/" method="POST" class="form">
-        <div class="form-control">
-            
-            <label for="search">Pesquisar:</label>
-            <input type="text" name="search" placeholder="Digite o Nome">
-            <input type="submit" value="Buscar">
-        </div>
-    </form>
+            <div class="form-control">
+                <label for="search">Pesquisar:</label>
+                <input type="text" name="search" placeholder="Digite o Nome">
+                <input type="submit" value="Buscar">
+            </div>
+        </form>
     </div>
     {{#if clients}}
     {{#if clientsQty}}
-        <h4>Encontrados {{clientsQty}} resultado(s) com a palavra: {{search}}</h4>
+    <h4>Encontrados {{clientsQty}} resultado(s) com a palavra: {{search}}</h4>
     {{/if}}
     <table class="table">
         <tr>
@@ -43,28 +42,31 @@
             <td>{{this.addresses.city}}</td>
             <td>
                 <div class="actions">
-                    <a title="Editar Cliente" href="/clientedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>
-                    <a title="Remover Cliente" href="/clients/remove/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
-                    <a title="Mostrar Cliente" href="/client/{{this.id}}"><span class="material-symbols-outlined">person</span></a>
+                    <a title="Editar Cliente" href="/clientedit/{{this.id}}"><i><span
+                                class="material-symbols-outlined">edit</span></i></a>
+                    <a title="Remover Cliente" href="/clients/remove/{{this.id}}"><span
+                            class="material-symbols-outlined">delete</span></a>
+                    <a title="Mostrar Cliente" href="/client/{{this.id}}"><span
+                            class="material-symbols-outlined">person</span></a>
                 </div>
             </td>
         </tr>
-        {{/each}}        
+        {{/each}}
     </table>
     <footer>
         {{#if pagination}}
-            <div class="pagination">
-                {{#if pagination.prev_page_url}}
-                <a href="/clients?page={{pagination.prev_page_url}}">{{pagination.prev_page_url}}</a> - 
-                {{/if}}{{pagination.page}} {{#if pagination.next_page_url}} - 
-                <a href="/clients?page={{pagination.next_page_url}}">{{pagination.next_page_url}}</a>
-                {{/if}}
-            </div>
+        <div class="pagination">
+            {{#if pagination.prev_page_url}}
+            <a href="/clients?page={{pagination.prev_page_url}}">{{pagination.prev_page_url}}</a> -
+            {{/if}}{{pagination.page}} {{#if pagination.next_page_url}} -
+            <a href="/clients?page={{pagination.next_page_url}}">{{pagination.next_page_url}}</a>
+            {{/if}}
+        </div>
         {{/if}}
     </footer>
     {{else}}
     {{#if search}}
-        <h4>Não foram encontrados resultados com a palavra: {{search}}</h4>
+    <h4>Não foram encontrados resultados com a palavra: {{search}}</h4>
     {{else}}
     <h3>Não há clientes cadastrados!</h3>
     {{/if}}

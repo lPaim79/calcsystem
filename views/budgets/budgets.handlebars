@@ -1,10 +1,22 @@
 <h1>Orçamentos</h1>
-<div class="clients-container">
+<div class="container">
     <div class="actions">
         <a title="Página Inicial" href="/"><span class="material-symbols-outlined">home</span></a>
         <a title="Novo Orçamento" href="/createbudget"><span class="material-symbols-outlined">add_circle</span></a>
+    </div>
+    <div>
+        <form action="/budgets/" method="POST" class="form">
+            <div class="form-control">
+                <label for="search">Pesquisar:</label>
+                <input type="text" name="search" placeholder="Digite uma palavra">
+                <input type="submit" value="Buscar">
+            </div>
+        </form>
     </div>      
     {{#if budgets}}
+    {{#if budgetsQty}}
+    <h4>Encontrados {{budgetsQty}} resultado(s) com a palavra: {{search}}</h4>
+    {{/if}}
     <table class="table">
         <tr>
             <th>Data</th>
@@ -42,7 +54,22 @@
         </tr>
         {{/each}}
     </table>
+    <footer>
+        {{#if pagination}}
+        <div class="pagination">
+            {{#if pagination.prev_page_url}}
+            <a href="/budgets?page={{pagination.prev_page_url}}">{{pagination.prev_page_url}}</a> -
+            {{/if}}{{pagination.page}} {{#if pagination.next_page_url}} -
+            <a href="/budgets?page={{pagination.next_page_url}}">{{pagination.next_page_url}}</a>
+            {{/if}}
+        </div>
+        {{/if}}
+    </footer>
+    {{else}}
+    {{#if search}}
+    <h4>Não foram encontrados resultados com a palavra: {{search}}</h4>
     {{else}}
     <h3>Não há orçamentos cadastrados!</h3>
+    {{/if}}
     {{/if}}
 </div>

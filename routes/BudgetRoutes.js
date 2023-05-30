@@ -8,6 +8,7 @@ const ClientController = require('../controllers/ClientController')
 //budgets
 router.post('/updatebudget', BudgetController.updateBudget)
 router.get('/budgets', BudgetController.listBudgets)
+router.post('/budgets', BudgetController.listBudgets)
 router.get('/budget/:id', BudgetController.showBudget)
 router.get('/createbudget', BudgetController.createbudget)
 router.get('/budgets/remove/:id', BudgetController.removeBudget)

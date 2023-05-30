@@ -7,7 +7,7 @@ module.exports = {
     async insertOrder(req, res) {
         try {
             const { date, description, payment, prevision, client_id, product_id, stage_id } = req.body
-            const price = req.bod.price.replace(",",".")
+            const price = req.bod.price.replace(",", ".")
             const order = await Order.create({ date, description, price, payment, prevision, client_id, product_id, stage_id })
             console.log(order)
             res.redirect('/orders')
@@ -22,20 +22,20 @@ module.exports = {
             include: [
                 {
                     association: 'client',
-                    attributes: [ 'id' , 'name', 'fantasy' ],
+                    attributes: ['id', 'name', 'fantasy'],
                     required: false
                 },
                 {
                     association: 'stage',
-                    attributes: [ 'id' , 'name' ],
+                    attributes: ['id', 'name'],
                     required: false
-                },       
+                },
                 {
                     association: 'product',
-                    attributes: [ 'id' , 'name' ],
+                    attributes: ['id', 'name'],
                     required: false
                 }
-                  
+
             ], order: [['date', 'DESC']]
         });
         res.render('orders/orders', { orders })
@@ -62,13 +62,13 @@ module.exports = {
                     association: 'stage',
                     attributes: ['name'],
                     required: false
-                },       
+                },
                 {
                     association: 'product',
                     attributes: ['name'],
                     required: false
                 }
-                  
+
             ],
         })
         res.render('orders/order', { order })
@@ -92,20 +92,20 @@ module.exports = {
             include: [
                 {
                     association: 'client',
-                    attributes: [ 'id' , 'name', 'fantasy' ],
+                    attributes: ['id', 'name', 'fantasy'],
                     required: false
                 },
                 {
                     association: 'stage',
-                    attributes: [ 'id' , 'name' ],
+                    attributes: ['id', 'name'],
                     required: false
-                },       
+                },
                 {
                     association: 'product',
-                    attributes: [ 'id' , 'name' ],
+                    attributes: ['id', 'name'],
                     required: false
                 }
-                  
+
             ],
         })
         res.render('orders/editorder', { order, clients, products, stages })
@@ -114,10 +114,10 @@ module.exports = {
     async updateOrder(req, res) {
         try {
             const id = req.body.id
-            const {date, description, payment, prevision, client_id, product_id, stage_id } = req.body
-            const price = req.body.price.replace(",",".")
-            const order = await Order.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: {id} })
-           
+            const { date, description, payment, prevision, client_id, product_id, stage_id } = req.body
+            const price = req.body.price.replace(",", ".")
+            const order = await Order.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: { id } })
+
             res.redirect('/orders')
         }
         catch (error) {
@@ -128,17 +128,17 @@ module.exports = {
     async alterDate(req, res) {
         const id = req.params
         const order = Order.findOne({
-            where: {id}
+            where: { id }
         })
         console.log('Alterar Data')
-        res.render('orders/alterdate',{order})
+        res.render('orders/alterdate', { order })
     },
 
     async updateDate(req, res) {
         const id = req.body.id
-        const {date, description, price, payment, prevision, client_id, product_id, stage_id } = req.body
-        const order = await Order.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: {id} })
+        const { date, description, price, payment, prevision, client_id, product_id, stage_id } = req.body
+        const order = await Order.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: { id } })
         res.redirect('/orders')
     }
-   
+
 }
