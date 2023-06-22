@@ -1,14 +1,13 @@
 <h1>Estágios</h1>
 <div class="stages-container">
     <div class="actions">
-        <i><a href="/"><span class="material-symbols-outlined">home</span></a></i>
-        <i><a href="/registrations"><span class="material-symbols-outlined">arrow_back</span></a></i>
-        <i><a href="/createstage"><span class="material-symbols-outlined">add_circle</span></a></i>
+        <i><a title="Página Inicial" href="/"><span class="material-symbols-outlined">home</span></a></i>
+        <i><a title="Voltar" href="/registrations"><span class="material-symbols-outlined">undo</span></a></i>
+        <i><a title="Novo Estágio" href="/createstage"><span class="material-symbols-outlined">add_circle</span></a></i>
     </div>    
     {{#if stages}}
     <table class="stages-class">
     <tr>
-        <th>Cód</th>
         <th>Status</th>
         <th>Descrição</th>
         <th>Ações</th>
@@ -16,7 +15,6 @@
 
     {{#each stages}}
     <tr>
-        <td>{{this.id}}</td>
         <td>{{this.name}}</td>
         <td>{{this.description}}</td>
         <td>

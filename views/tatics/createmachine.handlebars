@@ -1,6 +1,8 @@
 <h1>Inserir máquina a {{tatic.name}}</h1>
 <div class="actions">
-    <a href="/tatic/{{tatic.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+    <a title="Voltar" href="/tatic/{{tatic.id}}"><span class="material-symbols-outlined">
+undo
+</span></a>
 </div> 
 <form action="/savemachinetatic" method="POST" class="form">
 <input type="hidden" name="id" value="{{tatic.id}}">

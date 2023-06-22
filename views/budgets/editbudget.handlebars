@@ -1,12 +1,12 @@
 <h1>Editar Orçamento {{ budget.id }}</h1>
-<a href="/budget/{{budget.id}}"><span class="material-symbols-outlined">
+<a title="Voltar" href="/budget/{{budget.id}}"><span class="material-symbols-outlined">
 undo
 </span></a>
 <form action="/updatebudget" method="POST" class="form">
     <input type="hidden" name="id" value="{{budget.id}}">
     <div class="form-control">
         <label for="date">Data do orçamento:</label>
-        <p><a href="/alterdate/{{budget.id}}">{{formatDate budget.date }}</a>
+        <p><a href="/alterbudgetdate/{{budget.id}}">{{formatDate budget.date }}</a>
         </p>
     </div>
     <div class="form-control">

@@ -1,5 +1,7 @@
 <h1>Editar data pedido {{order.id}}</h1>
-<a href="/orders">Voltar</a>
+<a title="Voltar" href="/orderedit/{{order.id}}"><span class="material-symbols-outlined">
+undo
+</span></a>
 <form action="/updatedate/{{order.id}}" method="post" class="form">
     <input type="hidden" name="id" value="{{order.id}}">
     <input type="hidden" name="client_id" value="{{order.client.id}}">

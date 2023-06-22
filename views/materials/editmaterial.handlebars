@@ -1,6 +1,8 @@
 <h1>Editar Material</h1>
 <div class="actions">
-    <a href="/material/{{material.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+    <a title="Voltar" href="/material/{{material.id}}"><span class="material-symbols-outlined">
+undo
+</span></a>
 </div>
 <form action="/materials/updatematerial" method="POST" class="form">
     <input type="hidden" name="id" value="{{material.id}}">

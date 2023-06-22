@@ -1,7 +1,9 @@
 <div id="process-page">
     <div class="container">
         <div class="actions">
-            <a title="Voltar" href="/budgets"><span class="material-symbols-outlined">arrow_back</span></a>
+            <a title="Voltar" href="/budgets"><span class="material-symbols-outlined">
+undo
+</span></a>
             <a title="Editar Orçamento" href="/budgetedit/{{budget.id}}"><i><span
                         class="material-symbols-outlined">edit</span></i></a>
             <a title="Aprovar Orçamento" href="/budgets/approved/{{budget.id}}"><span
@@ -140,8 +142,12 @@
                 <td>
                     <a title="Excluir Processo" href="/deletetatic/{{this.id}}"><span
                             class="material-symbols-outlined">delete</span></a>
+                    {{#if this.tatic.singleprocess}}
+                    <a title="Ver Processo" href="/tatic/{{this.tatic_id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
+                    {{else}}
                     <a title="Editar Processo" href="/budgettaticedit/{{this.id}}"><i><span
                                 class="material-symbols-outlined">edit</span></i></a>
+                    {{/if}}
                 </td>
             </tr>
             {{/each}}
@@ -179,8 +185,9 @@
                 <td>R$ {{formatPrice this.material.unitprice}}</td>
                 <td>R$ {{formatPrice this.amount}}</td>
                 <td>
+                    <a title="Ver Material" href="/material/{{this.material_id}}"><i><span class="material-symbols-outlined">file_open</span></i></a>
                     <a title="Remorer Material" href="/deletematerial/{{this.id}}"><span class="material-symbols-outlined">delete</span></a>
-                    <a title="Editar Material" href="/materialedit/{{this.id}}"><i><span class="material-symbols-outlined">edit</span></i></a>        
+                    <a title="Editar Material" href="/materialedit/{{this.material_id}}"><i><span class="material-symbols-outlined">edit</span></i></a>        
                 </td> 
             </tr>
             {{/each}}

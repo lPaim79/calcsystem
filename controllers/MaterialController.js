@@ -58,9 +58,9 @@ module.exports = {
 
     async editMaterial(req, res) {
         const { id } = req.params
+        console.log(id)
         const provider = await Provider.findAll()
         const material = await Material.findOne({ where: { id }, include: { association: 'provider' } })
-        console.log(material)
         res.render('materials/editmaterial', { material, provider })
     },
 

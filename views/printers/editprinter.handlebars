@@ -1,5 +1,5 @@
 <h1>Editar Impressora {{printer.name}}</h1>
-<a href="/printers">Voltar</a>
+<a title="Voltar" href="/printers"><span class="material-symbols-outlined">undo</span></a>
 <form action="/printers/updateprinter" method="POST" class="form">
 <input type="hidden" name="id" value="{{printer.id}}">
     <div class="form-control">

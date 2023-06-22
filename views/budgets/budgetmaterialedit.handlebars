@@ -1,7 +1,8 @@
 <h1>Editar Material:</h1>
 <h2>{{budgetmaterial.material.name}}</h2>
-<a href="/budget/{{budget.id}}">Voltar</a>
-
+<div class="actions">
+    <a title="Voltar" href="/budget/{{budgetmaterial.budget_id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
 <form action="/updatbudgetematerial/{{budgetmaterial.material_id}}" method="POST" class="form">
 <input type="hidden" name="budgetmaterial_id" value="{{budgetmaterial.id}}">
 <input type="hidden" name="budget_id" value="{{budgetmaterial.budget_id}}">

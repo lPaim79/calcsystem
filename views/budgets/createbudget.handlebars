@@ -1,5 +1,12 @@
 <h1>Criar Orçamento</h1>
-<a href="/budgets">Voltar</a> <a href="/createclient">Cadastrar Cliente</a>
+<div class="actions">
+    <a title="Voltar" href="/budgets"><span class="material-symbols-outlined">
+undo
+</span></a>
+</div>
+<form action="/createclient" method="GET">
+    <input type="submit" value="Novo Cliente">
+</form>
 <form action="/insertbudget" method="POST" class="form">
     <div class="form-control">
         <label for="client_id">Cliente:</label>
@@ -43,7 +50,8 @@
     </div>
     <div class="form-control">
         <label for="obs">Observações e características:</label>
-        <textarea type="text" name="obs" placeholder="Descreva o máximo possível das características do orçamento solicitado"></textarea>
+        <textarea type="text" name="obs"
+            placeholder="Descreva o máximo possível das características do orçamento solicitado"></textarea>
     </div>
     <div class="form-control">
         <label for="prevision">Previsão:</label>
@@ -62,6 +70,6 @@
         </select>
     </div>
     <div class="form-control">
-    <input type="submit" value="Cadastrar">
+        <input type="submit" value="Cadastrar">
     </div>
 </form>

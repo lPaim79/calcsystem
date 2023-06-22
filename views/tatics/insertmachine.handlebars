@@ -1,5 +1,7 @@
 <h1>Inserir máquina ao processo {{tatic.name}}</h1>
-<a href="/tatics">Voltar</a>
+ <a title="Voltar" href="/tatic/{{tatic.id}}"><span class="material-symbols-outlined">
+undo
+</span></a>
 <form action="/insertmachine" method="POST" class="form">
 <input type="hidden" name="id" value="{{tatic.id}}">
 <div class="form-control">

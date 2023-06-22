@@ -31,20 +31,23 @@ module.exports = {
     async listBudgets(req, res) {
         let search = ''
         let budgets = ''
+        let order = 'DESC'
         if (req.body.search){
-            search = req.body.search
-            let order = 'ASC'
+            search = req.body.search            
             const budgetsData = await Budget.findAll({
-                include: { association: 'client'},
+                include: {
+                    association: 'client', 
+                    attributes: ['name' , 'fantasy']
+                },
                 where: {
                     [Op.or]: {
                         name: { [Op.like]: `%${search}%` },
                         description: { [Op.like]: `%${search}%` },
                     }
                 },
-                order: [['name', order]]
+                order: [['date', order]]
             })
-
+            console.log(budgetsData)
             budgets = budgetsData.map((result) => result.get({ plain: true }))
             let budgetsQty = budgets.length
 
@@ -61,7 +64,7 @@ module.exports = {
            lastPage = Math.ceil(countBudgets / limit)
             budgets = await Budget.findAll({
                 include: { association: 'client' },
-                order: [['name', 'ASC']],
+                order: [['date', 'DESC']],
                 offset:Number((page*limit) - limit),
                 limit: limit
             });
@@ -196,20 +199,20 @@ module.exports = {
     },
 
     async alterDate(req, res) {
-        const id = req.params
+        const id = req.params.id
         const budget = await Budget.findOne({
             where: { id }
         })
-        console.log('Alterar Data')
+        console.log(id)
         res.render('budgets/alterdate', { budget })
     },
 
     async updateDate(req, res) {
-        const id = req.body.id
-        const { date, description, price, payment, prevision, client_id, product_id, stage_id } = req.body
-        const budget = await Budget.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: { id } })
-        res.redirect('/budgets')
-    },
+        const id = req.params.id
+        const date = req.body.date
+        const budget = await Budget.update({ date }, { where: { id } })
+        res.redirect(`/budgetedit/${id}`)
+    }, 
 
     async calculate(req, res) {
         const { id } = req.params
@@ -263,7 +266,7 @@ module.exports = {
         let price = resultado.toFixed(2)
 
         let budgets = await Budget.update({ price, tatics_value, materials_value, prints_value }, { where: { id } })
-        res.redirect('/budgets')
+        res.redirect('/budget/' + id)
     },
 
     async appoved(req, res) {
@@ -521,7 +524,6 @@ module.exports = {
                 },
             ]
         })
-        console.log(budget)
         const { name, description, preparation_time, loss, capacity, typequantity, singleprocess } = req.body
         const minimun_value = req.body.minimun_value.replace(",", ".")
         const price = req.body.price.replace(",", ".")
@@ -996,6 +998,7 @@ module.exports = {
                     }
                 ]
         })
+        console.log(budgetmaterial)
         const providers = await Provider.findAll()
         res.render('budgets/budgetmaterialedit', { budgetmaterial, providers })
     },

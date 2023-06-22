@@ -13,6 +13,6 @@ router.get('/orders/remove/:id', OrderController.removeOrder)
 router.get('/orderedit/:id', OrderController.editOrder)
 router.post('/insertorder', OrderController.insertOrder)
 router.get('/alterdate/:id', OrderController.alterDate)
-router.post('/updatedate', OrderController.updateDate)
+router.post('/updatedate/:id', OrderController.updateDate)
 
 module.exports = router

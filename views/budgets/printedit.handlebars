@@ -1,6 +1,8 @@
 <h1>Editar Impressão do orçamento:</h1>
 <h2>{{budget.name}}</h2>
-<a href="/budget/{{print.budget_id}}">Voltar</a>
+<div class="actions">
+    <a title="Voltar" href="/budget/{{print.budget_id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
 <form action="/updatebudgetprint/{{budget.id}}" method="POST" class="form">
 <input type="hidden" name="id" value="{{print.budget.id}}">
 <input type="hidden" name="print_id" value="{{print.id}}">

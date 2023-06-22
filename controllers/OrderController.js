@@ -126,19 +126,19 @@ module.exports = {
     },
 
     async alterDate(req, res) {
-        const id = req.params
-        const order = Order.findOne({
+        const id = req.params.id
+        const order = await Order.findOne({
             where: { id }
         })
-        console.log('Alterar Data')
-        res.render('orders/alterdate', { order })
+        console.log(order)
+        res.render('orders/alterdate', {order})
     },
 
     async updateDate(req, res) {
         const id = req.body.id
-        const { date, description, price, payment, prevision, client_id, product_id, stage_id } = req.body
-        const order = await Order.update({ date, description, price, payment, prevision, client_id, product_id, stage_id }, { where: { id } })
-        res.redirect('/orders')
+        const date = req.body.date
+        const order = await Order.update({ date }, { where: { id } })
+        res.redirect(`/orderedit/${id}`)
     }
 
 }

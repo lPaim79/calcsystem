@@ -144,7 +144,6 @@ module.exports = {
                 }
             },
         )
-        func.hello()
         res.render('clients/client', { client, orders, budgets })
     },
 

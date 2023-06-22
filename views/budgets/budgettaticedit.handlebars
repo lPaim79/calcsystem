@@ -1,7 +1,8 @@
 <h1>Editar processo do orçamento:</h1>
 <h2>{{budgettatic.budget.name}}</h2>
-<a href="/budget/{{budgettatic.budget.id}}">Voltar</a>
-
+<div class="actions">
+    <a title="Voltar" href="/budget/{{budgettatic.budget.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
 <form action="/updatetatict/{{budgettatic.tatic.id}}" method="POST" class="form">
 <input type="hidden" name="budgettatic_id" value="{{budgettatic.id}}">
 <input type="hidden" name="budget_id" value="{{budgettatic.budget.id}}">
