@@ -10,9 +10,10 @@ const Budgetmaterial = require('../models/Budgetmaterial')
 const Budgettatic = require('../models/Budgettatic')
 const Order = require('../models/Order')
 const Product = require('../models/Product')
+const Speed = require('../models/Speed')
 const { Op } = require('sequelize')
 
-const BudgetController = require('../controllers/BudgetController')
+//const BudgetController = require('../controllers/BudgetController')
 
 module.exports = {
     async insertBudget(req, res) {
@@ -693,25 +694,38 @@ module.exports = {
     },
 
     //PRINT//
+    async selectprinter(req, res) {
+        const {id} =  req.params
+        const printers = await Printer.findAll()        
+        res.render('budgets/selectprinter', { id, printers })
+    },
+
     async createprint(req, res) {
-        const { id } = req.params
-        const printers = await Printer.findAll()
+        const { id } = await req.params
+        const printer_id = await req.body.printer_id
+        const printer = await Printer.findOne({ where: {id : printer_id}})
+        const speeds = await Speed.findAll({ where: {
+            printer_id
+        }})
         const budget = await Budget.findByPk(id)
         const papers = await Paper.findAll()
-        res.render('budgets/createprint', { budget, papers, printers })
+        res.render('budgets/createprint', { budget, papers, printer, speeds })
     },
 
     async savebudgetprint(req, res) {
         var id = req.params.id
         const budget_id = id
         var input = 0
-        const { printer_id, paper_id, description, quantity, sides, width, height, electroniccut, color, coverage } = req.body
+        const { printer_id, paper_id, speed_id, description, quantity, sides, width, height, electroniccut, color, coverage } = req.body
 
         if (!printer_id) {
             return res.status(400).json({ error: 'É obrigatório selecionar uma impressora!' })
         }
         if (!paper_id) {
             return res.status(400).json({ error: 'É obrigatório selecionar um papel!' })
+        }
+        if (!speed_id) {
+            return res.status(400).json({ error: 'É obrigatório selecionar uma velocidade!' })
         }
         if (!description) {
             return res.status(400).json({ error: 'É obrigatório informar a descrição!' })
@@ -731,37 +745,38 @@ module.exports = {
             where: { id: printer_id }
         })
         const paper = await Paper.findByPk(paper_id)
-
+        const speed = await Speed.findByPk(speed_id)
+        var paperwidth = 0
+        var paperheight = 0
         //verifica se o tamanho do papel é compatível com a impressora ou necessita de corte
         if (paper.width <= printer.width || paper.height <= printer.height) {
-            var paperwidth = await paper.width
-            var paperheight = await paper.height
+            paperwidth = await paper.width
+            paperheight = await paper.height
         } else {
-            var { paperwidth, paperheight } = req.body
-            console.log(paperwidth, paperheight)
+            paperwidth = req.body.paperwidth
+            paperheight = req.body.paperheight
         }
 
         if (!paperwidth || !paperheight) {
             return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
         }
 
-        /* if (((paperheight < height) || (paperwidth < width)) && ((paperwidth < height) || (paperheight < width))) {
+        if (((paperheight < height) || (paperwidth < width)) && ((paperwidth < height) || (paperheight < width))) {
             console.log(paperwidth , paperheight)
             console.log(height , width)
             return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
-        } */
+        }
 
         //texta os dois sentidos do papel em relação ao original para descobrir o melhor aproveitamento determinando o formato
         var aux1 = await (parseInt(paper.height / height)) * (parseInt(paper.width / width))
         var aux2 = await (parseInt(paper.height / width)) * (parseInt(paper.width / height))
         if (aux1 > aux2) {
-            var format = await aux1
+            var format = aux1
         } else {
-            var format = await aux2
+            var format = aux2
         }
 
         //caLcula a quantidade de originais por impressão
-        console.log(electroniccut)
         switch (electroniccut) {
             case 'true':
                 var paper_height = await paperheight - 20
@@ -776,34 +791,33 @@ module.exports = {
 
         aux1 = await (parseInt(paper_height / height)) * (parseInt(paper_width / width))
         aux2 = await (parseInt(paper_height / width)) * (parseInt(paper_width / height))
+        var printformat = 0
         if (aux1 > aux2) {
-            var printformat = aux1
+            printformat = await aux1
         } else {
-            var printformat = aux2
+            printformat = await aux2
         }
         if (paper.height < printer.height && paper.width < printer.width) {
-            var paperformat = 1
-            var aprov = printformat
-        }
+            paperformat = 1
 
+        }
+        var time = await parseFloat((quantity / printformat) / speed.capacity)
         var papercoust = (paper.unitprice / format) * quantity
         for (let index = 0; index < printer.inputs.length; index++) {
             if (printer.inputs[index]) {
                 input += await printer.inputs[index].unitprice;
             }
         }
-
+        var timecoust = 0
+        timecoust = await parseFloat(time * printer.hour_price)
         if (paperheight > 320 || paperwidth > 320) {
             var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * 2 * sides)
-            var amount = await papercoust + printcoust
-            console.log('papel maior', amount)
+            var amount = await papercoust + printcoust + timecoust
         } else {
             var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * sides)
-            var amount = await papercoust + printcoust
-            console.log('papel menor ', amount)
+            var amount = await parseFloat(papercoust) + parseFloat(printcoust) + parseFloat(timecoust)
         }
-
-        const print = await Print.create({ description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id })
+        const print = await Print.create({ description, quantity, sides, width, height, electroniccut, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id, speed_id })
 
         res.redirect('/budget/' + id)
     },
@@ -831,28 +845,34 @@ module.exports = {
                     },
                     {
                         association: 'paper'
+                    },
+                    {
+                        association: 'speed'
                     }
                 ]
         })
         const papers = await Paper.findAll()
         const printers = await Printer.findAll()
-        res.render(`budgets/printedit`, { print, printers, papers })
+        const speeds = await Speed.findAll({ where: {
+            printer_id: print.printer_id
+        }})
+        res.render(`budgets/printedit`, { print, printers, papers, speeds })
     },
 
     async updatebudgetprint(req, res) {
         const id = req.body.id
         const budget_id = id
-
-        console.log(id, budget_id)
-
         var input = 0
-        const { print_id, printer_id, paper_id, description, quantity, sides, width, height, color, coverage } = req.body
+        const { print_id, printer_id, paper_id, speed_id, description, quantity, sides, width, height, electroniccut, color, coverage } = await req.body
 
         if (!printer_id) {
             return res.status(400).json({ error: 'É obrigatório selecionar uma impressora!' })
         }
         if (!paper_id) {
             return res.status(400).json({ error: 'É obrigatório selecionar um papel!' })
+        }
+        if (!speed_id) {
+            return res.status(400).json({ error: 'É obrigatório selecionar uma velocidade!' })
         }
         if (!description) {
             return res.status(400).json({ error: 'É obrigatório informar a descrição!' })
@@ -872,6 +892,7 @@ module.exports = {
             where: { id: printer_id }
         })
         const paper = await Paper.findByPk(paper_id)
+        const speed = await Speed.findByPk(speed_id)
 
         //verifica se o tamanho do papel é compatível com a impressora ou necessita de corte
         if (paper.width <= printer.width || paper.height <= printer.height) {
@@ -879,19 +900,17 @@ module.exports = {
             var paperheight = await paper.height
         } else {
             var { paperwidth, paperheight } = req.body
-            console.log(paperwidth, paperheight)
         }
 
         if (!paperwidth || !paperheight) {
             return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
         }
 
-        /* if ((paperheight < height || paperwidth < width) && (paperwidth < height || paperheight < width)) {
+        if ((paperheight < height || paperwidth < width) && (paperwidth < height || paperheight < width)) {
             console.log(paperwidth , paperheight)
             console.log(height , width)
             return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
         }
-        return */
 
         //texta os dois sentidos do papel em relação ao original para descobrir o melhor aproveitamento determinando o formato
         var aux1 = await (parseInt(paper.height / height)) * (parseInt(paper.width / width))
@@ -903,8 +922,19 @@ module.exports = {
         }
 
         //caLcula a quantidade de originais por impressão
-        aux1 = await (parseInt(paperheight / height)) * (parseInt(paperwidth / width))
-        aux2 = await (parseInt(paperheight / width)) * (parseInt(paperwidth / height))
+        switch (electroniccut) {
+            case 'true':
+                var paper_height = await paperheight - 20
+                var paper_width = await paperwidth - 20
+                break
+
+            case 'false':
+                var paper_height = await paperheight - 10
+                var paper_width = await paperwidth - 10
+                break
+        }
+        aux1 = await (parseInt(paper_height / height)) * (parseInt(paper_width / width))
+        aux2 = await (parseInt(paper_height / width)) * (parseInt(paper_width / height))
         if (aux1 > aux2) {
             var printformat = aux1
         } else {
@@ -914,25 +944,25 @@ module.exports = {
             var paperformat = 1
             var aprov = printformat
         }
-
+        var time = await parseFloat((quantity / printformat) / speed.capacity)
+        console.log(time, printer.preparation_time)
         var papercoust = (paper.unitprice / format) * quantity
         for (let index = 0; index < printer.inputs.length; index++) {
             if (printer.inputs[index]) {
                 input += await printer.inputs[index].unitprice;
             }
         }
-
+        var timecoust = 0
+        timecoust = await parseFloat(time * printer.hour_price)
         if (paperheight > 320 || paperwidth > 320) {
             var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * 2 * sides)
-            var amount = await papercoust + printcoust
-            console.log('papel maior', amount)
+            var amount = await papercoust + printcoust + timecoust
         } else {
             var printcoust = await (quantity / printformat) * (((input * 5 / 100) * coverage) * sides)
-            var amount = await papercoust + printcoust
-            console.log('papel menor ', amount)
+            var amount = await parseFloat(papercoust) + parseFloat(printcoust) + parseFloat(timecoust)
         }
 
-        const print = await Print.update({ description, quantity, sides, width, height, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id }, { where: { id: print_id } })
+        const print = await Print.update({ description, quantity, sides, width, height, electroniccut, paperwidth, paperheight, format, printformat, color, coverage, amount, paper_id, printer_id, budget_id, speed_id }, { where: { id: print_id } })
 
         res.redirect('/budget/' + id)
     },

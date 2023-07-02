@@ -2,14 +2,10 @@
 <h2>{{budget.name}}</h2>
 <a href="/budget/{{budget.id}}">Voltar</a>
 <form action="/savebudgetprint/{{budget.id}}" method="POST" class="form">
+<input type="hidden" name="printer_id" value="{{printer.id}}">
     <div class="form-control">
-        <label for="printer_id">Impressora:</label>
-        <select name="printer_id">
-            <option value=''>Selecione a Impressora</option>
-            {{#each printers}}
-            <option value="{{this.id}}">{{this.name}}</option>
-            {{/each}}
-        </select>
+        <label>Impressora:</label>
+        <p>{{printer.name}}</p>
     </div>
     <div class="form-control">
         <label for="paper_id">Papel:</label>
@@ -21,8 +17,17 @@
         </select>
     </div>
     <div class="form-control">
+        <label for="speed_id">velocidade:</label>
+        <select name="speed_id">
+            <option value=''>Selecione a velocidade</option>
+            {{#each speeds}}
+            <option value="{{this.id}}">{{this.name}} - {{this.capacity}}/h</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
         <label for="description">Descrição:</label>
-        <input type="text" name="description" placeholder="Digite a descrição">
+        <input type="text" id="minhafuncao" name="description" placeholder="Digite a descrição">
     </div>
     <div class="form-control">
         <label for="quantity">Quantidade:</label>
@@ -45,9 +50,9 @@
     </div>
    <div class="">
         <label for="electroniccut">Corte:</label>
-        <input type="radio" id='' name="electroniccut" value='false' checked>
+        <input type="radio" id='0' name="electroniccut" value='false' checked>
         <label for="false">Manual, reto ou sem corte</label>
-        <input type="radio" id='' name="electroniccut" value='true'>
+        <input type="radio" id='1' name="electroniccut" value='true'>
         <label for="true">Eletrônico</label>
     </div>
     <div class="form-control">

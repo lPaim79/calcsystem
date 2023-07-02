@@ -1,0 +1,15 @@
+<h1>Nova velodidade {{printer.name}}</h1>
+<div class="actions">
+    <a href="/printer/{{printer.id}}"><span class="material-symbols-outlined">arrow_back</span></a>
+</div> 
+<form action="/insertregisterspeed/{{printer.id}}" method="POST" class="form">
+    <div class="form-control">
+        <label for="name">Nome:</label>
+        <input type="text" name="name" placeholder="Digite o nome">
+    </div>
+    <div class="form-control">
+        <label for="capacity">Velocidade:</label>
+        <input type="float" name="capacity" placeholder="Velocidade por minuto">
+    </div>
+    <input type="submit" value="Cadastrar">
+</form>

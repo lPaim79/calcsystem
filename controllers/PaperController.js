@@ -20,7 +20,8 @@ module.exports = {
 
     async listPapers(req, res) {
         const papers = await Paper.findAll({
-            include: { association: 'provider' }
+            include: { association: 'provider' },
+            order: [['name', 'asc']]
         })
         res.render ('papers/papers', {papers})
     },

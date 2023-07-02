@@ -18,8 +18,13 @@ class Speed extends Model {
             models.Machine,
             {
                 foreignKey: 'machine_id', as: 'machine'
-            }
-        )
+            },
+        );
+        this.hasMany(models.Print,
+            {
+                foreignKey: 'speed_id', as: 'prints'
+            },
+        );
     }
 
 }

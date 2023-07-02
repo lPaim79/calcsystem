@@ -47,6 +47,7 @@ const Tatic = require('../models/Tatic')
                         required: false
                     }
                 ],
+                order: [['name', 'asc']]
             }
         );
 

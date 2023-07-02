@@ -1,6 +1,7 @@
 const Machine = require('../models/Machine')
 const Provider = require('../models/Provider')
 const Input = require('../models/Input')
+
 module.exports = {
     async insertMachine(req, res) {
         try {

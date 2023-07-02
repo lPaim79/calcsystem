@@ -22,7 +22,8 @@ module.exports = {
     async listMaterials(req, res) {
         try {
             const materials = await Material.findAll({
-                include: { association: 'provider' }
+                include: { association: 'provider' },
+                order: [['name', 'asc']]
             })
             if(!materials){
                 console.log('Não há insumos cadastrados!')

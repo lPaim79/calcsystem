@@ -8,6 +8,7 @@ class Print extends Model {
             sides: DataTypes.INTEGER,
             width: DataTypes.FLOAT,
             height: DataTypes.FLOAT,
+            electroniccut: DataTypes.BOOLEAN,
             paperwidth: DataTypes.FLOAT,
             paperheight: DataTypes.FLOAT,
             format: DataTypes.INTEGER,
@@ -37,6 +38,12 @@ class Print extends Model {
             models.Budget,
             {
                 foreignKey: 'budget_id', as: 'budget'
+            }
+        );
+        this.belongsTo(
+            models.Speed,
+            {
+                foreignKey: 'speed_id', as: 'speed'
             }
         );
     }

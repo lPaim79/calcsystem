@@ -1,19 +1,16 @@
 <h1>Editar Impressão do orçamento:</h1>
-<h2>{{budget.name}}</h2>
+<h2>{{print.budget.name}}</h2>
 <div class="actions">
     <a title="Voltar" href="/budget/{{print.budget_id}}"><span class="material-symbols-outlined">arrow_back</span></a>
 </div>
 <form action="/updatebudgetprint/{{budget.id}}" method="POST" class="form">
 <input type="hidden" name="id" value="{{print.budget.id}}">
 <input type="hidden" name="print_id" value="{{print.id}}">
+<input type="hidden" name="printer_id" value="{{print.printer_id}}">
+
     <div class="form-control">
-        <label for="printer_id">Impressora:</label>
-        <select name="printer_id">
-            <option value='{{print.printer.id}}'>{{print.printer.name}}</option>
-            {{#each printers}}
-            <option value="{{this.id}}">{{this.name}}</option>
-            {{/each}}
-        </select>
+        <label>Impressora:</label>
+        <p>{{print.printer.name}}</p>
     </div>
     <div class="form-control">
         <label for="paper_id">Papel:</label>
@@ -21,6 +18,15 @@
             <option value='{{print.paper.id}}'>{{print.paper.name}}</option>
             {{#each papers}}
             <option value="{{this.id}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-control">
+        <label for="speed_id">velocidade:</label>
+        <select name="speed_id">
+            <option value="{{print.speed.id}}">{{print.speed.name}} - {{print.speed.capacity}}/h</option>
+            {{#each speeds}}
+            <option value="{{this.capacity}}">{{this.name}} - {{this.capacity}}/h</option>
             {{/each}}
         </select>
     </div>
@@ -56,6 +62,24 @@
     <div class="form-control">
         <label for="height">Altura:</label>
         <input type="text" name="height" placeholder="Digite a altura" value="{{print.height}}">
+    </div>
+    <div class="">
+        {{#switch print.electroniccut}}
+        {{#case '0'}}
+        <label for="electroniccut">Corte:</label>
+        <input type="radio" id='' name="electroniccut" value='false' checked>
+        <label for="false">Manual, reto ou sem corte</label>
+        <input type="radio" id='' name="electroniccut" value='true'>
+        <label for="true">Eletrônico</label>
+        {{/case}}
+        {{#case '1'}}
+        <label for="electroniccut">Corte:</label>
+        <input type="radio" id='' name="electroniccut" value='false'>
+        <label for="false">Manual, reto ou sem corte</label>
+        <input type="radio" id='' name="electroniccut" value='true' checked>
+        <label for="true">Eletrônico</label>
+        {{/case}}
+        {{/switch}}
     </div>
     <div class="form-control">
         <label for="paperwidth">Largura do papel:</label>

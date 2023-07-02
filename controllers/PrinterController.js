@@ -1,6 +1,7 @@
 const Printer = require('../models/Printer')
 const Provider = require('../models/Provider')
 const Input = require('../models/Input')
+const Speed = require('../models/Speed')
 module.exports = {
     async insertPrinter(req, res) {
         try {
@@ -104,4 +105,11 @@ module.exports = {
         const input = await Input.create({ name, description, price, efficiency, unitprice, provider_id, printer_id })
         res.redirect(`/printer/${id}`)
     },
+
+    async registerspeed(req, res) {
+        const id = req.params.id
+        const printer = await Printer.findByPk(id)
+        res.render(`printers/registerspeed`, {printer})
+    },
+
 }
