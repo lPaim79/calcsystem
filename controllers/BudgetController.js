@@ -33,12 +33,12 @@ module.exports = {
         let search = ''
         let budgets = ''
         let order = 'DESC'
-        if (req.body.search){
-            search = req.body.search            
+        if (req.body.search) {
+            search = req.body.search
             const budgetsData = await Budget.findAll({
                 include: {
-                    association: 'client', 
-                    attributes: ['name' , 'fantasy']
+                    association: 'client',
+                    attributes: ['name', 'fantasy']
                 },
                 where: {
                     [Op.or]: {
@@ -52,21 +52,21 @@ module.exports = {
             budgets = budgetsData.map((result) => result.get({ plain: true }))
             let budgetsQty = budgets.length
 
-            if (budgetsQty === 0){
+            if (budgetsQty === 0) {
                 budgetsQty = false
             }
-            res.render('budgets/budgets', { budgets, budgetsQty, search})
+            res.render('budgets/budgets', { budgets, budgetsQty, search })
         }
         else {
-           const { page = 1 } = req.query
-           const limit = 20;
-           var lastPage = 1;
-           const countBudgets = await Budget.count();
-           lastPage = Math.ceil(countBudgets / limit)
+            const { page = 1 } = req.query
+            const limit = 20;
+            var lastPage = 1;
+            const countBudgets = await Budget.count();
+            lastPage = Math.ceil(countBudgets / limit)
             budgets = await Budget.findAll({
                 include: { association: 'client' },
                 order: [['date', 'DESC']],
-                offset:Number((page*limit) - limit),
+                offset: Number((page * limit) - limit),
                 limit: limit
             });
             if (budgets) {
@@ -78,10 +78,10 @@ module.exports = {
                     //next_page_url: Number(page) + Number(1) >= lastPage ? lastPage : Number(page) + Number(1),
                     lastPage,
                     total: countBudgets,
-                }    
+                }
             }
-            res.render('budgets/budgets', {budgets, pagination})
-        }        
+            res.render('budgets/budgets', { budgets, pagination })
+        }
     },
 
     async createbudget(req, res) {
@@ -213,7 +213,7 @@ module.exports = {
         const date = req.body.date
         const budget = await Budget.update({ date }, { where: { id } })
         res.redirect(`/budgetedit/${id}`)
-    }, 
+    },
 
     async calculate(req, res) {
         const { id } = req.params
@@ -267,7 +267,8 @@ module.exports = {
         let price = resultado.toFixed(2)
 
         let budgets = await Budget.update({ price, tatics_value, materials_value, prints_value }, { where: { id } })
-        res.redirect('/budget/' + id)
+
+        res.redirect(`/budget/${id}`)
     },
 
     async appoved(req, res) {
@@ -512,19 +513,21 @@ module.exports = {
 
     async savebudgettatic(req, res) {
         const id = req.params.id
+        console.log(id)
         var totalprints = 0;
         const budget = await Budget.findOne({
-            where: { id },
+            where: {id},
             include: [
                 {
                     association: 'prints',
                     attributes: ['width', 'height', 'quantity', 'sides', 'paperwidth', 'paperheight', 'printformat'],
-                    required: true, include: {
+                    required: false, include: {
                         association: 'printer',
                     }
                 },
             ]
         })
+        console.log(budget)
         const { name, description, preparation_time, loss, capacity, typequantity, singleprocess } = req.body
         const minimun_value = req.body.minimun_value.replace(",", ".")
         const price = req.body.price.replace(",", ".")
@@ -695,18 +698,20 @@ module.exports = {
 
     //PRINT//
     async selectprinter(req, res) {
-        const {id} =  req.params
-        const printers = await Printer.findAll()        
+        const { id } = req.params
+        const printers = await Printer.findAll()
         res.render('budgets/selectprinter', { id, printers })
     },
 
     async createprint(req, res) {
         const { id } = await req.params
         const printer_id = await req.body.printer_id
-        const printer = await Printer.findOne({ where: {id : printer_id}})
-        const speeds = await Speed.findAll({ where: {
-            printer_id
-        }})
+        const printer = await Printer.findOne({ where: { id: printer_id } })
+        const speeds = await Speed.findAll({
+            where: {
+                printer_id
+            }
+        })
         const budget = await Budget.findByPk(id)
         const papers = await Paper.findAll()
         res.render('budgets/createprint', { budget, papers, printer, speeds })
@@ -761,9 +766,7 @@ module.exports = {
             return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
         }
 
-        if (((paperheight < height) || (paperwidth < width)) && ((paperwidth < height) || (paperheight < width))) {
-            console.log(paperwidth , paperheight)
-            console.log(height , width)
+        if (((parseInt(paperheight) < parseInt(height)) || (parseInt(paperwidth) < parseInt(width))) & ((parseInt(paperwidth) < parseInt(height)) || (parseInt(paperheight) < parseInt(width)))) {
             return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
         }
 
@@ -853,9 +856,11 @@ module.exports = {
         })
         const papers = await Paper.findAll()
         const printers = await Printer.findAll()
-        const speeds = await Speed.findAll({ where: {
-            printer_id: print.printer_id
-        }})
+        const speeds = await Speed.findAll({
+            where: {
+                printer_id: print.printer_id
+            }
+        })
         res.render(`budgets/printedit`, { print, printers, papers, speeds })
     },
 
@@ -906,9 +911,9 @@ module.exports = {
             return res.status(400).json({ error: 'É obrigatório informar o tamanho da impressão!' })
         }
 
-        if ((paperheight < height || paperwidth < width) && (paperwidth < height || paperheight < width)) {
-            console.log(paperwidth , paperheight)
-            console.log(height , width)
+        if ((parseInt(paperheight) < parseInt(height) || parseInt(paperwidth) < parseInt(width)) && (parseInt(paperwidth) < parseInt(height) || parseInt(paperheight) < parseInt(width))) {
+            console.log(paperwidth, paperheight)
+            console.log(height, width)
             return res.status(400).json({ error: 'Tamanho do papel não pode ser menor que o impresso!' })
         }
 

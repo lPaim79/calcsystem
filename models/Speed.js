@@ -4,7 +4,7 @@ class Speed extends Model {
     static init(sequelize) {
         super.init({
             name: DataTypes.STRING,
-            capacity: DataTypes.INTEGER
+            capacity: DataTypes.DOUBLE
         }, {
             sequelize
         })
